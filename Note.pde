@@ -13,9 +13,13 @@ class Note {
   }
   
   public void display() {
-    println("coordinate.x: "+coordinate.x);
-    println("coordinate.y: "+coordinate.y);
-    if (true/*active*/) image(noteImage, coordinate.x, coordinate.y);
+    this.changeActive();
+    print("state is ");
+    println(active ? "active" : "inactive");
+    if (active) {
+      println("note displaying");
+      image(noteImage, coordinate.x, coordinate.y);
+    }
   }
   
   public void changeActive() {

@@ -35,12 +35,7 @@ void setup() {
 }
 
 void draw() {
+  background(222, 184, 135);
   frame++;
-  print(frame);
-  print(width);
-  image(noteImage, 0, 0);
-  image(noteImage, width, 0);
-  image(noteImage, 0, height);
-  image(noteImage, width, height);
   note.display();
 }
