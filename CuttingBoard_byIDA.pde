@@ -25,14 +25,22 @@ int frame;
 Note note;
 
 void setup() {
-  noteImage = loadImage("note.png");
+  //設定
   frameRate(60);
+  imageMode(CENTER);
+  //初期化
+  noteImage = loadImage("note.png");
   frame = 0;
-  note = new Note(width/2, height/2);
+  note = new Note(width/2, height/2, noteImage);
 }
 
 void draw() {
   frame++;
   print(frame);
+  print(width);
+  image(noteImage, 0, 0);
+  image(noteImage, width, 0);
+  image(noteImage, 0, height);
+  image(noteImage, width, height);
   note.display();
 }
