@@ -1,4 +1,4 @@
-class Note {
+class Note{
   private PImage noteImage;
   private PVector coordinate;
   //private PVector velocity;
@@ -14,7 +14,6 @@ class Note {
   
   public void display() {
     this.changeActive();
-    
     if (active) {
       println("note displaying");
       image(noteImage, coordinate.x, coordinate.y);
@@ -27,11 +26,5 @@ class Note {
     if (frame%60 == 0) {
       active = !active;
     }
-  }
-  
-  public boolean isTouched() {
-    if (MotionEvent.ACTION_POINTER_DOWN) {
-      return true;
-    } else {return false;}
   }
 }
