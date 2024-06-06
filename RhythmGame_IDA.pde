@@ -21,11 +21,11 @@ import java.io.UnsupportedEncodingException;
 import java.io.BufferedWriter;
 
 //カラー定数
-color WHITE = color(255);
-color BLACK = color(0);
-color RED   = color(255,0,0);
-color GREEN = color(0,255,0);
-color BLUE  = color(0,0,255);
+final color WHITE = color(255);
+final color BLACK = color(0);
+final color RED   = color(255,0,0);
+final color GREEN = color(0,255,0);
+final color BLUE  = color(0,0,255);
 
 //テキストサイズ定数
 
@@ -33,8 +33,10 @@ color BLUE  = color(0,0,255);
 //グローバル変数
 PImage noteImage;
 int frame;
-Note note;
 boolean isTouch, isTouchDown, isTouchUp, isPointerTouchDown, isPointerTouchUp;
+//オブジェクト
+Note note;
+JudgeDisplay judgeDisplay;
 
 void setup() {
   //設定
@@ -44,12 +46,12 @@ void setup() {
   noteImage = loadImage("note.png");
   frame = 0;
   note = new Note(width/2, height/2, noteImage);
+  judgeDisplay = new JudgeDisplay();
 }
 
 void draw() {
   background(0);
   frame++;
   note.display();
-  if (note.getTouchPointer() != null) {
-  }
+  judgeDisplay.display(note);
 }
