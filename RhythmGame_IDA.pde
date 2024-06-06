@@ -21,12 +21,7 @@ import java.io.UnsupportedEncodingException;
 import java.io.BufferedWriter;
 
 //from cuttingBoard_m5_with_sound-------
-ArrayList points;
-PVector point;
-int pId, pIndex;
-int count;
-int actionID, actionMASK;
-boolean touch, touch_down, touch_up, touch_pdown, touch_pup;
+boolean isTouch, isTouchDown, isTouchUp, isPointerTouchDown, isPointerTouchUp;
 //--------------------------------------
 
 
@@ -42,16 +37,9 @@ void setup() {
   noteImage = loadImage("note.png");
   frame = 0;
   note = new Note(width/2, height/2, noteImage);
-  points = new ArrayList();
 }
 
 void draw() {
-  //初期化
-  touch = false;
-  touch_down = false;
-  touch_up = false;
-  touch_pdown = false;
-  touch_pup = false;
   background(0);
   frame++;
   note.display();
