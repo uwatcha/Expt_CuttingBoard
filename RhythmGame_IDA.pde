@@ -20,14 +20,21 @@ import java.io.OutputStreamWriter;
 import java.io.UnsupportedEncodingException;
 import java.io.BufferedWriter;
 
-//from cuttingBoard_m5_with_sound-------
-boolean isTouch, isTouchDown, isTouchUp, isPointerTouchDown, isPointerTouchUp;
-//--------------------------------------
+//カラー定数
+color WHITE = color(255);
+color BLACK = color(0);
+color RED   = color(255,0,0);
+color GREEN = color(0,255,0);
+color BLUE  = color(0,0,255);
+
+//テキストサイズ定数
 
 
+//グローバル変数
 PImage noteImage;
 int frame;
 Note note;
+boolean isTouch, isTouchDown, isTouchUp, isPointerTouchDown, isPointerTouchUp;
 
 void setup() {
   //設定
@@ -43,4 +50,6 @@ void draw() {
   background(0);
   frame++;
   note.display();
+  if (note.getTouchPointer() != null) {
+  }
 }

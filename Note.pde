@@ -8,23 +8,26 @@ class Note{
   Note(float x, float y, PImage noteImage) {
     this.noteImage = noteImage;
     coordinate = new PVector(x, y);
-    radius = 100;
-    active = false;
+    radius = noteImage.width/2;
+    active = true;
   }
   
   public void display() {
     this.changeActive();
     if (active) {
-      println("note displaying");
       image(noteImage, coordinate.x, coordinate.y);
     }
   }
   
   public void changeActive() {
-    print("state is ");
-    println(active ? "active" : "inactive");
-    if (frame%60 == 0) {
-      active = !active;
+  }
+  
+  public processing.event.TouchEvent.Pointer getTouchPointer() {
+    for (processing.event.TouchEvent.Pointer touch: touches) {
+      if (dist(touch.x, touch.y, this.coordinate.x, this.coordinate.y) <= radius) {
+        return touch;
+      }
     }
+    return null;
   }
 }
