@@ -2,40 +2,44 @@ class JudgeDisplay {
   final String GOOD_TEXT = "GOOD!!";
   final String NICE_TEXT = "NICE!";
   final String BAD_TEXT = "BAD...";
-  final float TEXT_DISPLAY_TIME = frameRate;
+  final float TEXT_DISPLAY_DURATION = frameRate * 1;
   PVector coordinate;
-  boolean goodMode, niceMode, badMode;
-  
+  int textStartTime;
+
   JudgeDisplay() {
-    this.coordinate = new PVector(width*3/4, height/4);
-    this.goodMode = this.niceMode = this.badMode = false;
+    coordinate = new PVector(width*3/4, height/4);
+    textStartTime = -1;
   }
-  
+
   public void display(Note note) {
-    this.setMode(note.judgeTouch());
-    
+    displayText(setMode(note.judgeTouch()));
   }
-  
- //TEXT_DISPLAY_TIMEのフレームが経過したらmodeフラグをfalseにする関数を作る
- //modeフラグを受けてテキストを表示する関数を作る
-  
-  private void setMode(Judgments judgments) {
+
+  //TEXT_DISPLAY_TIMEのフレームが経過したらmodeフラグをfalseにする関数を作る
+  //modeフラグを受けてテキストを表示する関数を作る
+
+  private Judgments setMode(Judgments judgments) {
+    if (judgments != null && textStartTime == -1) {
+      textStartTime = millis();
+      return judgments;
+    } else if (millis() - textStartTime <= TEXT_DISPLAY_DURATION) {
+      return judgments;
+    } else {
+      return null;
+    }
+  }
+
+  private void displayText(Judgments judgments) {
     switch (judgments) {
     case Good:
-        goodMode = true;
-        niceMode = badMode = false;
-        break;
+      text(GOOD_TEXT, coordinate.x, coordinate.y);
+      break;
     case Nice:
-        niceMode = true;
-        goodMode = badMode = false;
-        break;
+      text(NICE_TEXT, coordinate.x, coordinate.y);
+      break;
     case Bad:
-        badMode = true;
-        goodMode = niceMode = false;
-        break;
-    default:
-        goodMode = niceMode = badMode = false;
-        break;
-}
+      text(BAD_TEXT, coordinate.x, coordinate.y);
+      break;
+    }
   }
 }

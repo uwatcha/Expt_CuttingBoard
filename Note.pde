@@ -14,7 +14,7 @@ class Note{
   }
   
   public void display() {
-    this.changeActive();
+    changeActive();
     if (active) {
       image(noteImage, coordinate.x, coordinate.y);
     }
@@ -34,15 +34,15 @@ class Note{
   
   public void changeActive() {
     if (0 < (frame%60)&&(frame&60) < frameRate*ACTIVE_RATE) {
-      this.active = true;
+      active = true;
     } else {
-      this.active = false;
+      active = false;
     }
   }
   
   public processing.event.TouchEvent.Pointer getTouchedPointer() {
     for (processing.event.TouchEvent.Pointer touch: touches) {
-      if (dist(touch.x, touch.y, this.coordinate.x, this.coordinate.y) <= radius) {
+      if (dist(touch.x, touch.y, coordinate.x, coordinate.y) <= radius) {
         return touch;
       }
     }
