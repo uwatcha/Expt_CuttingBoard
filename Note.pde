@@ -1,5 +1,5 @@
 class Note{
-  final private float ACTIVE_RATE = 1/6;
+  final private float ACTIVE_RATE = 1.0f/6.0f;
   private PImage noteImage;
   private PVector coordinate;
   //private PVector velocity;
@@ -33,7 +33,7 @@ class Note{
   }
   
   public void changeActive() {
-    if (0 < (frame%60)&&(frame&60) < frameRate*ACTIVE_RATE) {
+    if (0 < frame&&frame < frameRate*ACTIVE_RATE) {
       active = true;
     } else {
       active = false;

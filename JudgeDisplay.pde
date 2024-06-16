@@ -2,7 +2,7 @@ class JudgeDisplay {
   final String GOOD_TEXT = "GOOD!!";
   final String NICE_TEXT = "NICE!";
   final String BAD_TEXT = "BAD...";
-  final float TEXT_DISPLAY_DURATION = frameRate * 1;
+  final float TEXT_DISPLAY_DURATION = 60;
   PVector coordinate;
   int textStartTime;
 
@@ -12,6 +12,12 @@ class JudgeDisplay {
   }
 
   public void display(Note note) {
+    println("--------");
+    println(note.judgeTouch());
+    println(setMode(note.judgeTouch()));
+    println(textStartTime);
+    println(TEXT_DISPLAY_DURATION);
+    println("--------");
     displayText(setMode(note.judgeTouch()));
   }
 
@@ -30,14 +36,21 @@ class JudgeDisplay {
   }
 
   private void displayText(Judgments judgments) {
+    if (judgments==null) {
+      
+      return;
+    }
     switch (judgments) {
     case Good:
+      fill(255);
       text(GOOD_TEXT, coordinate.x, coordinate.y);
       break;
     case Nice:
+      fill(255);
       text(NICE_TEXT, coordinate.x, coordinate.y);
       break;
     case Bad:
+      fill(255);
       text(BAD_TEXT, coordinate.x, coordinate.y);
       break;
     }
