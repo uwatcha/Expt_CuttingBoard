@@ -52,6 +52,6 @@ void setup() {
 void draw() {
   background(0);
   frame = (int)((frame+1)%frameRate);
-  note.display();
-  judgeDisplay.display(note);
+  note.run();
+  judgeDisplay.run(note);
 }
