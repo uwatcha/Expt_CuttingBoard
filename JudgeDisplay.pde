@@ -37,20 +37,18 @@ class JudgeDisplay {
     }
     switch (displayJudgment) {
     case Good:
-      fill(255);
-      textSize(30);
-      text(GOOD_TEXT, coordinate.x, coordinate.y);
+      judgmentText(GOOD_TEXT);
       break;
     case Nice:
-      fill(255);
-      textSize(30);
-      text(NICE_TEXT, coordinate.x, coordinate.y);
+      judgmentText(NICE_TEXT);
       break;
     case Bad:
-      fill(255);
-      textSize(30);
-      text(BAD_TEXT, coordinate.x, coordinate.y);
+      judgmentText(BAD_TEXT);
       break;
     }
+  }
+  
+  private void judgmentText(String text) {
+    textDisplay(text, coordinate.x, coordinate.y, JUDGE_DISPLAY, WHITE);
   }
 }

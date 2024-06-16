@@ -28,7 +28,7 @@ final color GREEN = color(0,255,0);
 final color BLUE  = color(0,0,255);
 
 //テキストサイズ定数
-
+final int JUDGE_DISPLAY = 70;
 
 //グローバル変数
 PImage noteImage;
