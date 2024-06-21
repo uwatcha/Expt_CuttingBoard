@@ -35,23 +35,33 @@ PImage noteImage;
 int frame;
 boolean isTouch, isTouchDown, isTouchUp, isPointerTouchDown, isPointerTouchUp;
 //オブジェクト
-Note note;
-JudgeDisplay judgeDisplay;
+Note[] notes;
+JudgeDisplay[] judgeDisplays;
 
 void setup() {
   //設定
   frameRate(60);
   imageMode(CENTER);
-  //初期化
+  //変数初期化
   noteImage = loadImage("note.png");
   frame = 0;
-  note = new Note(width/2, height/2, noteImage);
-  judgeDisplay = new JudgeDisplay();
+  //インスタンス初期化
+  notes = new Note[4];
+  notes[0] = new Note(width/4, height/4, noteImage);
+  notes[1] = new Note(width*3/4, height/4, noteImage);
+  notes[2] = new Note(width/4, height*3/4, noteImage);
+  notes[3] = new Note(width*3/4, height*3/4, noteImage);
+  judgeDisplays = new JudgeDisplay[4];
+  for (int i=0; i<4; i++) {
+    judgeDisplays[i] = new JudgeDisplay(notes[i]);
+  }
 }
 
 void draw() {
   background(0);
   frame = (int)((frame+1)%frameRate);
-  note.run();
-  judgeDisplay.run(note);
+  for (int i=0; i<4; i++) {
+    notes[i].run();
+    judgeDisplays[i].run();
+  }
 }

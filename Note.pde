@@ -20,7 +20,7 @@ class Note{
     }
   }
   
-  public Judgments judgeTouch() {
+  private Judgments judgeTouch() {
     if (getTouchedPointer()!=null) {
       if (active) {
         return Judgments.Good;
@@ -32,7 +32,7 @@ class Note{
     }
   }
   
-  public void changeActive() {
+  private void changeActive() {
     if (0 < frame&&frame < frameRate*ACTIVE_RATE) {
       active = true;
     } else {
@@ -40,7 +40,7 @@ class Note{
     }
   }
   
-  public processing.event.TouchEvent.Pointer getTouchedPointer() {
+  private processing.event.TouchEvent.Pointer getTouchedPointer() {
     for (processing.event.TouchEvent.Pointer touch: touches) {
       if (dist(touch.x, touch.y, coordinate.x, coordinate.y) <= radius) {
         return touch;
@@ -48,4 +48,8 @@ class Note{
     }
     return null;
   }
+  
+  //ゲッター
+  public PVector getCoordinate() { return this.coordinate; }
+  public float getRadius() { return this.radius; }
 }
