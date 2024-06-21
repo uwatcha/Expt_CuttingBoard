@@ -31,10 +31,8 @@ class JudgeDisplay {
   }
 
   private void displayText() {
-    if (displayJudgment==null) {
-      
-      return;
-    }
+    if (displayJudgment==null) { return; }
+    
     switch (displayJudgment) {
     case Good:
       judgmentText(GOOD_TEXT);
