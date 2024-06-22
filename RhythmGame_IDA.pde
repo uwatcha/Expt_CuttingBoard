@@ -35,8 +35,11 @@ PImage noteImage;
 int frame;
 boolean isTouch, isTouchDown, isTouchUp, isPointerTouchDown, isPointerTouchUp;
 //オブジェクト
+AudioManager audioManager;
 Note note;
 JudgeDisplay judgeDisplay;
+
+//SoundFile music;
 
 void setup() {
   //設定
@@ -45,13 +48,20 @@ void setup() {
   //初期化
   noteImage = loadImage("note.png");
   frame = 0;
+  audioManager = new AudioManager(this);
   note = new Note(width/2, height/2, noteImage);
   judgeDisplay = new JudgeDisplay();
+  
+  //music = new SoundFile(this, "musics/KaeruNoPiano.mp3");
 }
 
 void draw() {
   background(0);
   frame = (int)((frame+1)%frameRate);
+  audioManager.playMusic();
   note.run();
   judgeDisplay.run(note);
+  //if (!music.isPlaying()) {
+  //  music.play();
+  //}
 }

@@ -1,12 +1,31 @@
-//音関係のライブラリ
 import processing.sound.*;
 
-class AudioManager {
-  final private SoundFile music1;
-  final private SoundFile effect1;
+class AudioManager { // クラスをトップレベルにする
+  final private SoundFile music;
+  final private SoundFile goodSE;
+  final private SoundFile badSE;
   
-  public AudioManager (PApplet parent) {
-    music1 = new SoundFile(parent, "music1.wav");
-    effect1 = new SoundFile(parent, "effect1.wav");
+  private AudioManager(PApplet parent) {
+    music = new SoundFile(parent, "musics/KaeruNoPiano.mp3");
+    goodSE = new SoundFile(parent, "SEs/good.mp3");
+    badSE = new SoundFile(parent, "SEs/bad.mp3");
+  }
+  
+  public void playMusic() {
+    if (!music.isPlaying()) {
+      music.play();
+    }
+  }
+  
+  public void playGoodSE() {
+    if (mousePressed) {
+      goodSE.play();
+    }
+  }
+  
+  public void playBadSE() {
+    if (mousePressed) {
+      badSE.play();
+    }
   }
 }
