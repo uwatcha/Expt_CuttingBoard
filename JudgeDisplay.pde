@@ -47,6 +47,6 @@ class JudgeDisplay {
   }
   
   private void judgmentText(String text) {
-    textDisplay(text, coordinate.x, coordinate.y, JUDGE_DISPLAY, WHITE);
+    textDisplay(text, coordinate, JUDGE_DISPLAY, WHITE);
   }
 }

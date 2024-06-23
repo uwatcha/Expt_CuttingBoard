@@ -32,7 +32,7 @@ final int JUDGE_DISPLAY = 70;
 
 //グローバル変数
 PImage noteImage;
-int frame;
+int roopingFrameCount;
 boolean isTouch, isTouchDown, isTouchUp, isPointerTouchDown, isPointerTouchUp;
 //オブジェクト
 Note[] notes;
@@ -40,11 +40,11 @@ JudgeDisplay[] judgeDisplays;
 
 void setup() {
   //設定
-  frameRate(60);
+  frameRate(120);
   imageMode(CENTER);
   //変数初期化
   noteImage = loadImage("note.png");
-  frame = 0;
+  roopingFrameCount = 0;
   //インスタンス初期化
   notes = new Note[4];
   notes[0] = new Note(width/4, height/4, noteImage);
@@ -59,7 +59,7 @@ void setup() {
 
 void draw() {
   background(0);
-  frame = (int)((frame+1)%frameRate);
+  roopingFrameCount = frameCount%(int)frameRate;
   for (int i=0; i<4; i++) {
     notes[i].run();
     judgeDisplays[i].run();
