@@ -15,8 +15,8 @@ class JudgeDisplay {
     textStartTime = -1;
   }
 
-  public void run() {
-    setJudgment(note.judgeTouch());
+  public void run(Judgments judgment) {
+    setJudgment(judgment);
     displayText();
   }
 

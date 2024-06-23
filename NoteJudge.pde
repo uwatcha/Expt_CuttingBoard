@@ -3,9 +3,6 @@
 //Nice: +-5~8f
 //Bad:  +-8~12f
 class NoteJudge {
-  final int GOOD_FRAME = 4;
-  final int NICE_FRAME = 8;
-  final int BAD_FRAME = 12;
   final int JUST_FRAME;
   private Note note;
   private int touchedFrame;
@@ -17,7 +14,7 @@ class NoteJudge {
     JUST_FRAME = justFrame;
   }
 
-  private Judgments judge() {
+  public Judgments run() {
     if (!hasTouched && getTouchedPointer()!=null) {
       int margin = touchedFrame-JUST_FRAME;
       if (abs(margin) <= GOOD_FRAME) {

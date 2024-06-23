@@ -14,7 +14,7 @@
 
 
 
-
+現在、NoteJudgeなどの判定は、テスト用に120bpmの曲を使用する前提で、roopingFrameCountを使用している場合などがある
 
 
 
