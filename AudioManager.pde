@@ -1,20 +1,18 @@
 import processing.sound.*;
 
 class AudioManager { // クラスをトップレベルにする
-  final private SoundFile music;
+  final private Music music;
   final private SoundFile goodSE;
   final private SoundFile badSE;
   
   private AudioManager(PApplet parent) {
-    music = new SoundFile(parent, "musics/KaeruNoPiano.mp3");
+    music = new Music(parent, "musics/KaeruNoPiano.mp3", 120);
     goodSE = new SoundFile(parent, "SEs/good.mp3");
     badSE = new SoundFile(parent, "SEs/bad.mp3");
   }
   
   public void playMusic() {
-    if (!music.isPlaying()) {
-      music.play();
-    }
+    music.play();
   }
   
   public void playGoodSE() {

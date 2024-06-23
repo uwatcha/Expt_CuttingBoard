@@ -5,12 +5,14 @@ class Note{
   //private PVector velocity;
   private float radius;
   private boolean active;
+  private boolean hasTouched;
   
   Note(float x, float y, PImage noteImage) {
     this.noteImage = noteImage;
     coordinate = new PVector(x, y);
     radius = noteImage.width/2;
     active = false;
+    hasTouched = false;
   }
   
   public void run() {
@@ -21,10 +23,12 @@ class Note{
   }
   
   public Judgments judgeTouch() {
-    if (getTouchedPointer()!=null) {
+    if (getTouchedPointer()!=null && !hasTouched) {
       if (active) {
+        hasTouched = true;
         return Judgments.Good;
       } else {
+        hasTouched = true;
         return Judgments.Bad;
       }
     } else {
@@ -35,6 +39,7 @@ class Note{
   public void changeActive() {
     if (0 < frame&&frame < frameRate*ACTIVE_RATE) {
       active = true;
+      hasTouched = false;
     } else {
       active = false;
     }
