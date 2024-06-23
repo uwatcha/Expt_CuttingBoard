@@ -1,36 +1,49 @@
+//曲が始まってからの指定された時間にタッチしたかどうかを判定する
+//Good：+-4f以内
+//Nice: +-5~8f
+//Bad:  +-8~12f
 class NoteJudge {
+  final int GOOD_FRAME = 4;
+  final int NICE_FRAME = 8;
+  final int BAD_FRAME = 12;
+  final int JUST_FRAME;
   private Note note;
+  private int touchedFrame;
   private boolean hasTouched;
-  
 
-  public NoteJudge(Note note) {
+  public NoteJudge(Note note, int justFrame) {
     this.note = note;
     hasTouched = false;
+    JUST_FRAME = justFrame;
   }
 
-  private processing.event.TouchEvent.Pointer getTouchedPointer() {
-    for (processing.event.TouchEvent.Pointer touch : touches) {
-      if (dist(touch.x, touch.y, note.getCoordinate().x, note.getCoordinate().y) <= note.getRadius()) {
-        return touch;
-      }
-    }
-    return null;
-  }
-
-  private Judgments judgeTouch() {
+  private Judgments judge() {
     if (!hasTouched && getTouchedPointer()!=null) {
-      hasTouched = true;
-      if (note.getActive()) {
+      int margin = touchedFrame-JUST_FRAME;
+      if (abs(margin) <= GOOD_FRAME) {
         return Judgments.Good;
-      } else {
+      } else if (GOOD_FRAME < abs(margin)&&abs(margin) <= NICE_FRAME) {
+        return Judgments.Nice;
+      } else if (NICE_FRAME < abs(margin)&&abs(margin) <= BAD_FRAME) {
         return Judgments.Bad;
+      } else {
+        return null;
       }
     } else {
       return null;
     }
   }
 
-  private void unsetTouch() {
-    
+  private processing.event.TouchEvent.Pointer getTouchedPointer() {
+    for (processing.event.TouchEvent.Pointer touch : touches) {
+      if (dist(touch.x, touch.y, note.getCoordinate().x, note.getCoordinate().y) <= note.getRadius()) {
+        if (!hasTouched) {
+          touchedFrame = roopingFrameCount;
+        }
+        hasTouched = true;
+        return touch;
+      }
+    }
+    return null;
   }
 }

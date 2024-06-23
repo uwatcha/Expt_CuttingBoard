@@ -15,10 +15,10 @@ class NoteRunner {
 
   public void run() {
     note.run();
-    ring.run(index);
+    //インデックスが0だったら、4拍子なら1拍目にちょうどリングが重なるようにリングを動かす
+    //消すのも時間で行う
+    ring.run();
     noteJudge.run();
     judgeDisplay.run();
   }
-  
-  
 }

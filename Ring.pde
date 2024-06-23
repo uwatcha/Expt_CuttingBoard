@@ -16,7 +16,7 @@ class Ring {
     radius = INITIAL_RADIUS;
   }
 
-  public void run(int index) {
+  public void run() {
     shrink();
     circleDisplay(coordinate, radius, STROKE, COLOR);
   }
@@ -31,5 +31,3 @@ class Ring {
     radius = INITIAL_RADIUS;
   }
 }
-//インデックスが0だったら、4拍子なら1拍目にちょうどリングが重なるようにリングを動かす
-//消すのも時間で行う
