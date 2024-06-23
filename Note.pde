@@ -6,7 +6,7 @@ class Note {
 
   public Note(PVector coordinate) {
     this.noteImage = loadImage("note.png");
-    coordinate = new PVector(coordinate.x, coordinate.y);
+    this.coordinate = coordinate;
     radius = noteImage.width/2;
   }
 
@@ -20,8 +20,5 @@ class Note {
   }
   public float getRadius() {
     return this.radius;
-  }
-  public boolean getActive() {
-    return this.active;
   }
 }

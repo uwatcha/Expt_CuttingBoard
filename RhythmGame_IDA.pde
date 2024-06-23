@@ -26,6 +26,7 @@ final color BLACK = color(0);
 final color RED   = color(255, 0, 0);
 final color GREEN = color(0, 255, 0);
 final color BLUE  = color(0, 0, 255);
+final color RING  = color(0, 87, 57);
 
 //テキストサイズ定数
 final int JUDGE_DISPLAY = 70;

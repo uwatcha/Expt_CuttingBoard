@@ -1,5 +1,5 @@
 class Ring {
-  final private color COLOR = GREEN;
+  final private color COLOR = RING;
   final private float INITIAL_RADIUS;
   final private float FINAL_RADIUS;
   final private float STROKE = 6;
@@ -23,7 +23,7 @@ class Ring {
   public void run() {
     if (justFrame - BAD_FRAME*2 < roopingFrameCount&&roopingFrameCount <= justFrame + BAD_FRAME) {
       shrink();
-      circleDisplay(coordinate, radius, STROKE, COLOR);
+      ringDisplay(coordinate, radius, STROKE, COLOR);
     } else if (radius != INITIAL_RADIUS) {
       resetRadius();
     }

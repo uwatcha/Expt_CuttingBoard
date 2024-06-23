@@ -4,8 +4,9 @@ void textDisplay(String text, PVector coordinate, int textSize, color textColor)
   text(text, coordinate.x, coordinate.y);
 }
 
-void circleDisplay(PVector coordinate, float r, float strokeWeight, color circleColor) {
+void ringDisplay(PVector coordinate, float r, float strokeWeight, color circleColor) {
+  noFill();
   strokeWeight(strokeWeight);
-  fill(circleColor);
+  stroke(circleColor);
   circle(coordinate.x, coordinate.y, r);
 }
