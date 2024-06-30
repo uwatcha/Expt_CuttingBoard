@@ -26,7 +26,7 @@ final color BLACK = color(0);
 final color RED   = color(255, 0, 0);
 final color GREEN = color(0, 255, 0);
 final color BLUE  = color(0, 0, 255);
-final color RING  = color(0, 87, 57);
+final color RING  = color(0, 167, 219);
 
 //テキストサイズ定数
 final int JUDGE_DISPLAY = 70;
@@ -35,6 +35,9 @@ final int JUDGE_DISPLAY = 70;
 final int GOOD_FRAME = 4;
 final int NICE_FRAME = 8;
 final int BAD_FRAME = 12;
+
+//フレーム定数
+final int ROOP_FRAME = (int)frameRate*4;
 
 //グローバル変数
 PImage noteImage;
@@ -58,7 +61,7 @@ void setup() {
   vectors[2] = new PVector(width/4, height*3/4);
   vectors[3] = new PVector(width*3/4, height*3/4);
   notes = new ArrayList<NoteRunner>();
-  for (int i=0; i<4; i++) {
+  for (int i=0; i<1; i++) {
     NoteRunner newNote = new NoteRunner(vectors[i], i);
     notes.add(newNote);
   }
@@ -66,7 +69,7 @@ void setup() {
 
 void draw() {
   background(0);
-  roopingFrameCount = frameCount%((int)frameRate*4);
+  roopingFrameCount = frameCount%ROOP_FRAME;
   for (NoteRunner note: notes) {
     note.run();
   }

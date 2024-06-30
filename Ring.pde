@@ -11,7 +11,7 @@ class Ring {
   private float radius;
 
   public Ring(Note note, int justFrame) {
-    INITIAL_RADIUS = note.getRadius() * 2;
+    INITIAL_RADIUS = note.getRadius() * 4;
     FINAL_RADIUS = 335/400 * note.getRadius();
     this.justFrame = justFrame;
     this.note = note;
@@ -24,18 +24,22 @@ class Ring {
     if (justFrame - BAD_FRAME*2 < roopingFrameCount&&roopingFrameCount <= justFrame + BAD_FRAME) {
       shrink();
       ringDisplay(coordinate, radius, STROKE, COLOR);
+      textDisplay("if pass", new PVector(width/2, height*3/4), 20, WHITE);
     } else if (radius != INITIAL_RADIUS) {
       resetRadius();
+      textDisplay("else if pass", new PVector(width/2, height*3/4), 20, WHITE);
     }
   }
 
   private void shrink() {
-    //if (radius > FINAL_RADIUS) {
+    if (radius > FINAL_RADIUS) {
       radius -= SHRINK_RATE;
-    //}
+    }
   }
 
   private void resetRadius() {
     radius = INITIAL_RADIUS;
+    fill(GREEN);
+    circle(width/2, height/2, 200);
   }
 }

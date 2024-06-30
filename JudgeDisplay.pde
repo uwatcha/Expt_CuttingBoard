@@ -5,35 +5,35 @@ class JudgeDisplay {
   final int DISPLAY_DURATION_MS = 1000;
   final float OFFSET = 200;
   PVector coordinate;
-  int textStartTime;
+  int startFrame;
   Note note;
-  Judgments displayJudgment;
+  Judgment judgment;
 
   JudgeDisplay(Note note) {
     this.note = note;
     coordinate = new PVector(note.getCoordinate().x + OFFSET, note.getCoordinate().y - OFFSET);
-    textStartTime = -1;
+    startFrame = -1;
   }
 
-  public void run(Judgments judgment) {
+  public void run(Judgment judgment) {
     setJudgment(judgment);
     displayText();
   }
 
-  private void setJudgment(Judgments judgments) {
-    if (judgments!=null) {
-      textStartTime = millis();
-      displayJudgment = judgments;
-    } else if (textStartTime!=-1 && millis() - textStartTime > DISPLAY_DURATION_MS) {
-      textStartTime = -1;
-      displayJudgment = null;
+  private void setJudgment(Judgment judgment) {
+    if (judgment!=null) {
+      startFrame = millis();
+      this.judgment = judgment;
+    } else if (startFrame!=-1 && millis() - startFrame > DISPLAY_DURATION_MS) {
+      startFrame = -1;
+      judgment = null;
     }
   }
 
   private void displayText() {
-    if (displayJudgment==null) { return; }
+    if (judgment==null) { return; }
     
-    switch (displayJudgment) {
+    switch (judgment) {
     case Good:
       judgmentText(GOOD_TEXT);
       break;

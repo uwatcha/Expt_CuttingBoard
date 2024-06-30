@@ -1,4 +1,4 @@
-enum Judgments {
+enum Judgment {
   Good,
   Nice,
   Bad

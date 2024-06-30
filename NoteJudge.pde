@@ -4,6 +4,7 @@
 //Bad:  +-8~12f
 class NoteJudge {
   final int JUST_FRAME;
+  final int RESET_DELAY_FRAME = (int)frameRate/2;
   private Note note;
   private int touchedFrame;
   private boolean hasTouched;
@@ -14,30 +15,56 @@ class NoteJudge {
     JUST_FRAME = justFrame;
   }
 
-  public Judgments run() {
-    if (!hasTouched && getTouchedPointer()!=null) {
-      int margin = touchedFrame-JUST_FRAME;
-      if (abs(margin) <= GOOD_FRAME) {
-        return Judgments.Good;
-      } else if (GOOD_FRAME < abs(margin)&&abs(margin) <= NICE_FRAME) {
-        return Judgments.Nice;
-      } else if (NICE_FRAME < abs(margin)&&abs(margin) <= BAD_FRAME) {
-        return Judgments.Bad;
-      } else {
-        return null;
-      }
+  public Judgment run() {
+    println("--------------------------------");
+    //println("hasTouched: "+hasTouched);
+    //println("getTouchedPointer(): "+getTouchedPointer());
+    //println("touchedFrame: "+touchedFrame);
+    if (!hasTouched) {
+      if (getTouchedPointer()!=null) {
+        //println("has not Touched AND TouchedPointer has value.");
+        int touchTimingMargin = touchedFrame - JUST_FRAME;
+        if (isWithinRange(touchTimingMargin, 0, GOOD_FRAME)) {
+          println("GOOD!!");
+          return Judgment.Good;
+        } else if (isWithinRange(touchTimingMargin, GOOD_FRAME, NICE_FRAME)) {
+          println("NICE!");
+          return Judgment.Nice;
+        } else if (isWithinRange(touchTimingMargin, NICE_FRAME, BAD_FRAME)) {
+          println("BAD...");
+          return Judgment.Bad;
+        } else {
+          println("else");
+          return null;
+        }
+      } else { return null; }
     } else {
+      //println("has Touched OR TouchedPointer has no value.");
+      if (isResetFrame()) {
+        //println("is reset frame");
+        hasTouched = false;
+      }
       return null;
     }
+  }
+
+  private boolean isWithinRange(int value, int lowerBound, int upperBound) {
+    return (lowerBound <= abs(value)&&abs(value) <= upperBound);
+  }
+
+  private boolean isResetFrame() {
+    println("resetFrame: "+(touchedFrame+RESET_DELAY_FRAME)%ROOP_FRAME);
+    return (roopingFrameCount == (touchedFrame+RESET_DELAY_FRAME)%ROOP_FRAME);
   }
 
   private processing.event.TouchEvent.Pointer getTouchedPointer() {
     for (processing.event.TouchEvent.Pointer touch : touches) {
       if (dist(touch.x, touch.y, note.getCoordinate().x, note.getCoordinate().y) <= note.getRadius()) {
         if (!hasTouched) {
-          touchedFrame = roopingFrameCount;
+          //println("hasTouched = true;");
+          hasTouched = true;
         }
-        hasTouched = true;
+        touchedFrame = roopingFrameCount;
         return touch;
       }
     }
