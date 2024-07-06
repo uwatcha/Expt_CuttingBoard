@@ -16,5 +16,6 @@ class NoteRunner {
   public void run() {
     note.run();
     ring.run();
+    noteJudge.run();
   }
 }
