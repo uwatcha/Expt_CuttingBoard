@@ -2,6 +2,7 @@
 //Good：+-4f以内
 //Nice: +-5~8f
 //Bad:  +-8~12f
+//
 class NoteJudge {
   final int JUST_FRAME;
   final int RESET_DELAY_FRAME = (int)frameRate/2;
@@ -16,13 +17,15 @@ class NoteJudge {
   }
 
   public Judgment run() {
-    getTouchedPointer();
-      return null;
+    Judgment judge = judgeTouchTiming();
+    if (judge!=null) { println(judge); }
+    return judgeTouchTiming();
   }
   //private Judgment judge() {
   //}
-  private boolean isWithinRange(int value, int lowerBound, int upperBound) {
-    return (lowerBound <= abs(value)&&abs(value) <= upperBound);
+  private boolean isWithinRange(int frame, int lowerBoundFrame, int upperBoundFrame) {
+    int judgedRange = abs(frame-JUST_FRAME);
+    return (lowerBoundFrame <= judgedRange&&judgedRange <= upperBoundFrame);
   }
   private processing.event.TouchEvent.Pointer getTouchedPointer() {
     for (processing.event.TouchEvent.Pointer touch : touches) {
@@ -30,7 +33,6 @@ class NoteJudge {
         if (!hasTouched) {
           hasTouched = true;
           touchedFrame = roopingFrameCount;
-          println("Touched");
           return touch;
         } else {
           return null;
@@ -39,7 +41,14 @@ class NoteJudge {
     }
     return null;
   }
-  //private Judgment judgeTouchTiming() {
-
-  //}
+  private Judgment judgeTouchTiming() {
+    if (getTouchedPointer() != null) {
+           if (isWithinRange(touchedFrame,          0, GOOD_FRAME))         { return Judgment.Good; } 
+      else if (isWithinRange(touchedFrame, GOOD_FRAME, NICE_FRAME))         { return Judgment.Nice; }
+      else if (isWithinRange(touchedFrame, NICE_FRAME, Integer.MAX_VALUE))  { return Judgment.Bad;  } 
+      else                                                                  { return null; }
+    } else {
+      return null;
+    }
+  }
 }
