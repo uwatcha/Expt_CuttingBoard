@@ -8,5 +8,5 @@ void ringDisplay(PVector coordinate, float r, float strokeWeight, color circleCo
   noFill();
   strokeWeight(strokeWeight);
   stroke(circleColor);
-  circle(coordinate.x, coordinate.y, r);
+  circle(coordinate.x, coordinate.y, r*2);
 }

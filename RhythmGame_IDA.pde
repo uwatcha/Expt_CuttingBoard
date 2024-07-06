@@ -73,11 +73,11 @@ void draw() {
   roopingFrameCount = (frameCount-1)%ROOP_FRAME;
   if (roopingFrameCount == 0) {
     //println("ゼロ");
-    note = new NoteRunner(new PVector(width/2, height/2), 60);
+    note = new NoteRunner(new PVector(width/2, height/2), ROOP_FRAME/2);
   }
   if (roopingFrameCount == ROOP_FRAME/2) {
     //println("ジャスト");
-    textDisplay("ジャスト", new PVector(width/2, height/4), 20, WHITE);
+    textDisplay("ジャスト", new PVector(width/2, height/4), JUDGE_DISPLAY*2, WHITE);
   }
   if (roopingFrameCount == ROOP_FRAME*2/3) {
     //println("イチニゼロ");

@@ -3,8 +3,7 @@ class Ring {
   final private float INITIAL_RADIUS;
   final private float FINAL_RADIUS;
   final private float STROKE = 12;
-  final private float SHRINK_RATE;
-  final private int TILL_OVERLAP_FRAME; //円が表示されてからノーツに重なるまでにかかるフレーム　定数名を改善する余地あり
+  final private float SHRINK_SPEED;
   private int justFrame;
   private Note note;
   private PVector coordinate;
@@ -17,8 +16,7 @@ class Ring {
     this.note = note;
     coordinate = note.getCoordinate();
     radius = INITIAL_RADIUS;
-    TILL_OVERLAP_FRAME = justFrame+BAD_FRAME;
-    SHRINK_RATE = (INITIAL_RADIUS-FINAL_RADIUS)/TILL_OVERLAP_FRAME;
+    SHRINK_SPEED = (INITIAL_RADIUS-note.getRadius())/justFrame;
   }
 
   public void run() {
@@ -32,7 +30,7 @@ class Ring {
     ringDisplay(coordinate, radius, STROKE, COLOR);
   }
   private void shrink() {
-    radius -= SHRINK_RATE;
+    radius -= SHRINK_SPEED;
   }
   private boolean isActive() {
     return roopingFrameCount <= justFrame;
