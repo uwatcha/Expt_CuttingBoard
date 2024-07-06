@@ -33,7 +33,7 @@ class Ring {
     radius -= SHRINK_SPEED;
   }
   private boolean isActive() {
-    return roopingFrameCount <= justFrame;
+    return roopingFrameCount <= justFrame+BAD_FRAME;
   }
 }
 //ノーツより大きい半径の円を、justFrameでちょうど円に重なるように縮める
