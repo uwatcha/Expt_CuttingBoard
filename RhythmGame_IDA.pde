@@ -37,7 +37,7 @@ final int NICE_FRAME = 8;
 final int BAD_FRAME = 12;
 
 //フレーム定数
-final int ROOP_FRAME = (int)frameRate*4;
+int ROOP_FRAME;
 
 //グローバル変数
 PImage noteImage;
@@ -47,9 +47,13 @@ boolean isTouch, isTouchDown, isTouchUp, isPointerTouchDown, isPointerTouchUp;
 ArrayList<NoteRunner> notes;
 PVector[] vectors;
 
+//テスト用
+NoteRunner note;
+
 void setup() {
   //設定
   frameRate(120);
+  //ROOP_FRAME = (int)frameRate*4;
   imageMode(CENTER);
   //変数初期化
   noteImage = loadImage("note.png");
@@ -60,17 +64,23 @@ void setup() {
   vectors[1] = new PVector(width*3/4, height/4);
   vectors[2] = new PVector(width/4, height*3/4);
   vectors[3] = new PVector(width*3/4, height*3/4);
-  notes = new ArrayList<NoteRunner>();
-  for (int i=0; i<1; i++) {
-    NoteRunner newNote = new NoteRunner(vectors[i], i);
-    notes.add(newNote);
-  }
 }
 
 void draw() {
   background(0);
-  roopingFrameCount = frameCount%ROOP_FRAME;
-  for (NoteRunner note: notes) {
+  roopingFrameCount = (frameCount-1)%180;
+  if (roopingFrameCount == 0) {
+    println("ゼロ");
+    note = new NoteRunner(new PVector(width/2, height/2), 60);
+  }
+  if (roopingFrameCount == 60) {
+    println("ジャスト");
+  }
+  if (roopingFrameCount == 120) {
+    println("イチニゼロ");
+    note = null;
+  }
+  if (note != null) {
     note.run();
   }
 }

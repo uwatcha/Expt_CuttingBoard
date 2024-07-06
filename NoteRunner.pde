@@ -5,8 +5,8 @@ class NoteRunner {
   private NoteJudge noteJudge;
   private JudgeDisplay judgeDisplay;
 
-  public NoteRunner(PVector coordinate, int index) {
-    justFrame = 120*(index+1);
+  public NoteRunner(PVector coordinate, int justFrame) {
+    this.justFrame = justFrame;
     note = new Note(coordinate);
     ring = new Ring(note, justFrame);
     noteJudge = new NoteJudge(note, justFrame);
@@ -16,6 +16,5 @@ class NoteRunner {
   public void run() {
     note.run();
     ring.run();
-    judgeDisplay.run(noteJudge.run());
   }
 }

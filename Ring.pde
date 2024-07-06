@@ -2,9 +2,9 @@ class Ring {
   final private color COLOR = RING;
   final private float INITIAL_RADIUS;
   final private float FINAL_RADIUS;
-  final private float STROKE = 6;
+  final private float STROKE = 12;
   final private float SHRINK_RATE;
-  final private int TILL_OVERLAP_FRAME = BAD_FRAME*2; //円が表示されてからノーツに重なるまでにかかるフレーム　定数名を改善する余地あり
+  final private int TILL_OVERLAP_FRAME; //円が表示されてからノーツに重なるまでにかかるフレーム　定数名を改善する余地あり
   private int justFrame;
   private Note note;
   private PVector coordinate;
@@ -17,29 +17,27 @@ class Ring {
     this.note = note;
     coordinate = note.getCoordinate();
     radius = INITIAL_RADIUS;
-    SHRINK_RATE = (INITIAL_RADIUS-note.getRadius())/TILL_OVERLAP_FRAME;
+    TILL_OVERLAP_FRAME = justFrame+BAD_FRAME;
+    SHRINK_RATE = (INITIAL_RADIUS-FINAL_RADIUS)/TILL_OVERLAP_FRAME;
   }
 
   public void run() {
-    if (justFrame - BAD_FRAME*2 < roopingFrameCount&&roopingFrameCount <= justFrame + BAD_FRAME) {
+    if (isActive()) {
       shrink();
-      ringDisplay(coordinate, radius, STROKE, COLOR);
-      textDisplay("if pass", new PVector(width/2, height*3/4), 20, WHITE);
-    } else if (radius != INITIAL_RADIUS) {
-      resetRadius();
-      textDisplay("else if pass", new PVector(width/2, height*3/4), 20, WHITE);
+      display();
     }
   }
 
+  private void display() {
+    ringDisplay(coordinate, radius, STROKE, COLOR);
+  }
   private void shrink() {
-    if (radius > FINAL_RADIUS) {
-      radius -= SHRINK_RATE;
-    }
+    radius -= SHRINK_RATE;
   }
-
-  private void resetRadius() {
-    radius = INITIAL_RADIUS;
-    fill(GREEN);
-    circle(width/2, height/2, 200);
+  private boolean isActive() {
+    return roopingFrameCount <= justFrame;
   }
 }
+//ノーツより大きい半径の円を、justFrameでちょうど円に重なるように縮める
+//開始タイミングは生成の瞬間
+//終了タイミングは時間切れによる自動破棄の瞬間
