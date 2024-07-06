@@ -37,6 +37,7 @@ final int NICE_FRAME = 8;
 final int BAD_FRAME = 12;
 
 //フレーム定数
+int FRAME_RATE = 120;
 int ROOP_FRAME;
 
 //グローバル変数
@@ -50,10 +51,11 @@ PVector[] vectors;
 //テスト用
 NoteRunner note;
 
+//setup()
 void setup() {
   //設定
-  frameRate(120);
-  //ROOP_FRAME = (int)frameRate*4;
+  frameRate(FRAME_RATE);
+  ROOP_FRAME = (int)(FRAME_RATE*1.5);
   imageMode(CENTER);
   //変数初期化
   noteImage = loadImage("note.png");
@@ -68,17 +70,17 @@ void setup() {
 
 void draw() {
   background(0);
-  roopingFrameCount = (frameCount-1)%180;
+  roopingFrameCount = (frameCount-1)%ROOP_FRAME;
   if (roopingFrameCount == 0) {
-    println("ゼロ");
+    //println("ゼロ");
     note = new NoteRunner(new PVector(width/2, height/2), 60);
   }
-  if (roopingFrameCount == 60) {
-    println("ジャスト");
+  if (roopingFrameCount == ROOP_FRAME/2) {
+    //println("ジャスト");
     textDisplay("ジャスト", new PVector(width/2, height/4), 20, WHITE);
   }
-  if (roopingFrameCount == 120) {
-    println("イチニゼロ");
+  if (roopingFrameCount == ROOP_FRAME*2/3) {
+    //println("イチニゼロ");
     note = null;
   }
   if (note != null) {
