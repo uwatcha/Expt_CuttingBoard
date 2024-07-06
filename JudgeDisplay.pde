@@ -54,4 +54,6 @@ class JudgeDisplay {
   private void judgmentText(String text) {
     textDisplay(text, coordinate, JUDGE_DISPLAY, WHITE);
   }
+  
+  private int getDisplayDurationFrame() { return DISPLAY_DURATION_FRAME; }
 }
