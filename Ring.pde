@@ -1,7 +1,6 @@
 class Ring {
   final private color COLOR = RING;
   final private float INITIAL_RADIUS;
-  final private float FINAL_RADIUS;
   final private float STROKE = 12;
   final private float SHRINK_SPEED;
   private int justFrame;
@@ -11,7 +10,6 @@ class Ring {
 
   public Ring(Note note, int justFrame) {
     INITIAL_RADIUS = note.getRadius() * 4;
-    FINAL_RADIUS = 335/400 * note.getRadius();
     this.justFrame = justFrame;
     this.note = note;
     coordinate = note.getCoordinate();
