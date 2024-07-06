@@ -37,7 +37,6 @@ class NoteJudge {
         }
       }
     }
-    hasTouched = false;
     return null;
   }
   //private Judgment judgeTouchTiming() {
