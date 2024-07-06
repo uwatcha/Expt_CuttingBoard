@@ -75,6 +75,7 @@ void draw() {
   }
   if (roopingFrameCount == 60) {
     println("ジャスト");
+    textDisplay("ジャスト", new PVector(width/2, height/4), 20, WHITE);
   }
   if (roopingFrameCount == 120) {
     println("イチニゼロ");
