@@ -1,10 +1,5 @@
-//曲が始まってからの指定された時間にタッチしたかどうかを判定する
-//Good：+-4f以内
-//Nice: +-5~8f
-//Bad:  +-8~12f
-//
 class NoteJudge {
-  final int JUST_FRAME;
+  final private int JUST_FRAME;
   private Note note;
   private int touchedFrame;
   private boolean hasTouched;
@@ -16,9 +11,15 @@ class NoteJudge {
   }
 
   public Judgment run() {
+    //コンソールに判定を表示する時は以下をアンコメント
     //Judgment judge = judgeTouchTiming();
     //if (judge!=null) { println(judge); }
-    return judgeTouchTiming();
+    if (note!=null) {
+      return judgeTouchTiming();
+    } else {
+      println("null");
+      return null;
+    }
   }
   
   private Judgment judgeTouchTiming() {

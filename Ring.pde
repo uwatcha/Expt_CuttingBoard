@@ -4,17 +4,15 @@ class Ring {
   final private float STROKE = 12;
   final private float SHRINK_SPEED;
   final private int   JUST_FRAME;
-  private Note note;
   private PVector coordinate;
   private float radius;
 
   public Ring(Note note, int justFrame) {
     INITIAL_RADIUS = note.getRadius() * 4;
     JUST_FRAME = justFrame;
-    this.note = note;
     coordinate = note.getCoordinate();
     radius = INITIAL_RADIUS;
-    SHRINK_SPEED = (INITIAL_RADIUS-note.getRadius())/justFrame;
+    SHRINK_SPEED = (INITIAL_RADIUS-note.getRadius())/justFrame; //距離÷時間
   }
 
   public void run() {
@@ -34,6 +32,3 @@ class Ring {
     return roopingFrameCount <= JUST_FRAME+BAD_FRAME;
   }
 }
-//ノーツより大きい半径の円を、justFrameでちょうど円に重なるように縮める
-//開始タイミングは生成の瞬間
-//終了タイミングは時間切れによる自動破棄の瞬間

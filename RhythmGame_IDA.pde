@@ -36,9 +36,13 @@ final int GOOD_FRAME = 4;
 final int NICE_FRAME = 8;
 final int BAD_FRAME = 12;
 
-//フレーム定数
-int FRAME_RATE = 120;
+//フレーム定数(finalでないものもあるが、setup()で初期化しなくてはならないため、finalをつけられない。値を変更しないように注意←)
+final int FRAME_RATE = 120;
+final int JUDGE_DISPLAY_DURATION = 30;
+final int START_FRAME_0 = 0;
 int ROOP_FRAME;
+int JUST_FRAME_0;
+int KILL_FRAME_0;
 
 //グローバル変数
 PImage noteImage;
@@ -55,8 +59,11 @@ NoteRunner note;
 void setup() {
   //設定
   frameRate(FRAME_RATE);
-  ROOP_FRAME = (int)(FRAME_RATE*1.5);
   imageMode(CENTER);
+  //定数初期化
+  ROOP_FRAME = (int)(FRAME_RATE*1.5);
+  JUST_FRAME_0 = ROOP_FRAME/2;
+  KILL_FRAME_0 = JUST_FRAME_0+BAD_FRAME+JUDGE_DISPLAY_DURATION;
   //変数初期化
   noteImage = loadImage("note.png");
   roopingFrameCount = 0;
@@ -71,10 +78,10 @@ void setup() {
 void draw() {
   background(0);
   roopingFrameCount = (frameCount-1)%ROOP_FRAME;
-  if (roopingFrameCount == 0) {
-    note = new NoteRunner(new PVector(width/2, height/2), ROOP_FRAME/2);
+  if (roopingFrameCount == START_FRAME_0) {
+    note = new NoteRunner(new PVector(width/2, height/2), JUST_FRAME_0);
   }
-  if (roopingFrameCount == ROOP_FRAME/2+BAD_FRAME) {
+  if (roopingFrameCount == KILL_FRAME_0) {
     note = null;
   }
   if (note != null) {

@@ -18,16 +18,22 @@ class NoteRunner {
   }
 
   public void run() {
-    note.run();
-    ring.run();
-    judgeDisplay.run(noteJudge.run());
+    if (note!=null) { note.run(); }
+    if (ring!=null) { ring.run(); }
+    Judgment judge = null;
+    if (noteJudge!=null) {
+      judge = noteJudge.run();
+    }
+    if (judgeDisplay!=null) {
+      judgeDisplay.run(judge);
+    }
     
     if (roopingFrameCount == FINISH_FRAME) {
       killNote();
       killRing();
+      killNoteJudge();
     }
     if (roopingFrameCount == TEXT_FINISH_FRAME) {
-      killNoteJudge();
       killJudgeDisplay();
     }
   }

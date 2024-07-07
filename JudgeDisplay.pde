@@ -1,16 +1,13 @@
 class JudgeDisplay {
-  final String GOOD_TEXT = "GOOD!!";
-  final String NICE_TEXT = "NICE!";
-  final String BAD_TEXT = "BAD...";
-  final int    DISPLAY_DURATION_FRAME = 30;
-  final float  OFFSET = 200;
-  PVector coordinate;
-  int startFrame;
-  Note note;
-  Judgment judgment;
+  final private String GOOD_TEXT = "GOOD!!";
+  final private String NICE_TEXT = "NICE!";
+  final private String BAD_TEXT = "BAD...";
+  final private float  OFFSET = 200;
+  private PVector coordinate;
+  private int startFrame;
+  private Judgment judgment;
 
   JudgeDisplay(Note note) {
-    this.note = note;
     coordinate = new PVector(note.getCoordinate().x + OFFSET, note.getCoordinate().y - OFFSET);
     startFrame = -1;
   }
@@ -45,7 +42,7 @@ class JudgeDisplay {
   }
 
   private void reset() {
-    if (judgment!=null && (roopingFrameCount-startFrame) >= DISPLAY_DURATION_FRAME) {
+    if (judgment!=null && (roopingFrameCount-startFrame) >= JUDGE_DISPLAY_DURATION) {
       startFrame = -1;
       judgment = null;
     }
@@ -55,5 +52,5 @@ class JudgeDisplay {
     textDisplay(text, coordinate, JUDGE_DISPLAY, WHITE);
   }
   
-  private int getDisplayDurationFrame() { return DISPLAY_DURATION_FRAME; }
+  private int getDisplayDurationFrame() { return JUDGE_DISPLAY_DURATION; }
 }
