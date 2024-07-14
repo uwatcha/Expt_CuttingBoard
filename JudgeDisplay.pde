@@ -20,7 +20,7 @@ class JudgeDisplay {
 
   private void setJudgment(Judgment judgment) {
     if (judgment != null) {
-      startFrame = roopingFrameCount;
+      startFrame = frame;
       this.judgment = judgment;
     }
   }
@@ -42,7 +42,7 @@ class JudgeDisplay {
   }
 
   private void reset() {
-    if (judgment!=null && (roopingFrameCount-startFrame) >= JUDGE_DISPLAY_DURATION) {
+    if (judgment!=null && (frame-startFrame) >= JUDGE_DISPLAY_DURATION) {
       startFrame = -1;
       judgment = null;
     }
@@ -50,7 +50,5 @@ class JudgeDisplay {
   
   private void judgmentText(String text) {
     textDisplay(text, coordinate, JUDGE_DISPLAY, WHITE);
-  }
-  
-  private int getDisplayDurationFrame() { return JUDGE_DISPLAY_DURATION; }
+  }  
 }

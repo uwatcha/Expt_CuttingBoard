@@ -7,12 +7,12 @@ class Ring {
   private PVector coordinate;
   private float radius;
 
-  public Ring(Note note, int justFrame) {
+  public Ring(Note note, int showFrame, int justFrame) {
     INITIAL_RADIUS = note.getRadius() * 4;
     JUST_FRAME = justFrame;
     coordinate = note.getCoordinate();
     radius = INITIAL_RADIUS;
-    SHRINK_SPEED = (INITIAL_RADIUS-note.getRadius())/justFrame; //距離÷時間
+    SHRINK_SPEED = (INITIAL_RADIUS-note.getRadius())/(justFrame-showFrame); //距離÷時間
   }
 
   public void run() {
@@ -29,6 +29,6 @@ class Ring {
     radius -= SHRINK_SPEED;
   }
   private boolean isActive() {
-    return roopingFrameCount <= JUST_FRAME+BAD_FRAME;
+    return frame <= JUST_FRAME+BAD_FRAME;
   }
 }

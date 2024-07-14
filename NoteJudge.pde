@@ -43,7 +43,7 @@ class NoteJudge {
       if (dist(touch.x, touch.y, note.getCoordinate().x, note.getCoordinate().y) <= note.getRadius()) {
         if (!hasTouched) {
           hasTouched = true;
-          touchedFrame = roopingFrameCount;
+          touchedFrame = frame;
           return touch;
         } else {
           return null;
