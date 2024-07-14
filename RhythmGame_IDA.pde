@@ -23,35 +23,80 @@ import java.io.BufferedWriter;
 //カラー定数
 final color WHITE = color(255);
 final color BLACK = color(0);
-final color RED   = color(255,0,0);
-final color GREEN = color(0,255,0);
-final color BLUE  = color(0,0,255);
+final color RED   = color(255, 0, 0);
+final color GREEN = color(0, 255, 0);
+final color BLUE  = color(0, 0, 255);
+final color RING  = color(0, 167, 219);
 
 //テキストサイズ定数
 final int JUDGE_DISPLAY = 70;
 
+//判定フレーム定数
+final int GOOD_FRAME = 4;
+final int NICE_FRAME = 8;
+final int BAD_FRAME = 12;
+
+//フレーム定数(finalでないものもあるが、setup()で初期化しなくてはならないため、finalをつけられない。値を変更しないように注意←)
+final int FRAME_RATE = 120;
+final int JUDGE_DISPLAY_DURATION = 30;
+
 //グローバル変数
 PImage noteImage;
 int frame;
-boolean isTouch, isTouchDown, isTouchUp, isPointerTouchDown, isPointerTouchUp;
-//オブジェクト
-Note note;
-JudgeDisplay judgeDisplay;
+int noteLoadIndex;
+
+
+//ノーツ呼び出し
+NoteRunner[] notes;
+ArrayList<NoteRunner> runningNotes;
+ArrayList<PVector> vectors;
+ArrayList<Integer> createFrames;
+ArrayList<Integer> justFrames;
+
 
 void setup() {
   //設定
-  frameRate(60);
+  frameRate(FRAME_RATE);
   imageMode(CENTER);
-  //初期化
+  //変数初期化
   noteImage = loadImage("note.png");
   frame = 0;
-  note = new Note(width/2, height/2, noteImage);
-  judgeDisplay = new JudgeDisplay();
+  noteLoadIndex = 0;
+  //インスタンス初期化
+  notes = new NoteRunner[32]; //実際に曲に合わせてノーツを配置するなら固定長だろうから、配列に入れる。要素がずれないからindexをidとしても使える
+  runningNotes = new ArrayList<NoteRunner>();
+  vectors = new ArrayList<PVector>();
+  makeVectors();
+  createFrames = new ArrayList<Integer>();
+  justFrames = new ArrayList<Integer>();
+  makeShowFrames();
+  makeJustFrames();
+  makeNotes();
 }
-
+// 各メーカーの動作チェック
 void draw() {
   background(0);
-  frame = (int)((frame+1)%frameRate);
-  note.run();
-  judgeDisplay.run(note);
+  frame = frameCount-1;
+  //notesから現在のフレームで呼び出すノーツをrunningNotesに入れる。
+  for (int i=noteLoadIndex; i<notes.length; i++) {
+    if (notes[i].getShowFrame()==frame) {
+      runningNotes.add(notes[i]);
+    } else if (notes[i].getShowFrame() > frame) {
+      noteLoadIndex = i;
+      break;
+    }
+  }
+  //runningNotesに表示期限を迎えたノーツがあれば削除する
+  for (int i=0; i<runningNotes.size(); i++) {
+    if (runningNotes.get(i).getKillFrame() < frame) {
+      runningNotes.remove(runningNotes.get(i--));
+      continue;
+    }
+    runningNotes.get(i).run();
+  }
 }
+
+// NoteRunnerにshowFrame, justFrame, hideFrame, killFrameを持たせる
+// showFrameになったら実行するノーツリストに入れる
+// 実行するノーツリストに入ってるものを実行する
+// killFrameになったらその要素をnullにする？メモリ解放したことになる？

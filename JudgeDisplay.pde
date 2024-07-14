@@ -1,41 +1,34 @@
 class JudgeDisplay {
-  final String GOOD_TEXT = "GOOD!!";
-  final String NICE_TEXT = "NICE!";
-  final String BAD_TEXT = "BAD...";
-  final int TEXT_DISPLAY_DURATION_MS = 1000;
-  PVector coordinate;
-  int textStartTime;
-  Judgments displayJudgment;
+  final private String GOOD_TEXT = "GOOD!!";
+  final private String NICE_TEXT = "NICE!";
+  final private String BAD_TEXT = "BAD...";
+  final private float  OFFSET = 200;
+  private PVector coordinate;
+  private int startFrame;
+  private Judgment judgment;
 
-  JudgeDisplay() {
-    coordinate = new PVector(width*3/4, height/4);
-    textStartTime = -1;
+  JudgeDisplay(Note note) {
+    coordinate = new PVector(note.getCoordinate().x + OFFSET, note.getCoordinate().y - OFFSET);
+    startFrame = -1;
   }
 
-  public void run(Note note) {
-    setJudgment(note.judgeTouch());
-    displayText();
+  public void run(Judgment judgment) {
+    setJudgment(judgment);
+    display();
+    reset();
   }
 
-  //TEXT_DISPLAY_TIMEのフレームが経過したらmodeフラグをfalseにする関数を作る
-  //modeフラグを受けてテキストを表示する関数を作る
-
-  private void setJudgment(Judgments judgments) {
-    if (judgments!=null) {
-      textStartTime = millis();
-      displayJudgment = judgments;
-    } else if (textStartTime!=-1 && millis() - textStartTime > TEXT_DISPLAY_DURATION_MS) {
-      textStartTime = -1;
-      displayJudgment = null;
+  private void setJudgment(Judgment judgment) {
+    if (judgment != null) {
+      startFrame = frame;
+      this.judgment = judgment;
     }
   }
-
-  private void displayText() {
-    if (displayJudgment==null) {
-      
-      return;
-    }
-    switch (displayJudgment) {
+  
+  private void display() {
+    if (judgment==null) { return; }
+    
+    switch (judgment) {
     case Good:
       judgmentText(GOOD_TEXT);
       break;
@@ -47,8 +40,15 @@ class JudgeDisplay {
       break;
     }
   }
+
+  private void reset() {
+    if (judgment!=null && (frame-startFrame) >= JUDGE_DISPLAY_DURATION) {
+      startFrame = -1;
+      judgment = null;
+    }
+  }
   
   private void judgmentText(String text) {
-    textDisplay(text, coordinate.x, coordinate.y, JUDGE_DISPLAY, WHITE);
-  }
+    textDisplay(text, coordinate, JUDGE_DISPLAY, WHITE);
+  }  
 }

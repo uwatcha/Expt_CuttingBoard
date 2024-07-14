@@ -1,3 +1,6 @@
+boolean isTouch, isTouchDown, isTouchUp, isPointerTouchDown, isPointerTouchUp;
+
+
 @Override
   public boolean surfaceTouchEvent(MotionEvent event) {
   switch (event.getAction()) {
