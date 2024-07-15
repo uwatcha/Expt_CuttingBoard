@@ -55,7 +55,6 @@ ArrayList<Integer> justFrames;
 
 //音楽系オブジェクト
 AudioManager audioManager;
-//SoundFile music;
 
 void setup() {
   //設定
@@ -68,7 +67,7 @@ void setup() {
   noteLoadIndex = 0;
   
   //インスタンス初期化
-  notes = new NoteRunner[32]; //実際に曲に合わせてノーツを配置するなら固定長だろうから、配列に入れる。要素がずれないからindexをidとしても使える
+  notes = new NoteRunner[128]; //実際に曲に合わせてノーツを配置するなら固定長だろうから、配列に入れる。要素がずれないからindexをidとしても使える
   runningNotes = new ArrayList<NoteRunner>();
   vectors = new ArrayList<PVector>();
   makeVectors();
@@ -78,7 +77,6 @@ void setup() {
   makeJustFrames();
   makeNotes();
   audioManager = new AudioManager(this);
-  //music = new SoundFile(this, "musics/KaeruNoPiano.mp3");
 }
 // 各メーカーの動作チェック
 void draw() {
@@ -103,9 +101,6 @@ void draw() {
   }
   
   audioManager.playMusic();
-  //if (!music.isPlaying()) {
-  //  music.play();
-  //}
 }
 
 // NoteRunnerにshowFrame, justFrame, hideFrame, killFrameを持たせる

@@ -10,7 +10,7 @@ class Music {
   }
   
   public void play() {
-    if (music.isPlaying()) {
+    if (!music.isPlaying()) {
       music.play();
     }
   }

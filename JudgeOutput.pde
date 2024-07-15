@@ -1,4 +1,4 @@
-class JudgeDisplay {
+class JudgeOutput {
   final private String GOOD_TEXT = "GOOD!!";
   final private String NICE_TEXT = "NICE!";
   final private String BAD_TEXT = "BAD...";
@@ -7,7 +7,7 @@ class JudgeDisplay {
   private int startFrame;
   private Judgment judgment;
 
-  JudgeDisplay(Note note) {
+  JudgeOutput(Note note) {
     coordinate = new PVector(note.getCoordinate().x + OFFSET, note.getCoordinate().y - OFFSET);
     startFrame = -1;
   }

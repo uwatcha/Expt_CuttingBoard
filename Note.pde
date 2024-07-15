@@ -4,7 +4,7 @@ class Note {
   private float radius;
   
   public Note(PVector coordinate) {
-    this.noteImage = loadImage("note.png");
+    this.noteImage = loadImage("images/note.png");
     this.coordinate = coordinate;
     radius = noteImage.width/2;
   }

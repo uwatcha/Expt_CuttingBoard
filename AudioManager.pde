@@ -2,28 +2,22 @@ import processing.sound.*;
 
 class AudioManager { // クラスをトップレベルにする
   final private Music music;
-  final private SoundFile goodSE;
-  final private SoundFile badSE;
+  final private SoundEffect GOOD;
+  final private SoundEffect BAD;
   
   private AudioManager(PApplet parent) {
     music = new Music(parent, "musics/KaeruNoPiano.mp3", 120);
-    goodSE = new SoundFile(parent, "SEs/good.mp3");
-    badSE = new SoundFile(parent, "SEs/bad.mp3");
+    GOOD = new SoundEffect(parent, "SEs/good.mp3");
+    BAD = new SoundEffect(parent, "SEs/bad.mp3");
   }
   
   public void playMusic() {
     music.play();
   }
-  
   public void playGoodSE() {
-    if (mousePressed) {
-      goodSE.play();
-    }
+    GOOD.play();
   }
-  
   public void playBadSE() {
-    if (mousePressed) {
-      badSE.play();
-    }
+    BAD.play();
   }
 }

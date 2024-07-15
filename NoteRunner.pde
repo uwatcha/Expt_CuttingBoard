@@ -6,7 +6,7 @@ class NoteRunner {
   private Note note;
   private Ring ring;
   private NoteJudge noteJudge;
-  private JudgeDisplay judgeDisplay;
+  private JudgeOutput judgeOutput;
 
   public NoteRunner(PVector coordinate, int showFrame, int justFrame) {
     SHOW_FRAME = showFrame;
@@ -17,7 +17,7 @@ class NoteRunner {
     note = new Note(coordinate);
     ring = new Ring(note, SHOW_FRAME, JUST_FRAME);
     noteJudge = new NoteJudge(note, JUST_FRAME);
-    judgeDisplay = new JudgeDisplay(note);
+    judgeOutput = new JudgeOutput(note);
   }
 
   public void run() {
@@ -28,8 +28,8 @@ class NoteRunner {
       if (noteJudge!=null) {
         judge = noteJudge.run();
       }
-      if (judgeDisplay!=null) {
-        judgeDisplay.run(judge);
+      if (judgeOutput!=null) {
+        judgeOutput.run(judge);
       }
     
       if (frame == HIDE_FRAME) {
@@ -38,7 +38,7 @@ class NoteRunner {
         killNoteJudge();
       }
       if (frame == KILL_FRAME) {
-        killJudgeDisplay();
+        killJudgeOutput();
       }
     }
   }
@@ -46,7 +46,7 @@ class NoteRunner {
   private void killNote()         { note = null; }
   private void killRing()         { ring = null; }
   private void killNoteJudge()    { noteJudge = null; }
-  private void killJudgeDisplay() { judgeDisplay = null; }
+  private void killJudgeOutput() { judgeOutput = null; }
   
   public int getShowFrame() { return SHOW_FRAME; }
   public int getKillFrame() { return KILL_FRAME; }
