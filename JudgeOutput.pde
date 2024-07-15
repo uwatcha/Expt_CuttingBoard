@@ -31,14 +31,12 @@ class JudgeOutput {
     switch (judgment) {
     case Good:
       judgmentText(GOOD_TEXT);
-      audioManager.playGoodSE();
       break;
     case Nice:
       judgmentText(NICE_TEXT);
       break;
     case Bad:
       judgmentText(BAD_TEXT);
-      audioManager.playBadSE();
       break;
     }
   }
