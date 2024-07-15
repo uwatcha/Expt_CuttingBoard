@@ -1,16 +1,16 @@
 class Note {
-  private PImage noteImage;
+  private PImage image;
   private PVector coordinate;
   private float radius;
   
   public Note(PVector coordinate) {
-    this.noteImage = loadImage("images/note.png");
+    image = noteImage;
     this.coordinate = coordinate;
     radius = noteImage.width/2;
   }
 
   public void run() {
-    image(noteImage, coordinate.x, coordinate.y);
+    image(image, coordinate.x, coordinate.y);
   }
   public PVector getCoordinate() {
     return this.coordinate;

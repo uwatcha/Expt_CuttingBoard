@@ -10,7 +10,7 @@ import ketai.net.bluetooth.*;
 import ketai.ui.*;
 
 //音関係のライブラリ
-import processing.sound.*;
+import ddf.minim.*;
 
 //ファイル入出力関係のライブラリ
 import java.io.FileNotFoundException;
@@ -54,10 +54,8 @@ ArrayList<Integer> createFrames;
 ArrayList<Integer> justFrames;
 
 //音楽系オブジェクト
+Minim minim;
 AudioManager audioManager;
-SoundFile music0;
-SoundFile goodSE;
-SoundFile badSE;
 
 void setup() {
   //設定
@@ -65,14 +63,12 @@ void setup() {
   imageMode(CENTER);
   
   //変数初期化
-  noteImage = loadImage("note.png");
+  noteImage = loadImage("images/note.png");
   frame = 0;
   noteLoadIndex = 0;
   
   //インスタンス初期化
-  music0 = new SoundFile(this, "musics/KaeruNoPiano.mp3");
-  goodSE = new SoundFile(this, "SEs/good.mp3");
-  badSE = new SoundFile(this, "SEs/bad.mp3");
+  minim = new Minim(this);
   audioManager = new AudioManager();
   notes = new NoteRunner[128]; //実際に曲に合わせてノーツを配置するなら固定長だろうから、配列に入れる。要素がずれないからindexをidとしても使える
   runningNotes = new ArrayList<NoteRunner>();

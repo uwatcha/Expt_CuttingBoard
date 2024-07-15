@@ -1,11 +1,11 @@
 import processing.sound.*;
 
 class Music {
-  private SoundFile music;
+  private AudioPlayer music;
   final private float BPM;
   
-  public Music(SoundFile soundFile, float bpm) {
-    music = soundFile;
+  public Music(String fileName, float bpm) {
+    music = minim.loadFile(fileName);
     BPM = bpm;
   }
   

@@ -1,10 +1,10 @@
 class SoundEffect {
-  private SoundFile GOOD;
-  private SoundFile BAD;
+  private AudioPlayer GOOD;
+  private AudioPlayer BAD;
   
   public SoundEffect() {
-    GOOD = goodSE;
-    BAD = badSE;
+    GOOD = minim.loadFile("SEs/good.mp3");
+    BAD = minim.loadFile("SEs/bad.mp3");
   }
   
   public void playGood() {
