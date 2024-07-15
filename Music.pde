@@ -2,11 +2,11 @@ import processing.sound.*;
 
 class Music {
   private SoundFile music;
-  private float bpm;
+  final private float BPM;
   
-  public Music(PApplet parent, String fileName, float bpm) {
-    music = new SoundFile(parent, fileName);
-    this.bpm = bpm;
+  public Music(SoundFile soundFile, float bpm) {
+    music = soundFile;
+    BPM = bpm;
   }
   
   public void play() {
@@ -15,5 +15,5 @@ class Music {
     }
   }
   
-  public float getBpm() { return bpm; }
+  public float getBpm() { return BPM; }
 }
