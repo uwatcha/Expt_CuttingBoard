@@ -3,11 +3,13 @@ class JudgeOutput {
   final private String NICE_TEXT = "NICE!";
   final private String BAD_TEXT = "BAD...";
   final private float  OFFSET = 200;
+  final private SoundEffect soundEffect;
   private PVector coordinate;
   private int startFrame;
   private Judgment judgment;
 
-  JudgeOutput(Note note) {
+  JudgeOutput(PApplet parent, Note note) {
+    soundEffect = new SoundEffect(parent);
     coordinate = new PVector(note.getCoordinate().x + OFFSET, note.getCoordinate().y - OFFSET);
     startFrame = -1;
   }
@@ -31,14 +33,14 @@ class JudgeOutput {
     switch (judgment) {
     case Good:
       judgmentText(GOOD_TEXT);
-      audioManager.playGoodSE();
+      soundEffect.playGood();
       break;
     case Nice:
       judgmentText(NICE_TEXT);
       break;
     case Bad:
       judgmentText(BAD_TEXT);
-      audioManager.playBadSE();
+      soundEffect.playBad();
       break;
     }
   }

@@ -75,7 +75,7 @@ void setup() {
   justFrames = new ArrayList<Integer>();
   makeShowFrames();
   makeJustFrames();
-  makeNotes();
+  makeNotes(this);
   audioManager = new AudioManager(this);
 }
 // 各メーカーの動作チェック

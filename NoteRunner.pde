@@ -8,7 +8,7 @@ class NoteRunner {
   private NoteJudge noteJudge;
   private JudgeOutput judgeOutput;
 
-  public NoteRunner(PVector coordinate, int showFrame, int justFrame) {
+  public NoteRunner(PApplet parent, PVector coordinate, int showFrame, int justFrame) {
     SHOW_FRAME = showFrame;
     JUST_FRAME = justFrame;
     HIDE_FRAME = JUST_FRAME + BAD_FRAME;
@@ -17,7 +17,7 @@ class NoteRunner {
     note = new Note(coordinate);
     ring = new Ring(note, SHOW_FRAME, JUST_FRAME);
     noteJudge = new NoteJudge(note, JUST_FRAME);
-    judgeOutput = new JudgeOutput(note);
+    judgeOutput = new JudgeOutput(parent, note);
   }
 
   public void run() {
