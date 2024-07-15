@@ -1,6 +1,6 @@
 void makeNotes() {
   for (int i=0; i<notes.length; i++) {
-    notes[i] = new NoteRunner(vectors.get(i%vectors.size()), createFrames.get(i), justFrames.get(i));
+    notes[i] = new NoteRunner(this, vectors.get(i%vectors.size()), createFrames.get(i), justFrames.get(i));
   }
 }
 

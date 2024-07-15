@@ -55,6 +55,7 @@ ArrayList<Integer> justFrames;
 
 //音楽系オブジェクト
 AudioManager audioManager;
+SoundEffect testSE;
 
 void setup() {
   //設定
@@ -77,6 +78,7 @@ void setup() {
   makeJustFrames();
   makeNotes();
   audioManager = new AudioManager(this);
+  testSE = new SoundEffect(this);
 }
 // 各メーカーの動作チェック
 void draw() {
@@ -101,6 +103,7 @@ void draw() {
   }
   
   audioManager.playMusic();
+  testSE.playGood();
 }
 
 // NoteRunnerにshowFrame, justFrame, hideFrame, killFrameを持たせる

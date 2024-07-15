@@ -6,10 +6,12 @@ class JudgeOutput {
   private PVector coordinate;
   private int startFrame;
   private Judgment judgment;
+  private SoundEffect soundEffect;
 
-  JudgeOutput(Note note) {
+  JudgeOutput(/*PApplet parent, */Note note) {
     coordinate = new PVector(note.getCoordinate().x + OFFSET, note.getCoordinate().y - OFFSET);
     startFrame = -1;
+    //soundEffect = new SoundEffect(parent);
   }
 
   public void run(Judgment judgment) {
