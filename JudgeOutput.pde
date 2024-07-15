@@ -8,7 +8,7 @@ class JudgeOutput {
   private Judgment judgment;
   private SoundEffect soundEffect;
 
-  JudgeOutput(/*PApplet parent, */Note note) {
+  JudgeOutput(PApplet parent, Note note) {
     coordinate = new PVector(note.getCoordinate().x + OFFSET, note.getCoordinate().y - OFFSET);
     startFrame = -1;
     //soundEffect = new SoundEffect(parent);

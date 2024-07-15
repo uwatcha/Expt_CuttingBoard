@@ -17,7 +17,7 @@ class NoteRunner {
     note = new Note(coordinate);
     ring = new Ring(note, SHOW_FRAME, JUST_FRAME);
     noteJudge = new NoteJudge(note, JUST_FRAME);
-    judgeOutput = new JudgeOutput(/*parent, */note);
+    judgeOutput = new JudgeOutput(parent, note);
   }
 
   public void run() {
