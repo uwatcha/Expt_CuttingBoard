@@ -75,7 +75,7 @@ void setup() {
   noteLoadIndex = 0;
   
   //インスタンス初期化
-  notes = new NoteRunner[128]; //実際に曲に合わせてノーツを配置するなら固定長だろうから、配列に入れる。要素がずれないからindexをidとしても使える
+  notes = new NoteRunner[5]; //実際に曲に合わせてノーツを配置するなら固定長だろうから、配列に入れる。要素がずれないからindexをidとしても使える
   runningNotes = new ArrayList<NoteRunner>();
   vectors = new ArrayList<PVector>();
   makeVectors();
