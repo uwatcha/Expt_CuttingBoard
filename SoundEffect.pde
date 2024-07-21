@@ -2,9 +2,9 @@ class SoundEffect {
   private SoundFile GOOD;
   private SoundFile BAD;
   
-  public SoundEffect(PApplet parent) {
-    GOOD = new SoundFile(parent, "SEs/good.mp3");
-    BAD = new SoundFile(parent, "SEs/bad.mp3");
+  public SoundEffect() {
+    GOOD = new SoundFile(applet, "SEs/good.mp3");
+    BAD = new SoundFile(applet, "SEs/bad.mp3");
   }
   
   public void playGood() {

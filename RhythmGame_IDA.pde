@@ -3,6 +3,8 @@ import android.content.Intent;
 import android.view.MotionEvent;
 import android.os.Environment;
 import android.os.Bundle;
+import android.app.Activity;
+import android.content.Context;
 
 //スマホ及びBluetooth関係のライブラリ
 import ketai.net.*;
@@ -11,6 +13,7 @@ import ketai.ui.*;
 
 //音関係のライブラリ
 import processing.sound.*;
+import processing.core.PApplet;
 
 //ファイル入出力関係のライブラリ
 import java.io.FileNotFoundException;
@@ -57,6 +60,10 @@ ArrayList<Integer> justFrames;
 AudioManager audioManager;
 SoundEffect testSE;
 
+//Activity act = getActivity();
+//Context con = act.getApplicationContext();
+PApplet applet = this;
+
 void setup() {
   //設定
   frameRate(FRAME_RATE);
@@ -76,9 +83,9 @@ void setup() {
   justFrames = new ArrayList<Integer>();
   makeShowFrames();
   makeJustFrames();
-  makeNotes(this);
-  audioManager = new AudioManager(this);
-  testSE = new SoundEffect(this);
+  makeNotes();
+  audioManager = new AudioManager();
+  testSE = new SoundEffect();
 }
 // 各メーカーの動作チェック
 void draw() {
@@ -103,7 +110,6 @@ void draw() {
   }
   
   audioManager.playMusic();
-  testSE.playGood();
 }
 
 // NoteRunnerにshowFrame, justFrame, hideFrame, killFrameを持たせる

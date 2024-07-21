@@ -4,8 +4,8 @@ class Music {
   private SoundFile music;
   private float bpm;
   
-  public Music(PApplet parent, String fileName, float bpm) {
-    music = new SoundFile(parent, fileName);
+  public Music(String fileName, float bpm) {
+    music = new SoundFile(applet, fileName);
     this.bpm = bpm;
   }
   
