@@ -1,10 +1,10 @@
 class Note {
-  private PImage noteImage;
+  private PImage image;
   private PVector coordinate;
   private float radius;
   
   public Note(PVector coordinate) {
-    this.noteImage = loadImage("images/note.png");
+    this.image = noteImage;
     this.coordinate = coordinate;
     radius = noteImage.width/2;
   }

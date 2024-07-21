@@ -70,7 +70,7 @@ void setup() {
   imageMode(CENTER);
   
   //変数初期化
-  noteImage = loadImage("note.png");
+  noteImage = loadImage("images/note.png");
   frame = 0;
   noteLoadIndex = 0;
   
