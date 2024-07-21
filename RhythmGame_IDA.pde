@@ -1,5 +1,6 @@
 //アンドロイド関係のライブラリ
 import android.content.Intent;
+import android.content.Context;
 import android.view.MotionEvent;
 import android.os.Environment;
 import android.os.Bundle;
@@ -10,7 +11,10 @@ import ketai.net.bluetooth.*;
 import ketai.ui.*;
 
 //音関係のライブラリ
-import ddf.minim.*;
+import processing.sound.*;
+
+//???
+import processing.core.PApplet;// 次回はPApplet型の変数を入れることで音割れしないか確かめる
 
 //ファイル入出力関係のライブラリ
 import java.io.FileNotFoundException;
@@ -44,6 +48,7 @@ final int JUDGE_DISPLAY_DURATION = 30;
 PImage noteImage;
 int frame;
 int noteLoadIndex;
+PApplet parent;
 
 
 //ノーツ呼び出し
@@ -54,7 +59,6 @@ ArrayList<Integer> createFrames;
 ArrayList<Integer> justFrames;
 
 //音楽系オブジェクト
-Minim minim;
 AudioManager audioManager;
 
 void setup() {
@@ -66,9 +70,9 @@ void setup() {
   noteImage = loadImage("images/note.png");
   frame = 0;
   noteLoadIndex = 0;
+  parent = this;
   
   //インスタンス初期化
-  minim = new Minim(this);
   audioManager = new AudioManager();
   notes = new NoteRunner[128]; //実際に曲に合わせてノーツを配置するなら固定長だろうから、配列に入れる。要素がずれないからindexをidとしても使える
   runningNotes = new ArrayList<NoteRunner>();
