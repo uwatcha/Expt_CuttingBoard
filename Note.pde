@@ -1,10 +1,8 @@
 class Note {
-  private PImage image;
   private PVector coordinate;
   private float radius;
   
   public Note(PVector coordinate) {
-    this.image = noteImage;
     this.coordinate = coordinate;
     radius = noteImage.width/2;
   }

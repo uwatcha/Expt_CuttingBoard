@@ -61,10 +61,10 @@ ArrayList<Integer> justFrames;
 //音楽系オブジェクト
 AudioManager audioManager;
 SoundEffect testSE;
+SoundFile good, nice, bad;
 
-//Activity act = getActivity();
-//Context con = act.getApplicationContext();
 PApplet applet = this;
+Runtime runtime = Runtime.getRuntime();
 
 void setup() {
   //設定
@@ -113,6 +113,9 @@ void draw() {
       runningNotes.get(i).run();
     }
     audioManager.playMusic();
-    println("notes in runningNotes: "+runningNotes.size());
   } 
+  println("最大メモリ: " + runtime.maxMemory() / 1024 / 1024 + " MB");
+  println("割り当て済みメモリ: " + runtime.totalMemory() / 1024 / 1024 + " MB");
+  println("空きメモリ: " + runtime.freeMemory() / 1024 / 1024 + " MB");
+  println("使用中メモリ: " + (runtime.totalMemory() - runtime.freeMemory()) / 1024 / 1024 + " MB");
 }
