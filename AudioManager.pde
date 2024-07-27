@@ -10,4 +10,8 @@ class AudioManager { // クラスをトップレベルにする
   public void playMusic() {
     music.play();
   }
+  
+  public void stopMusic() {
+    music.stop();
+  }
 }

@@ -47,9 +47,11 @@ final int JUDGE_DISPLAY_DURATION = 30;
 PImage noteImage;
 int frame;
 int noteLoadIndex;
+boolean isRunning;
 
 
 //ノーツ呼び出し
+final int NOTE_COUNT = 64;
 NoteRunner[] notes;
 ArrayList<NoteRunner> runningNotes;
 ArrayList<PVector> vectors;
@@ -68,14 +70,15 @@ void setup() {
   //設定
   frameRate(FRAME_RATE);
   imageMode(CENTER);
-  
+
   //変数初期化
   noteImage = loadImage("images/note.png");
   frame = 0;
   noteLoadIndex = 0;
-  
+  isRunning = true;
+
   //インスタンス初期化
-  notes = new NoteRunner[5]; //実際に曲に合わせてノーツを配置するなら固定長だろうから、配列に入れる。要素がずれないからindexをidとしても使える
+  notes = new NoteRunner[NOTE_COUNT]; //実際に曲に合わせてノーツを配置するなら固定長だろうから、配列に入れる。要素がずれないからindexをidとしても使える
   runningNotes = new ArrayList<NoteRunner>();
   vectors = new ArrayList<PVector>();
   makeVectors();
@@ -89,27 +92,29 @@ void setup() {
 }
 // 各メーカーの動作チェック
 void draw() {
-  background(0);
-  frame = frameCount-1;
-  //notesから現在のフレームで呼び出すノーツをrunningNotesに入れる。
-  for (int i=noteLoadIndex; i<notes.length; i++) {
-    if (notes[i].getShowFrame()==frame) {
-      runningNotes.add(notes[i]);
-    } else if (notes[i].getShowFrame() > frame) {
-      noteLoadIndex = i;
-      break;
+  if (isRunning) {
+    println(frame);
+    background(0);
+    frame = frameCount-1;
+    //notesから現在のフレームで呼び出すノーツをrunningNotesに入れる。
+    for (int i=noteLoadIndex; i<notes.length; i++) {
+      if (notes[i].getShowFrame()==frame) {
+        runningNotes.add(notes[i]);
+      } else if (notes[i].getShowFrame() > frame) {
+        noteLoadIndex = i;
+        break;
+      }
     }
-  }
-  //runningNotesに表示期限を迎えたノーツがあれば削除する
-  for (int i=0; i<runningNotes.size(); i++) {
-    if (runningNotes.get(i).getKillFrame() < frame) {
-      runningNotes.remove(runningNotes.get(i--));
-      continue;
+    //runningNotesに表示期限を迎えたノーツがあれば削除する
+    for (int i=0; i<runningNotes.size(); i++) {
+      if (runningNotes.get(i).getKillFrame() < frame) {
+        runningNotes.remove(runningNotes.get(i--));
+        continue;
+      }
+      runningNotes.get(i).run();
     }
-    runningNotes.get(i).run();
-  }
-  
-  audioManager.playMusic();
+    audioManager.playMusic();
+  } 
 }
 
 // NoteRunnerにshowFrame, justFrame, hideFrame, killFrameを持たせる

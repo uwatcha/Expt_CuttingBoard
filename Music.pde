@@ -15,5 +15,11 @@ class Music {
     }
   }
   
+  public void stop() {
+    if (music.isPlaying()) {
+      music.stop();
+    }
+  }
+  
   public float getBpm() { return bpm; }
 }

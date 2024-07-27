@@ -1,6 +1,5 @@
 boolean isTouch, isTouchDown, isTouchUp, isPointerTouchDown, isPointerTouchUp;
 
-
 @Override
   public boolean surfaceTouchEvent(MotionEvent event) {
   switch (event.getAction()) {
@@ -21,4 +20,16 @@ boolean isTouch, isTouchDown, isTouchUp, isPointerTouchDown, isPointerTouchUp;
     break;
   }
   return super.surfaceTouchEvent(event);
+}
+
+@Override
+  void onPause() {
+  println("onPause()");
+  println("isRunning: "+isRunning);
+  super.onPause();
+  isRunning = false;
+  audioManager.stopMusic();
+  println("isRunning: "+isRunning);
+  // バックグラウンドに遷移したと判断する処理
+  // 例: タイマーを開始し、一定時間後にonResume()が呼ばれなければバックグラウンドと判断
 }
