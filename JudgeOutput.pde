@@ -37,6 +37,7 @@ class JudgeOutput {
       break;
     case Nice:
       judgmentText(NICE_TEXT);
+      soundEffect.playNice();
       break;
     case Bad:
       judgmentText(BAD_TEXT);
