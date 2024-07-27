@@ -39,6 +39,9 @@ class NoteRunner {
       }
       if (frame == KILL_FRAME) {
         killJudgeOutput();
+        killNote();
+        killRing();
+        killNoteJudge();
       }
     }
   }

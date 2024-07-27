@@ -60,8 +60,12 @@ ArrayList<Integer> justFrames;
 
 //音楽系オブジェクト
 AudioManager audioManager;
-SoundEffect testSE;
 SoundFile good, nice, bad;
+SoundFile[] goodSEPool;
+SoundFile[] niceSEPool;
+SoundFile[] badSEPool;
+
+
 
 PApplet applet = this;
 Runtime runtime = Runtime.getRuntime();
@@ -88,7 +92,15 @@ void setup() {
   makeJustFrames();
   makeNotes();
   audioManager = new AudioManager();
-  testSE = new SoundEffect();
+  goodSEPool = new SoundFile[5];
+  niceSEPool = new SoundFile[5];
+  badSEPool  = new SoundFile[5];
+  for (int i=0; i<5; i++) {
+    goodSEPool[i] = new SoundFile(applet, "SEs/good.mp3");
+    niceSEPool[i] = new SoundFile(applet, "SEs/nice.mp3");
+    badSEPool[i]  = new SoundFile(applet, "SEs/bad.mp3");
+  }
+  
 }
 // 各メーカーの動作チェック
 void draw() {
