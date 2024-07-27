@@ -15,12 +15,21 @@
 
 surfaceTouchEvent()はなくても動くが、なぜかこれが無いとしばしば音がガビガビになる
 
+一度にノーツを200呼び出すとガビガビになった
+100では大丈夫だった
 
+テキストファイルから呼び出すノーツを読み込めるようにする
 
+SoundFileのplay()は、一度だけ呼び出せば再生し続ける
 
+NoteRunnerクラスのサイズ：約41,050Byte
+NoteCreaterクラスのサイズ：約20Byte
 
+soundEffectを同時に複数流すために、各NoteRunnerのインスタンスに音源ファイルを持たせているため、サイズ的には非効率。
+SoundPoolを使えれば良いが、アプリ内ストレージRにファイルを配置する必要があり、おそらくAndroid Simulatorでのコーディングが必要。
 
-
+効果音
+https://soundeffect-lab.info/
 
 
 

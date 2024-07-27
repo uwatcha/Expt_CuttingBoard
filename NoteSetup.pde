@@ -1,6 +1,6 @@
 void makeNotes() {
   for (int i=0; i<notes.length; i++) {
-    notes[i] = new NoteRunner(vectors.get(i%vectors.size()), createFrames.get(i), justFrames.get(i));
+    notes[i] = new NoteCreater(vectors.get(i%vectors.size()), showFrames.get(i), justFrames.get(i));
   }
 }
 
@@ -12,15 +12,15 @@ void makeVectors() {
 void makeShowFrames() {
   for (int i=0; i<notes.length; i++) {
     if (i%2==0) {
-      createFrames.add(10 + i/2*150);
+      showFrames.add(10 + i/2*150);
     } else {
-      createFrames.add(10 + i/2*150 + 20);
+      showFrames.add(10 + i/2*150 + 20);
     }
   }
 }
 
 void makeJustFrames() {
-  for (Integer createFrame: createFrames) {
-    justFrames.add(createFrame+90);
+  for (Integer showFrame: showFrames) {
+    justFrames.add(showFrame+90);
   }
 }

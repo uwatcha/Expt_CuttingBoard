@@ -51,11 +51,11 @@ boolean isRunning;
 
 
 //ノーツ呼び出し
-final int NOTE_COUNT = 64;
-NoteRunner[] notes;
+final int NOTE_COUNT = 512;
+NoteCreater[] notes;
 ArrayList<NoteRunner> runningNotes;
 ArrayList<PVector> vectors;
-ArrayList<Integer> createFrames;
+ArrayList<Integer> showFrames;
 ArrayList<Integer> justFrames;
 
 //音楽系オブジェクト
@@ -78,11 +78,11 @@ void setup() {
   isRunning = true;
 
   //インスタンス初期化
-  notes = new NoteRunner[NOTE_COUNT]; //実際に曲に合わせてノーツを配置するなら固定長だろうから、配列に入れる。要素がずれないからindexをidとしても使える
+  notes = new NoteCreater[NOTE_COUNT]; //実際に曲に合わせてノーツを配置するなら固定長だろうから、配列に入れる。要素がずれないからindexをidとしても使える
   runningNotes = new ArrayList<NoteRunner>();
   vectors = new ArrayList<PVector>();
   makeVectors();
-  createFrames = new ArrayList<Integer>();
+  showFrames = new ArrayList<Integer>();
   justFrames = new ArrayList<Integer>();
   makeShowFrames();
   makeJustFrames();
@@ -93,14 +93,13 @@ void setup() {
 // 各メーカーの動作チェック
 void draw() {
   if (isRunning) {
-    println(frame);
     background(0);
     frame = frameCount-1;
     //notesから現在のフレームで呼び出すノーツをrunningNotesに入れる。
     for (int i=noteLoadIndex; i<notes.length; i++) {
-      if (notes[i].getShowFrame()==frame) {
-        runningNotes.add(notes[i]);
-      } else if (notes[i].getShowFrame() > frame) {
+      if (showFrames.get(i)==frame) {
+        runningNotes.add(notes[i].create());
+      } else if (showFrames.get(i) > frame) {
         noteLoadIndex = i;
         break;
       }
@@ -114,10 +113,6 @@ void draw() {
       runningNotes.get(i).run();
     }
     audioManager.playMusic();
+    println("notes in runningNotes: "+runningNotes.size());
   } 
 }
-
-// NoteRunnerにshowFrame, justFrame, hideFrame, killFrameを持たせる
-// showFrameになったら実行するノーツリストに入れる
-// 実行するノーツリストに入ってるものを実行する
-// killFrameになったらその要素をnullにする？メモリ解放したことになる？
