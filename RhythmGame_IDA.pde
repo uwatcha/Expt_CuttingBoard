@@ -1,6 +1,6 @@
 //アンドロイド関係のライブラリ
 import android.content.Intent;
-import android.content.Context;
+//import android.content.Context;
 import android.view.MotionEvent;
 import android.os.Environment;
 import android.os.Bundle;
@@ -13,13 +13,9 @@ import ketai.net.bluetooth.*;
 import ketai.ui.*;
 
 //音関係のライブラリ
-import processing.sound.*;
-
-
+import processing.sound.SoundFile;
+//SoundFileコンストラクタの引数にPApplet変数を入れるため
 import processing.core.PApplet;
-
-import java.util.LinkedList;
-
 
 //ファイル入出力関係のライブラリ
 import java.io.FileNotFoundException;
@@ -29,12 +25,12 @@ import java.io.OutputStreamWriter;
 import java.io.UnsupportedEncodingException;
 import java.io.BufferedWriter;
 
+//Java関係のライブラリ
+//LinkedListは要素の追加、削除が得意で、要素に対してランダムなアクセスをしない時に使える
+import java.util.LinkedList;
+
 //カラー定数
 final color WHITE = color(255);
-final color BLACK = color(0);
-final color RED   = color(255, 0, 0);
-final color GREEN = color(0, 255, 0);
-final color BLUE  = color(0, 0, 255);
 final color RING  = color(0, 167, 219);
 
 //テキストサイズ定数
@@ -45,31 +41,29 @@ final int GOOD_FRAME = 4;
 final int NICE_FRAME = 8;
 final int BAD_FRAME = 12;
 
-//フレーム定数(finalでないものもあるが、setup()で初期化しなくてはならないため、finalをつけられない。値を変更しないように注意←)
+//フレーム定数
 final int FRAME_RATE = 120;
 final int JUDGE_DISPLAY_DURATION = 30;
 
 //グローバル変数
 PImage noteImage;
 int frame;
-int noteLoadIndex;
 boolean isRunning;
 
 
-//ノーツ呼び出し
+//ノーツ関係
 final int NOTE_COUNT = 512;
+int noteLoadIndex;
 NoteCreater[] notes;
 LinkedList<NoteRunner> runningNotes;
 
 //音楽系オブジェクト
 AudioManager audioManager;
-SoundFile good, nice, bad;
 SoundFile[] goodSEPool;
 SoundFile[] niceSEPool;
 SoundFile[] badSEPool;
 
-
-
+//システム関係
 PApplet applet = this;
 Runtime runtime = Runtime.getRuntime();
 
@@ -87,6 +81,7 @@ void setup() {
 
   //インスタンス初期化
   notes = new NoteCreater[NOTE_COUNT]; //実際に曲に合わせてノーツを配置するなら固定長だろうから、配列に入れる。要素がずれないからindexをidとしても使える
+  noteSetup();
   runningNotes = new LinkedList<NoteRunner>();
   audioManager = new AudioManager();
   goodSEPool = new SoundFile[5];
@@ -97,42 +92,33 @@ void setup() {
     niceSEPool[i] = new SoundFile(applet, "SEs/nice.mp3");
     badSEPool[i]  = new SoundFile(applet, "SEs/bad.mp3");
   }
-  noteSetup();
+  audioManager.playMusic();
 }
-// 各メーカーの動作チェック
+
 void draw() {
-  if (isRunning) {
-    background(0);
-    frame = frameCount-1;
-    //println("runningNotes.size(): "+runningNotes.size());
-    ////notesから現在のフレームで呼び出すノーツをrunningNotesに入れる。
-    for (int i=noteLoadIndex; i<notes.length; i++) {
-      if (frame == notes[i].getShowFrame()) {
-        runningNotes.add(notes[i].create());
-        //println("runningNotes.add()");
-      } else if (frame < notes[i].getShowFrame()) { //新しくfor文がはじまったときに、runningNotesに追加すべきnoteのインデックスを記録している。こうすることで、notesを毎回先頭からチェックしなくて良くなる。
-        //println("noteLoadIndex update");
-        //println("notes[i].getShowFrame(): "+ notes[i].getShowFrame());
-        //println("frame: "+frame);
-        noteLoadIndex = i;
-        break;
-      }
+  background(0);
+  frame = frameCount-1;
+  ////notesから現在のフレームで呼び出すノーツをrunningNotesに入れる。
+  for (int i=noteLoadIndex; i<notes.length; i++) {
+    if (frame == notes[i].getShowFrame()) {
+      runningNotes.add(notes[i].create());
+    } else if (frame < notes[i].getShowFrame()) { //新しくfor文がはじまったときに、runningNotesに追加すべきnoteのインデックスを記録している。こうすることで、notesを毎回先頭からチェックしなくて良くなる。
+      noteLoadIndex = i;
+      break;
     }
-    //runningNotesに表示期限を迎えたノーツがあれば削除する
-    for (int i=0; i<runningNotes.size(); i++) {
-      if (runningNotes.get(i).getKillFrame() < frame) {
-        //println("runningNotes.remove()");
-        runningNotes.remove(runningNotes.get(i--));
-        continue;
-      } else {
-        //println("runningNotes.run()");
-        runningNotes.get(i).run();
-      }
+  }
+  //runningNotesに表示期限を迎えたノーツがあれば削除する
+  for (int i=0; i<runningNotes.size(); i++) {
+    if (runningNotes.get(i).getKillFrame() < frame) {
+      runningNotes.remove(runningNotes.get(i--));
+      continue;
+    } else {
+      runningNotes.get(i).run();
     }
-    audioManager.playMusic();
-  } 
-  //println("最大メモリ: " + runtime.maxMemory() / 1024 / 1024 + " MB");
-  //println("割り当て済みメモリ: " + runtime.totalMemory() / 1024 / 1024 + " MB");
-  //println("空きメモリ: " + runtime.freeMemory() / 1024 / 1024 + " MB");
-  //println("使用中メモリ: " + (runtime.totalMemory() - runtime.freeMemory()) / 1024 / 1024 + " MB");
+  }
+  //audioManager.playMusic();
+  println("最大メモリ: " + runtime.maxMemory() / 1024 / 1024 + " MB");
+  println("割り当て済みメモリ: " + runtime.totalMemory() / 1024 / 1024 + " MB");
+  println("空きメモリ: " + runtime.freeMemory() / 1024 / 1024 + " MB");
+  println("使用中メモリ: " + (runtime.totalMemory() - runtime.freeMemory()) / 1024 / 1024 + " MB");
 }
