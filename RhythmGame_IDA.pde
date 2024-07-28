@@ -13,7 +13,11 @@ import ketai.ui.*;
 
 //音関係のライブラリ
 import processing.sound.*;
+
+
 import processing.core.PApplet;
+
+import java.util.LinkedList;
 
 //ファイル入出力関係のライブラリ
 import java.io.FileNotFoundException;
@@ -53,10 +57,7 @@ boolean isRunning;
 //ノーツ呼び出し
 final int NOTE_COUNT = 512;
 NoteCreater[] notes;
-ArrayList<NoteRunner> runningNotes;
-ArrayList<PVector> vectors;
-ArrayList<Integer> showFrames;
-ArrayList<Integer> justFrames;
+LinkedList<NoteRunner> runningNotes;
 
 //音楽系オブジェクト
 AudioManager audioManager;
@@ -83,14 +84,7 @@ void setup() {
 
   //インスタンス初期化
   notes = new NoteCreater[NOTE_COUNT]; //実際に曲に合わせてノーツを配置するなら固定長だろうから、配列に入れる。要素がずれないからindexをidとしても使える
-  runningNotes = new ArrayList<NoteRunner>();
-  vectors = new ArrayList<PVector>();
-  makeVectors();
-  showFrames = new ArrayList<Integer>();
-  justFrames = new ArrayList<Integer>();
-  makeShowFrames();
-  makeJustFrames();
-  makeNotes();
+  runningNotes = new LinkedList<NoteRunner>();
   audioManager = new AudioManager();
   goodSEPool = new SoundFile[5];
   niceSEPool = new SoundFile[5];
@@ -100,18 +94,24 @@ void setup() {
     niceSEPool[i] = new SoundFile(applet, "SEs/nice.mp3");
     badSEPool[i]  = new SoundFile(applet, "SEs/bad.mp3");
   }
-  
+  noteSetup();
+  audioManager.playMusic();
 }
 // 各メーカーの動作チェック
 void draw() {
   if (isRunning) {
     background(0);
     frame = frameCount-1;
-    //notesから現在のフレームで呼び出すノーツをrunningNotesに入れる。
+    //println("runningNotes.size(): "+runningNotes.size());
+    ////notesから現在のフレームで呼び出すノーツをrunningNotesに入れる。
     for (int i=noteLoadIndex; i<notes.length; i++) {
-      if (showFrames.get(i)==frame) {
+      if (frame == notes[i].getShowFrame()) {
         runningNotes.add(notes[i].create());
-      } else if (showFrames.get(i) > frame) {
+        //println("runningNotes.add()");
+      } else if (frame < notes[i].getShowFrame()) { //新しくfor文がはじまったときに、runningNotesに追加すべきnoteのインデックスを記録している。こうすることで、notesを毎回先頭からチェックしなくて良くなる。
+        //println("noteLoadIndex update");
+        //println("notes[i].getShowFrame(): "+ notes[i].getShowFrame());
+        //println("frame: "+frame);
         noteLoadIndex = i;
         break;
       }
@@ -119,15 +119,17 @@ void draw() {
     //runningNotesに表示期限を迎えたノーツがあれば削除する
     for (int i=0; i<runningNotes.size(); i++) {
       if (runningNotes.get(i).getKillFrame() < frame) {
+        //println("runningNotes.remove()");
         runningNotes.remove(runningNotes.get(i--));
         continue;
+      } else {
+        //println("runningNotes.run()");
+        runningNotes.get(i).run();
       }
-      runningNotes.get(i).run();
     }
-    audioManager.playMusic();
   } 
-  println("最大メモリ: " + runtime.maxMemory() / 1024 / 1024 + " MB");
-  println("割り当て済みメモリ: " + runtime.totalMemory() / 1024 / 1024 + " MB");
-  println("空きメモリ: " + runtime.freeMemory() / 1024 / 1024 + " MB");
-  println("使用中メモリ: " + (runtime.totalMemory() - runtime.freeMemory()) / 1024 / 1024 + " MB");
+  //println("最大メモリ: " + runtime.maxMemory() / 1024 / 1024 + " MB");
+  //println("割り当て済みメモリ: " + runtime.totalMemory() / 1024 / 1024 + " MB");
+  //println("空きメモリ: " + runtime.freeMemory() / 1024 / 1024 + " MB");
+  //println("使用中メモリ: " + (runtime.totalMemory() - runtime.freeMemory()) / 1024 / 1024 + " MB");
 }

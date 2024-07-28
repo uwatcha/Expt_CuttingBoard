@@ -12,4 +12,8 @@ class NoteCreater {
   public NoteRunner create() {
     return new NoteRunner(coordinate, showFrame, justFrame);
   }
+  
+  public int getShowFrame() {
+    return showFrame;
+  }
 }

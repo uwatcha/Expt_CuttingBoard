@@ -14,6 +14,10 @@ class Ring {
     radius = INITIAL_RADIUS;
     SHRINK_SPEED = (INITIAL_RADIUS-note.getRadius())/(justFrame-showFrame); //距離÷時間
   }
+  
+  public void killField() {
+    coordinate = null;
+  }
 
   public void run() {
     if (isActive()) {

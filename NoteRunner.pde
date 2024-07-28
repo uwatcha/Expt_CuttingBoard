@@ -38,18 +38,26 @@ class NoteRunner {
         killNoteJudge();
       }
       if (frame == KILL_FRAME) {
-        killJudgeOutput();
-        killNote();
-        killRing();
-        killNoteJudge();
       }
     }
   }
   
-  private void killNote()         { note = null; }
-  private void killRing()         { ring = null; }
-  private void killNoteJudge()    { noteJudge = null; }
-  private void killJudgeOutput() { judgeOutput = null; }
+  private void killNote() {
+    note.killField();
+    note = null;
+  }
+  private void killRing() {
+    ring.killField();
+    ring = null;
+  }
+  private void killNoteJudge() {
+    noteJudge.killField();
+    noteJudge = null;
+  }
+  private void killJudgeOutput() {
+    judgeOutput.killField();
+    judgeOutput = null;
+  }
   
   public int getShowFrame() { return SHOW_FRAME; }
   public int getKillFrame() { return KILL_FRAME; }

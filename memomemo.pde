@@ -31,7 +31,8 @@ SoundPoolを使えれば良いが、アプリ内ストレージRにファイル�
 効果音
 https://soundeffect-lab.info/
 
-
+poolにしたら時間経過でガビらなくなった
+ガビりの原因はSoundFileの使用メモリの蓄積？
 
 
 

@@ -6,6 +6,10 @@ class Note {
     this.coordinate = coordinate;
     radius = noteImage.width/2;
   }
+  
+  public void killField() {
+    coordinate = null;
+  }
 
   public void run() {
     image(noteImage, coordinate.x, coordinate.y);
