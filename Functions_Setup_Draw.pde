@@ -5,11 +5,11 @@ void noteSetup() {
 
   for (int i=0; i<notes.length; i++) {
     if (i%2==0) {
-      coordinate = new PVector(width*3/4, height/4);
+      coordinate = new PVector(STANDARD_LINE_X, UPPER_NOTE_Y);
       showFrame = 10 + i/2*150;
     } else {
-      coordinate = new PVector(width*3/4, height*3/4);
-      showFrame = 10 + i/2*150 + 10;
+      coordinate = new PVector(STANDARD_LINE_X, LOWER_NOTE_Y);
+      showFrame = 10 + i/2*150 /*+10*/;
     }
 
     justFrame = showFrame+90;
@@ -40,4 +40,8 @@ void notesRunAndRemoveFromRunningList() {
       runningNotes.get(i).run();
     }
   }
+}
+
+void drawStandardLine() {
+  displayVerticalLine(STANDARD_LINE_X, STANDARD_LINE_STROKE, LINE);
 }
