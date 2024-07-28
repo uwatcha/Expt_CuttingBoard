@@ -1,4 +1,4 @@
-class JudgeDisplay {
+class JudgeOutput {
   final private String GOOD_TEXT = "GOOD!!";
   final private String NICE_TEXT = "NICE!";
   final private String BAD_TEXT = "BAD...";
@@ -6,16 +6,26 @@ class JudgeDisplay {
   private PVector coordinate;
   private int startFrame;
   private Judgment judgment;
+  //private SoundEffect soundEffect;
+  private boolean soundEffectHasPlayed;
 
-  JudgeDisplay(Note note) {
+  JudgeOutput(Note note) {
     coordinate = new PVector(note.getCoordinate().x + OFFSET, note.getCoordinate().y - OFFSET);
     startFrame = -1;
+    //soundEffect = new SoundEffect();
+    soundEffectHasPlayed = false;
   }
 
   public void run(Judgment judgment) {
     setJudgment(judgment);
     display();
     reset();
+  }
+  
+  public void killField() {
+    coordinate = null;
+    judgment = null;
+    //soundEffect = null;
   }
 
   private void setJudgment(Judgment judgment) {
@@ -31,12 +41,27 @@ class JudgeDisplay {
     switch (judgment) {
     case Good:
       judgmentText(GOOD_TEXT);
+      //soundEffect.playGood();
+      if (!soundEffectHasPlayed) {
+        playGoodSE();
+        soundEffectHasPlayed = true;
+      }
       break;
     case Nice:
       judgmentText(NICE_TEXT);
+      //soundEffect.playNice();
+      if (!soundEffectHasPlayed) {
+        playNiceSE();
+        soundEffectHasPlayed = true;
+      }
       break;
     case Bad:
       judgmentText(BAD_TEXT);
+      //soundEffect.playBad();
+      if (!soundEffectHasPlayed) {
+        playBadSE();
+        soundEffectHasPlayed = true;
+      }
       break;
     }
   }

@@ -22,6 +22,10 @@ class NoteJudge {
     }
   }
   
+  public void killField() {
+    note = null;
+  }
+  
   private Judgment judgeTouchTiming() {
     if (getTouchedPointer() != null) {
            if (isWithinRange(touchedFrame,          0, GOOD_FRAME))         { return Judgment.Good; } 

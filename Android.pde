@@ -1,6 +1,5 @@
 boolean isTouch, isTouchDown, isTouchUp, isPointerTouchDown, isPointerTouchUp;
 
-
 @Override
   public boolean surfaceTouchEvent(MotionEvent event) {
   switch (event.getAction()) {
@@ -21,4 +20,11 @@ boolean isTouch, isTouchDown, isTouchUp, isPointerTouchDown, isPointerTouchUp;
     break;
   }
   return super.surfaceTouchEvent(event);
+}
+
+@Override
+  void onPause() {
+  super.onPause();
+  isRunning = false;
+  audioManager.pauseMusic();
 }

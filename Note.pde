@@ -1,18 +1,19 @@
 class Note {
-  private PImage noteImage;
   private PVector coordinate;
   private float radius;
-
+  
   public Note(PVector coordinate) {
-    this.noteImage = loadImage("note.png");
     this.coordinate = coordinate;
     radius = noteImage.width/2;
+  }
+  
+  public void killField() {
+    coordinate = null;
   }
 
   public void run() {
     image(noteImage, coordinate.x, coordinate.y);
   }
-
   public PVector getCoordinate() {
     return this.coordinate;
   }
