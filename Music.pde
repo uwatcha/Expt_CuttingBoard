@@ -15,9 +15,9 @@ class Music {
     }
   }
   
-  public void stop() {
+  public void pause() {
     if (music.isPlaying()) {
-      music.stop();
+      music.pause();
     }
   }
   

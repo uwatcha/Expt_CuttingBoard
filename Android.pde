@@ -26,5 +26,5 @@ boolean isTouch, isTouchDown, isTouchUp, isPointerTouchDown, isPointerTouchUp;
   void onPause() {
   super.onPause();
   isRunning = false;
-  audioManager.stopMusic();
+  audioManager.pauseMusic();
 }

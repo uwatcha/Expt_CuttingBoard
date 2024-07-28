@@ -92,31 +92,16 @@ void setup() {
     niceSEPool[i] = new SoundFile(applet, "SEs/nice.mp3");
     badSEPool[i]  = new SoundFile(applet, "SEs/bad.mp3");
   }
-  audioManager.playMusic();
 }
 
 void draw() {
   background(0);
   frame = frameCount-1;
-  ////notesから現在のフレームで呼び出すノーツをrunningNotesに入れる。
-  for (int i=noteLoadIndex; i<notes.length; i++) {
-    if (frame == notes[i].getShowFrame()) {
-      runningNotes.add(notes[i].create());
-    } else if (frame < notes[i].getShowFrame()) { //新しくfor文がはじまったときに、runningNotesに追加すべきnoteのインデックスを記録している。こうすることで、notesを毎回先頭からチェックしなくて良くなる。
-      noteLoadIndex = i;
-      break;
-    }
-  }
-  //runningNotesに表示期限を迎えたノーツがあれば削除する
-  for (int i=0; i<runningNotes.size(); i++) {
-    if (runningNotes.get(i).getKillFrame() < frame) {
-      runningNotes.remove(runningNotes.get(i--));
-      continue;
-    } else {
-      runningNotes.get(i).run();
-    }
-  }
-  //audioManager.playMusic();
+  
+  audioManager.playMusic();
+  notesAddToRunningList();
+  notesRunAndRemoveFromRunningList();
+  
   println("最大メモリ: " + runtime.maxMemory() / 1024 / 1024 + " MB");
   println("割り当て済みメモリ: " + runtime.totalMemory() / 1024 / 1024 + " MB");
   println("空きメモリ: " + runtime.freeMemory() / 1024 / 1024 + " MB");

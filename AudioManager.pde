@@ -9,7 +9,7 @@ class AudioManager {
     music.play();
   }
   
-  public void stopMusic() {
-    music.stop();
+  public void pauseMusic() {
+    music.pause();
   }
 }
