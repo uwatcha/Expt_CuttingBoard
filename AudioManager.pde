@@ -1,6 +1,4 @@
-import processing.sound.*;
-
-class AudioManager { // クラスをトップレベルにする
+class AudioManager {
   final private Music music;
 
   private AudioManager() {

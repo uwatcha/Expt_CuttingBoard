@@ -20,7 +20,6 @@ class SoundEffect {
       NICE.play();
     }
   }
-
   public void playBad() {
     if (!BAD.isPlaying()) {
       BAD.play();

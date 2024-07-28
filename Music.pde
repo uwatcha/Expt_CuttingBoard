@@ -2,7 +2,7 @@ import processing.sound.*;
 
 class Music {
   private SoundFile music;
-  private float bpm;
+  final private float bpm;
   
   public Music(String fileName, float bpm) {
     music = new SoundFile(applet, fileName);

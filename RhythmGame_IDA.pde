@@ -1,5 +1,6 @@
 //アンドロイド関係のライブラリ
 import android.content.Intent;
+import android.content.Context;
 import android.view.MotionEvent;
 import android.os.Environment;
 import android.os.Bundle;
@@ -18,6 +19,7 @@ import processing.sound.*;
 import processing.core.PApplet;
 
 import java.util.LinkedList;
+
 
 //ファイル入出力関係のライブラリ
 import java.io.FileNotFoundException;
@@ -70,6 +72,7 @@ SoundFile[] badSEPool;
 
 PApplet applet = this;
 Runtime runtime = Runtime.getRuntime();
+
 
 void setup() {
   //設定
