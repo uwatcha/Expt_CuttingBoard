@@ -27,7 +27,7 @@ class Ring {
   }
 
   private void display() {
-    ringDisplay(coordinate, radius, STROKE, COLOR);
+    displayRing(coordinate, radius, STROKE, COLOR);
   }
   private void shrink() {
     radius -= SHRINK_SPEED;

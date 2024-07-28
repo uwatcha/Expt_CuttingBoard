@@ -74,6 +74,6 @@ class JudgeOutput {
   }
   
   private void judgmentText(String text) {
-    textDisplay(text, coordinate, JUDGE_DISPLAY, WHITE);
+    displayText(text, coordinate, JUDGE_TEXT_SIZE, WHITE);
   }  
 }
