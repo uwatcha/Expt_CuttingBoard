@@ -6,12 +6,14 @@ class JudgeOutput {
   private PVector coordinate;
   private int startFrame;
   private Judgment judgment;
-  private SoundEffect soundEffect;
+  //private SoundEffect soundEffect;
+  private boolean soundEffectHasPlayed;
 
   JudgeOutput(Note note) {
     coordinate = new PVector(note.getCoordinate().x + OFFSET, note.getCoordinate().y - OFFSET);
     startFrame = -1;
-    soundEffect = new SoundEffect();
+    //soundEffect = new SoundEffect();
+    soundEffectHasPlayed = false;
   }
 
   public void run(Judgment judgment) {
@@ -23,7 +25,7 @@ class JudgeOutput {
   public void killField() {
     coordinate = null;
     judgment = null;
-    soundEffect = null;
+    //soundEffect = null;
   }
 
   private void setJudgment(Judgment judgment) {
@@ -39,18 +41,27 @@ class JudgeOutput {
     switch (judgment) {
     case Good:
       judgmentText(GOOD_TEXT);
-      soundEffect.playGood();
-      //playGoodSE();
+      //soundEffect.playGood();
+      if (!soundEffectHasPlayed) {
+        playGoodSE();
+        soundEffectHasPlayed = true;
+      }
       break;
     case Nice:
       judgmentText(NICE_TEXT);
-      soundEffect.playNice();
-      //playNiceSE();
+      //soundEffect.playNice();
+      if (!soundEffectHasPlayed) {
+        playNiceSE();
+        soundEffectHasPlayed = true;
+      }
       break;
     case Bad:
       judgmentText(BAD_TEXT);
-      soundEffect.playBad();
-      //playBadSE();
+      //soundEffect.playBad();
+      if (!soundEffectHasPlayed) {
+        playBadSE();
+        soundEffectHasPlayed = true;
+      }
       break;
     }
   }

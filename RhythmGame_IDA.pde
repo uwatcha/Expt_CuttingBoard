@@ -98,7 +98,6 @@ void setup() {
     badSEPool[i]  = new SoundFile(applet, "SEs/bad.mp3");
   }
   noteSetup();
-  audioManager.playMusic();
 }
 // 各メーカーの動作チェック
 void draw() {
@@ -130,6 +129,7 @@ void draw() {
         runningNotes.get(i).run();
       }
     }
+    audioManager.playMusic();
   } 
   //println("最大メモリ: " + runtime.maxMemory() / 1024 / 1024 + " MB");
   //println("割り当て済みメモリ: " + runtime.totalMemory() / 1024 / 1024 + " MB");
