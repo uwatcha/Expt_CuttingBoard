@@ -31,11 +31,14 @@ import java.util.LinkedList;
 
 //カラー定数
 final color WHITE = color(255);
+final color BLACK = color(0);
+final color GREY  = color(150);
 final color RING  = color(0, 167, 219);
-final color LINE = color(0, 167, 219);
+final color LINE  = color(0, 167, 219);
 
 //サイズ定数
 final int JUDGE_TEXT_SIZE = 70;
+final int BUTTON_TEXT_SIZE = 80;
 final float STANDARD_LINE_STROKE = 12;
 
 //判定フレーム定数
@@ -53,10 +56,15 @@ int STANDARD_LINE_X;
 int UPPER_NOTE_Y;
 int LOWER_NOTE_Y;
 
+//JSON キー
+final String isActiveFeedback = "is_active_feedback";
+
 //グローバル変数
 PImage noteImage;
+PImage woodImage;
 int frame;
 boolean isRunning;
+
 
 
 //ノーツ関係
@@ -71,6 +79,13 @@ SoundFile[] goodSEPool;
 SoundFile[] niceSEPool;
 SoundFile[] badSEPool;
 
+//フラグ
+Screen screen;
+
+//入出力オブジェクト
+FileBuffer faciSettingJSON;
+FileBuffer devConfigJSON;
+
 //システム関係
 PApplet applet = this;
 Runtime runtime = Runtime.getRuntime();
@@ -83,6 +98,7 @@ void setup() {
 
   //変数初期化
   noteImage = loadImage("images/note.png");
+  woodImage = loadImage("images/wood.webp");
   frame = 0;
   noteLoadIndex = 0;
   isRunning = true;
@@ -90,6 +106,9 @@ void setup() {
   INITIAL_LINE_X = width/8;
   UPPER_NOTE_Y = height/4;
   LOWER_NOTE_Y = height*3/4;
+  screen = Screen.ModeChange;
+  faciSettingJSON = new FileBuffer("data/files/facilitator_settings.json");
+  devConfigJSON = new FileBuffer("data/files/developer_config.json");
 
   //インスタンス初期化
   notes = new NoteCreater[NOTE_COUNT]; //実際に曲に合わせてノーツを配置するなら固定長だろうから、配列に入れる。要素がずれないからindexをidとしても使える
@@ -107,16 +126,5 @@ void setup() {
 }
 
 void draw() {
-  background(0);
-  frame = frameCount-1;
-  
-  audioManager.playMusic();
-  drawStandardLine();
-  notesAddToRunningList();
-  notesRunAndRemoveFromRunningList();
-  
-  println("最大メモリ: " + runtime.maxMemory() / 1024 / 1024 + " MB");
-  println("割り当て済みメモリ: " + runtime.totalMemory() / 1024 / 1024 + " MB");
-  println("空きメモリ: " + runtime.freeMemory() / 1024 / 1024 + " MB");
-  println("使用中メモリ: " + (runtime.totalMemory() - runtime.freeMemory()) / 1024 / 1024 + " MB");
+  playingScreen();
 }

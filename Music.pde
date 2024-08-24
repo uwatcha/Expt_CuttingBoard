@@ -20,6 +20,6 @@ class Music {
       music.pause();
     }
   }
-  
+
   public float getBpm() { return bpm; }
 }

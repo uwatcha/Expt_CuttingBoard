@@ -4,7 +4,6 @@ class NoteRunner {
   final private int HIDE_FRAME;
   final private int KILL_FRAME;
   private Note note;
-  private Line line;
   private NoteJudge noteJudge;
   private JudgeOutput judgeOutput;
 
@@ -15,14 +14,12 @@ class NoteRunner {
     KILL_FRAME = HIDE_FRAME + JUDGE_DISPLAY_DURATION;
     
     note = new Note(coordinate);
-    line = new Line(note, SHOW_FRAME, JUST_FRAME);
     noteJudge = new NoteJudge(note, JUST_FRAME);
     judgeOutput = new JudgeOutput(note);
   }
 
   public void run() {
     if (SHOW_FRAME <= frame&&frame <= KILL_FRAME) {
-      if (line!=null) { line.run(); }
       if (note!=null) { note.run(); }
       Judgment judge = null;
       if (noteJudge!=null) {
@@ -34,7 +31,6 @@ class NoteRunner {
     
       if (frame == HIDE_FRAME) {
         killNote();
-        killLine();
         killNoteJudge();
       }
       if (frame == KILL_FRAME) {
@@ -46,9 +42,6 @@ class NoteRunner {
   private void killNote() {
     note.killField();
     note = null;
-  }
-  private void killLine() {
-    line = null;
   }
   private void killNoteJudge() {
     noteJudge.killField();
