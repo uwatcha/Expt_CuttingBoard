@@ -7,12 +7,8 @@ void settingsScreen() {
 }
 
 void playingScreen() {
-  background(BLACK);
+  background(woodImage);
   frame = frameCount-1;
   
-  audioManager.playMusic();
-  drawStandardLine();
-  notesAddToRunningList();
-  notesRunAndRemoveFromRunningList();
-
+  gauge.run();
 }

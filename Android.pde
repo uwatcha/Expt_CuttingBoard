@@ -21,10 +21,3 @@ boolean isTouch, isTouchDown, isTouchUp, isPointerTouchDown, isPointerTouchUp;
   }
   return super.surfaceTouchEvent(event);
 }
-
-@Override
-  void onPause() {
-  super.onPause();
-  isRunning = false;
-  audioManager.pauseMusic();
-}
