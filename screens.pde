@@ -9,6 +9,9 @@ void settingsScreen() {
 void playingScreen() {
   background(woodImage);
   frame = frameCount-1;
+  loopFrame = loopFrame+1<TOUCH_INTERVAL ? loopFrame+1 : 0;
+
   
   gauge.run();
+  judgeField.run();
 }

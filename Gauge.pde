@@ -3,11 +3,8 @@ class Gauge {
   final private float SIZE = GAUGE_SIZE;
   final private color FRAME_COLOR = DARK_GREY;
   final private color FILL_COLOR = LIGHT_GREY;
-  private float gaugeValue;
   
-  Gauge() {
-    gaugeValue = 0;
-  }
+  Gauge() {}
   
   public void run() {
     displayFrame();
@@ -15,15 +12,14 @@ class Gauge {
   }
   
   private void displayFrame() {
-    displaySquare(COORD, SIZE, FRAME_COLOR);
+    displaySquare(COORD, SIZE, STROKE_DEFAULT, FRAME_COLOR);
   }
   
   private void displayFill() {
-    displayRect(COORD, SIZE, getGaugeHeight(), FILL_COLOR);
+    displayRect(COORD, SIZE, getGaugeHeight(), STROKE_DEFAULT, FILL_COLOR);
   }
   
   private float getGaugeHeight() {
-    gaugeValue = gaugeValue+1<TOUCH_INTERVAL ? gaugeValue+1 : 0;
-    return map(gaugeValue, 0, TOUCH_INTERVAL, 0, GAUGE_SIZE);
+    return map(loopFrame, 0, TOUCH_INTERVAL, 0, GAUGE_SIZE);
   }
 }

@@ -33,6 +33,7 @@ final color WHITE = color(255);
 final color BLACK = color(0);
 final color LIGHT_GREY  = color(150);
 final color DARK_GREY = color(80);
+final color CLEAR_GREY = color(150, 150, 150, 50);
 final color RING  = color(0, 167, 219);
 final color LINE  = color(0, 167, 219);
 
@@ -44,6 +45,7 @@ final int JUDGE_TEXT_SIZE = 70;
 final int BUTTON_TEXT_SIZE = 80;
 final float STANDARD_LINE_STROKE = 12;
 final float GAUGE_SIZE = 200;
+final float STROKE_DEFAULT = 1;
 
 //判定フレーム定数
 final int GOOD_FRAME = 4;
@@ -67,6 +69,7 @@ final String isActiveFeedback = "is_active_feedback";
 
 //グローバル変数
 int frame;
+int loopFrame;
 boolean isRunning;
 
 //ノーツ関係
@@ -91,6 +94,7 @@ FileBuffer devConfigJSON;
 
 //その他オブジェクト
 Gauge gauge;
+JudgeField judgeField;
 
 //システム関係
 PApplet applet = this;
@@ -111,6 +115,7 @@ void setup() {
   woodImage = loadImage("images/wood.png");
   woodImage.resize(width, height);
   frame = 0;
+  loopFrame = 0;
   noteLoadIndex = 0;
   isRunning = true;
   STANDARD_LINE_X = width*3/4;
@@ -121,6 +126,7 @@ void setup() {
   faciSettingJSON = new FileBuffer("files/facilitator_settings.json");
   devConfigJSON = new FileBuffer("files/developer_config.json");
   gauge = new Gauge();
+  judgeField = new JudgeField();
 
   //インスタンス初期化
   //noteSetup();
