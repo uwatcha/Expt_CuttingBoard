@@ -2,8 +2,9 @@ void titleScreen() {
 }
 
 void settingsScreen() {
-  image(woodImage, 0, 0);
+  background(woodImage);
   displayText("Setting", new PVector(width/2, height*3/4), 50, BLACK);
+  feedbackToggleButton.run();
 }
 
 void playingScreen() {

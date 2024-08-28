@@ -7,6 +7,7 @@ enum Judgment {
 
 // draw()内でswitch()で画面を切り替えるため
 enum Screen {
-  ModeChange,
+  Title,
+  Settings,
   Play
 }

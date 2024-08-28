@@ -98,6 +98,7 @@ FileBuffer devConfigJSON;
 Gauge gauge;
 JudgeField judgeField;
 JudgeOutput judgeOutput;
+ToggleButton feedbackToggleButton;
 
 //システム関係
 PApplet applet = this;
@@ -129,12 +130,13 @@ void setup() {
   INITIAL_LINE_X = width/8;
   UPPER_NOTE_Y = height/4;
   LOWER_NOTE_Y = height*3/4;
-  screen = Screen.ModeChange;
+  screen = Screen.Settings;
   faciSettingJSON = new FileBuffer("files/facilitator_settings.json");
   devConfigJSON = new FileBuffer("files/developer_config.json");
   gauge = new Gauge();
   judgeField = new JudgeField();
   judgeOutput = new JudgeOutput();
+  feedbackToggleButton = new ToggleButton(new PVector(width/2, height/2), "フィードバック");
 
   //インスタンス初期化
   goodSEPool = new SoundFile[5];
@@ -149,5 +151,6 @@ void setup() {
 }
 
 void draw() {
-  playingScreen();
+  //playingScreen();
+  settingsScreen();
 }

@@ -42,6 +42,10 @@ void mySetStroke(float strokeWeight,color strokeColor) {
   }
 }
 
+boolean rectTouchJudge(float x, float y, float w, float h, float touchX, float touchY) {
+  return (x <= touchX&&touchX <= x+w) && (y <= touchY&&touchY <= y+h);
+}
+
 float sec(float sec) {
   return FRAME_RATE*sec;
 }
