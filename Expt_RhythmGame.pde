@@ -25,8 +25,6 @@ import java.io.UnsupportedEncodingException;
 import java.io.BufferedWriter;
 
 //Java関係のライブラリ
-//LinkedListは要素の追加、削除が得意で、要素に対してランダムなアクセスをしない時に使える
-import java.util.LinkedList;
 
 //カラー定数
 final color WHITE = color(255);
@@ -37,7 +35,7 @@ final color CLEAR_GREY = color(150, 150, 150, 50);
 final color RING  = color(0, 167, 219);
 final color LINE  = color(0, 167, 219);
 
-//位置定数
+//座標定数
 PVector GAUGE_COORD;
 
 //サイズ定数
@@ -45,7 +43,7 @@ final int JUDGE_TEXT_SIZE = 70;
 final int BUTTON_TEXT_SIZE = 80;
 final float STANDARD_LINE_STROKE = 12;
 final float GAUGE_SIZE = 200;
-final float STROKE_DEFAULT = 1;
+final float STROKE_DEFAULT = 2;
 
 //判定フレーム定数
 final int GOOD_FRAME = 8;
@@ -76,7 +74,6 @@ boolean isRunning;
 //ノーツ関係
 final int NOTE_COUNT = 512;
 int noteLoadIndex;
-//LinkedList<NoteRunner> runningNotes;
 
 //画像系オブジェクト
 PImage woodImage;
@@ -113,6 +110,7 @@ void setup() {
   //なぜかframeRateを変更できない。FRAME_RATEを60というデフォルトにしておく。
   frameRate(FRAME_RATE);
   imageMode(CENTER);
+  textAlign(CENTER, CENTER);
 
   //定数初期化
   GAUGE_COORD = new PVector(width*3/4, height/5);
@@ -139,8 +137,6 @@ void setup() {
   judgeOutput = new JudgeOutput();
 
   //インスタンス初期化
-  //noteSetup();
-  //runningNotes = new LinkedList<NoteRunner>();
   goodSEPool = new SoundFile[5];
   niceSEPool = new SoundFile[5];
   badSEPool  = new SoundFile[5];

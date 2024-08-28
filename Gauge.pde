@@ -12,7 +12,7 @@ class Gauge {
   }
   
   private void displayFrame() {
-    displaySquare(COORD, SIZE, STROKE_DEFAULT, FRAME_COLOR);
+    displaySquare(COORD, SIZE, STROKE_DEFAULT, FRAME_COLOR, BLACK);
   }
   
   private void displayFill() {
