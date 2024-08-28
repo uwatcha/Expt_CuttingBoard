@@ -1,7 +1,7 @@
-void displayText(String text, PVector coord, int textSize, color textColor) {
+void displayText(String text, float x, float y, int textSize, color textColor) {
   textSize(textSize);
   fill(textColor);
-  text(text, coord.x, coord.y);
+  text(text, x, y);
 }
 
 void displayRing(PVector coord, float r, float strokeWeight, color ringColor) {

@@ -2,6 +2,7 @@ class JudgeOutput {
   final private String GOOD_TEXT = "GOOD!!";
   final private String NICE_TEXT = "NICE!";
   final private String BAD_TEXT = "BAD...";
+  final int JUDGE_TEXT_SIZE = 70;
   final private PVector COORD = new PVector(width-250, 400);
   private PImage image;
   private String text;
@@ -32,7 +33,7 @@ class JudgeOutput {
     if (image!=null) {
       image(image, COORD.x, COORD.y);
     }
-    displayText(text, new PVector(COORD.x, COORD.y-250), JUDGE_TEXT_SIZE, BLACK);
+    displayText(text, COORD.x, COORD.y-250, JUDGE_TEXT_SIZE, BLACK);
     if (judgment==null) { return; }
     
     switch (judgment) {

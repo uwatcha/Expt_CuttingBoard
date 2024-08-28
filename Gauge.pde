@@ -1,6 +1,6 @@
 class Gauge {
   final private PVector COORD = GAUGE_COORD;
-  final private float SIZE = GAUGE_SIZE;
+  final private float SIZE = 200;
   final private color FRAME_COLOR = DARK_GREY;
   final private color FILL_COLOR = LIGHT_GREY;
   
@@ -20,6 +20,6 @@ class Gauge {
   }
   
   private float getGaugeHeight() {
-    return map(loopFrame, 0, TOUCH_INTERVAL, 0, GAUGE_SIZE);
+    return map(loopFrame, 0, TOUCH_INTERVAL, 0, SIZE);
   }
 }

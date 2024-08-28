@@ -34,16 +34,14 @@ final color DARK_GREY = color(80);
 final color CLEAR_GREY = color(150, 150, 150, 50);
 final color RING  = color(0, 167, 219);
 final color LINE  = color(0, 167, 219);
+final color LIGHT_BLUE = color(139, 220, 232);
 
 //座標定数
 PVector GAUGE_COORD;
 
 //サイズ定数
-final int JUDGE_TEXT_SIZE = 70;
-final int BUTTON_TEXT_SIZE = 80;
-final float STANDARD_LINE_STROKE = 12;
-final float GAUGE_SIZE = 200;
-final float STROKE_DEFAULT = 2;
+//150: [Device: samsung]で、大文字のSの縦幅が1cm
+final float STROKE_DEFAULT = 4;
 
 //判定フレーム定数
 final int GOOD_FRAME = 8;
@@ -65,6 +63,9 @@ int LOWER_NOTE_Y;
 
 //JSON キー
 final String isActiveFeedback = "is_active_feedback";
+
+//その他定数
+HashMap<String, String> BUTTON_TITLES;
 
 //グローバル変数
 int frame;
@@ -115,6 +116,13 @@ void setup() {
 
   //定数初期化
   GAUGE_COORD = new PVector(width*3/4, height/5);
+  STANDARD_LINE_X = width*3/4;
+  INITIAL_LINE_X = width/8;
+  UPPER_NOTE_Y = height/4;
+  LOWER_NOTE_Y = height*3/4;
+  BUTTON_TITLES = new HashMap<String, String>();
+  BUTTON_TITLES.put(isActiveFeedback, "フィードバック");
+  
 
   //変数初期化
   woodImage = loadImage("images/wood.png");
@@ -126,17 +134,13 @@ void setup() {
   loopFrame = 0;
   noteLoadIndex = 0;
   isRunning = true;
-  STANDARD_LINE_X = width*3/4;
-  INITIAL_LINE_X = width/8;
-  UPPER_NOTE_Y = height/4;
-  LOWER_NOTE_Y = height*3/4;
   screen = Screen.Settings;
   faciSettingJSON = new FileBuffer("files/facilitator_settings.json");
   devConfigJSON = new FileBuffer("files/developer_config.json");
   gauge = new Gauge();
   judgeField = new JudgeField();
   judgeOutput = new JudgeOutput();
-  feedbackToggleButton = new ToggleButton(new PVector(width/2, height/2), "フィードバック");
+  feedbackToggleButton = new ToggleButton(width/2, height/2, isActiveFeedback);
 
   //インスタンス初期化
   goodSEPool = new SoundFile[5];

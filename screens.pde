@@ -1,9 +1,11 @@
+final int SCREEN_TITLE_SIZE = 150;
+
 void titleScreen() {
 }
 
 void settingsScreen() {
   background(woodImage);
-  displayText("Setting", new PVector(width/2, height*3/4), 50, BLACK);
+  displayText("Settings", width/2, height/6, SCREEN_TITLE_SIZE, BLACK);
   feedbackToggleButton.run();
 }
 
