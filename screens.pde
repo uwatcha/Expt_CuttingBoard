@@ -10,8 +10,13 @@ void playingScreen() {
   background(woodImage);
   frame = frameCount-1;
   loopFrame = loopFrame+1<TOUCH_INTERVAL ? loopFrame+1 : 0;
-
   
+  if (loopFrame==TOUCH_INTERVAL/2) {
+    println("half");
+  }
+  if (loopFrame+SOUND_LAG_BUFFER==TOUCH_INTERVAL/2) {
+    timingSE.play();
+  }
   gauge.run();
-  judgeField.run();
+  judgeOutput.run(judgeField.run());
 }

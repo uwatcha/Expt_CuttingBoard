@@ -27,13 +27,19 @@ class JudgeField {
   }
   
   private boolean isNowWithinPeriod(int lowerBoundFrame, int upperBoundFrame) {
-    int judgedPeriod = abs(TOUCH_INTERVAL-loopFrame);
+    int frameLoopCount = frame/TOUCH_INTERVAL;
+    int frameRemainder = frame%TOUCH_INTERVAL;
+    if (frameRemainder >= TOUCH_INTERVAL/2) {
+      frameLoopCount++;
+    }
+    int judgedPeriod = abs(frame-frameLoopCount*TOUCH_INTERVAL);
+    println(judgedPeriod);
     return (lowerBoundFrame <= judgedPeriod&&judgedPeriod <= upperBoundFrame);
   }
   
   private processing.event.TouchEvent.Pointer getTouchedPointer() {
     for (processing.event.TouchEvent.Pointer touch : touches) {
-      if ((TOP_LEFT_X <= touch.x&&touch.x <= WIDTH) && (TOP_LEFT_Y <= touch.y&&touch.y <= HEIGHT)) {
+      if ((TOP_LEFT_X <= touch.x&&touch.x <= TOP_LEFT_X+WIDTH) && (TOP_LEFT_Y <= touch.y&&touch.y <= TOP_LEFT_Y+HEIGHT)) {
         if (!hasTouched) {
           hasTouched = true;
           return touch;

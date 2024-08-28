@@ -48,15 +48,16 @@ final float GAUGE_SIZE = 200;
 final float STROKE_DEFAULT = 1;
 
 //判定フレーム定数
-final int GOOD_FRAME = 4;
-final int NICE_FRAME = 8;
-final int BAD_FRAME = 12;
+final int GOOD_FRAME = 8;
+final int NICE_FRAME = 16;
+final int BAD_FRAME = 20;
 
 //フレーム定数
 final int FRAME_RATE = 60;
 final int JUDGE_DISPLAY_DURATION = 30;
 final int TOUCH_INTERVAL = (int)sec(1.5);
 final int NOTICE_INTERVAL = TOUCH_INTERVAL/2;
+final int SOUND_LAG_BUFFER = (int)sec(0.05);
 
 //座標定数
 int INITIAL_LINE_X;
@@ -79,11 +80,15 @@ int noteLoadIndex;
 
 //画像系オブジェクト
 PImage woodImage;
+PImage goodImage;
+PImage niceImage;
+PImage badImage;
 
 //音楽系オブジェクト
 SoundFile[] goodSEPool;
 SoundFile[] niceSEPool;
 SoundFile[] badSEPool;
+SoundFile timingSE;
 
 //フラグ
 Screen screen;
@@ -95,6 +100,7 @@ FileBuffer devConfigJSON;
 //その他オブジェクト
 Gauge gauge;
 JudgeField judgeField;
+JudgeOutput judgeOutput;
 
 //システム関係
 PApplet applet = this;
@@ -114,6 +120,9 @@ void setup() {
   //変数初期化
   woodImage = loadImage("images/wood.png");
   woodImage.resize(width, height);
+  goodImage = loadImage("images/goodCarrot.png");
+  niceImage = loadImage("images/niceCarrot.png");
+  badImage = loadImage("images/badCarrot.png");
   frame = 0;
   loopFrame = 0;
   noteLoadIndex = 0;
@@ -127,6 +136,7 @@ void setup() {
   devConfigJSON = new FileBuffer("files/developer_config.json");
   gauge = new Gauge();
   judgeField = new JudgeField();
+  judgeOutput = new JudgeOutput();
 
   //インスタンス初期化
   //noteSetup();
@@ -135,10 +145,11 @@ void setup() {
   niceSEPool = new SoundFile[5];
   badSEPool  = new SoundFile[5];
   for (int i=0; i<5; i++) {
-    //goodSEPool[i] = new SoundFile(applet, "SEs/good.mp3");
-    //niceSEPool[i] = new SoundFile(applet, "SEs/nice.mp3");
-    //badSEPool[i]  = new SoundFile(applet, "SEs/bad.mp3");
+    goodSEPool[i] = new SoundFile(applet, "SEs/goodCutting.wav");
+    niceSEPool[i] = new SoundFile(applet, "SEs/niceCutting.wav");
+    badSEPool[i]  = new SoundFile(applet, "SEs/badCutting.wav");
   }
+  timingSE = new SoundFile(applet, "SEs/timing.wav");
 }
 
 void draw() {
