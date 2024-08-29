@@ -1,11 +1,15 @@
 final int SCREEN_TITLE_SIZE = 150;
 
 void titleScreen() {
+  background(woodImage);
+  displayText("タブレットまな板", width/2, height/6, SCREEN_TITLE_SIZE, BLACK);
+  settingsButton.run();
 }
 
 void settingsScreen() {
   background(woodImage);
   displayText("Settings", width/2, height/6, SCREEN_TITLE_SIZE, BLACK);
+  settingsToTitleButton.run();
   feedbackToggleButton.run();
 }
 

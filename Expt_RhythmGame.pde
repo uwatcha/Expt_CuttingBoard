@@ -36,12 +36,9 @@ final color RING  = color(0, 167, 219);
 final color LINE  = color(0, 167, 219);
 final color LIGHT_BLUE = color(139, 220, 232);
 
-//座標定数
-PVector GAUGE_COORD;
-
 //サイズ定数
 //150: [Device: samsung]で、大文字のSの縦幅が1cm
-final float STROKE_DEFAULT = 4;
+final int STROKE_DEFAULT = 4;
 
 //判定フレーム定数
 final int GOOD_FRAME = 8;
@@ -54,12 +51,6 @@ final int JUDGE_DISPLAY_DURATION = 30;
 final int TOUCH_INTERVAL = (int)sec(1.5);
 final int NOTICE_INTERVAL = TOUCH_INTERVAL/2;
 final int SOUND_LAG_BUFFER = (int)sec(0.05);
-
-//座標定数
-int INITIAL_LINE_X;
-int STANDARD_LINE_X;
-int UPPER_NOTE_Y;
-int LOWER_NOTE_Y;
 
 //JSON キー
 final String isActiveFeedback = "is_active_feedback";
@@ -78,6 +69,7 @@ int noteLoadIndex;
 
 //画像系オブジェクト
 PImage woodImage;
+PImage gearImage;
 PImage goodImage;
 PImage niceImage;
 PImage badImage;
@@ -95,11 +87,15 @@ Screen screen;
 FileBuffer faciSettingJSON;
 FileBuffer devConfigJSON;
 
+//ボタンオブジェクト
+ToggleButton feedbackToggleButton;
+SettingsButton settingsButton;
+SettingsToTitleButton settingsToTitleButton;
+
 //その他オブジェクト
 Gauge gauge;
 JudgeField judgeField;
 JudgeOutput judgeOutput;
-ToggleButton feedbackToggleButton;
 
 //システム関係
 PApplet applet = this;
@@ -115,18 +111,14 @@ void setup() {
   textAlign(CENTER, CENTER);
 
   //定数初期化
-  GAUGE_COORD = new PVector(width*3/4, height/5);
-  STANDARD_LINE_X = width*3/4;
-  INITIAL_LINE_X = width/8;
-  UPPER_NOTE_Y = height/4;
-  LOWER_NOTE_Y = height*3/4;
   BUTTON_TITLES = new HashMap<String, String>();
   BUTTON_TITLES.put(isActiveFeedback, "フィードバック");
-  
+
 
   //変数初期化
   woodImage = loadImage("images/wood.png");
   woodImage.resize(width, height);
+  gearImage = loadImage("images/gear.png");
   goodImage = loadImage("images/goodCarrot.png");
   niceImage = loadImage("images/niceCarrot.png");
   badImage = loadImage("images/badCarrot.png");
@@ -134,13 +126,15 @@ void setup() {
   loopFrame = 0;
   noteLoadIndex = 0;
   isRunning = true;
-  screen = Screen.Settings;
-  faciSettingJSON = new FileBuffer("files/facilitator_settings.json");
-  devConfigJSON = new FileBuffer("files/developer_config.json");
+  screen = Screen.Title;
+  faciSettingJSON = new FileBuffer("facilitator_settings.json");
+  devConfigJSON = new FileBuffer("developer_config.json");
+  feedbackToggleButton = new ToggleButton(width/2, height/2, isActiveFeedback);
+  settingsButton = new SettingsButton();
+  settingsToTitleButton = new SettingsToTitleButton();
   gauge = new Gauge();
   judgeField = new JudgeField();
   judgeOutput = new JudgeOutput();
-  feedbackToggleButton = new ToggleButton(width/2, height/2, isActiveFeedback);
 
   //インスタンス初期化
   goodSEPool = new SoundFile[5];
@@ -155,6 +149,15 @@ void setup() {
 }
 
 void draw() {
-  //playingScreen();
-  settingsScreen();
+  switch(screen) {
+  case Title:
+    titleScreen();
+    break;
+  case Settings:
+    settingsScreen();
+    break;
+  case Playing:
+    playingScreen();
+    break;
+  }
 }

@@ -9,5 +9,5 @@ enum Judgment {
 enum Screen {
   Title,
   Settings,
-  Play
+  Playing
 }

@@ -10,7 +10,7 @@ class JudgeField {
   }
 
   public Judgment run() {
-    displayRect(new PVector(TOP_LEFT_X, TOP_LEFT_Y), WIDTH, HEIGHT, 0, CLEAR_GREY);
+    displayRect(TOP_LEFT_X, TOP_LEFT_Y, WIDTH, HEIGHT, 0, CLEAR_GREY);
     resetHasTouched();
     return judgeTouchTiming();
   }
@@ -33,7 +33,6 @@ class JudgeField {
       frameLoopCount++;
     }
     int judgedPeriod = abs(frame-frameLoopCount*TOUCH_INTERVAL);
-    println(judgedPeriod);
     return (lowerBoundFrame <= judgedPeriod&&judgedPeriod <= upperBoundFrame);
   }
   
