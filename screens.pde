@@ -30,11 +30,14 @@ void playingScreen() {
       println("half");
     }
     
-    if (loopFrame/*+SOUND_LAG_BUFFER*/==TOUCH_INTERVAL/2) {
+    if (loopFrame==TOUCH_INTERVAL/2) {
       timingSE.play();
     }
-    
+    Judgment j = judgeField.run();
     gauge.run();
-    feedback.run(judgeField.run());
+    feedback.run(j);
+    if (j!=null) {
+      csvObject.createRecord(j);
+    }
   }
 }

@@ -1,4 +1,4 @@
-boolean isTouch, isTouchDown, isTouchUp, isPointerTouchDown, isPointerTouchUp;
+boolean isTouch, isTouchDown, isTouchUp;
 
 @Override
   public boolean surfaceTouchEvent(MotionEvent event) {
@@ -9,14 +9,8 @@ boolean isTouch, isTouchDown, isTouchUp, isPointerTouchDown, isPointerTouchUp;
   case MotionEvent.ACTION_UP:
     isTouchUp = true;
     break;
-  case MotionEvent.ACTION_POINTER_DOWN:
-    isPointerTouchDown = true;
-    break;
-  case MotionEvent.ACTION_POINTER_UP:
-    isPointerTouchUp = true;
-    break;
   default:
-    isTouch = isTouchDown = isTouchUp = isPointerTouchDown = isPointerTouchUp = false;
+    isTouch = isTouchDown = isTouchUp = false;
     break;
   }
   return super.surfaceTouchEvent(event);

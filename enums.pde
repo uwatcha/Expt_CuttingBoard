@@ -1,4 +1,4 @@
-// 値にNoneを追加してもいいかも
+//TODO: 値にNoneを追加してもいいかも
 enum Judgment {
   Good,
   Nice,
@@ -10,4 +10,14 @@ enum Screen {
   Title,
   Settings,
   Playing
+}
+
+enum Field {
+  TouchTiming,
+  CorrectTiming,
+  TimingDiff,
+  Judgment,
+  TouchAction,
+  TouchPositionX,
+  TouchPositionY
 }

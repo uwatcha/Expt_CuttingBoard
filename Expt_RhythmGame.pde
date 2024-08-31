@@ -28,6 +28,8 @@ import java.io.OutputStreamWriter;
 import java.io.UnsupportedEncodingException;
 import java.io.BufferedWriter;
 
+import java.util.LinkedList;
+
 //Java関係のライブラリ
 
 //カラー定数
@@ -95,6 +97,7 @@ Screen screen;
 //入出力オブジェクト
 JsonBuffer faciSettings;
 JsonBuffer devConfig;
+CSVObject csvObject;
 
 //ボタンオブジェクト
 StartButton startButton;
@@ -140,6 +143,7 @@ void setup() {
   screen = Screen.Title;
   faciSettings = new JsonBuffer("facilitator_settings.json");
   devConfig = new JsonBuffer("developer_config.json");
+  csvObject = new CSVObject();
   startButton = new StartButton();
   settingsButton = new SettingsButton();
   settingsToTitleButton = new SettingsToTitleButton();
