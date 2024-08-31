@@ -1,3 +1,7 @@
+/*
+
+*/
+//TODO: 各判定の猶予時間を古い実験ソフトと揃える
 //アンドロイド関係のライブラリ
 import android.content.Intent;
 import android.view.MotionEvent;
@@ -35,10 +39,11 @@ final color CLEAR_GREY = color(150, 150, 150, 50);
 final color RING  = color(0, 167, 219);
 final color LINE  = color(0, 167, 219);
 final color LIGHT_BLUE = color(139, 220, 232);
+final color LIGHT_GREEN = color(127, 255, 212);
 
 //サイズ定数
 //150: [Device: samsung]で、大文字のSの縦幅が1cm
-final int STROKE_DEFAULT = 4;
+final int STROKE_DEFAULT = 2;
 
 //判定フレーム定数
 final int GOOD_FRAME = 8;
@@ -48,18 +53,21 @@ final int BAD_FRAME = 20;
 //フレーム定数
 final int FRAME_RATE = 60;
 final int JUDGE_DISPLAY_DURATION = 30;
-final int TOUCH_INTERVAL = (int)sec(1.5);
+final int TOUCH_INTERVAL = (int)sec(2);
 final int NOTICE_INTERVAL = TOUCH_INTERVAL/2;
 final int SOUND_LAG_BUFFER = (int)sec(0.05);
+final int START_INTERVAL = (int)sec(1);
 
 //JSON キー
 final String isActiveFeedback = "is_active_feedback";
+final String isActiveGauge = "is_active_gauge";
 
 //その他定数
 HashMap<String, String> BUTTON_TITLES;
 
 //グローバル変数
-int frame;
+int playingFrame;
+int playStartFrame;
 int loopFrame;
 boolean isRunning;
 
@@ -84,18 +92,20 @@ SoundFile timingSE;
 Screen screen;
 
 //入出力オブジェクト
-FileBuffer faciSettingJSON;
-FileBuffer devConfigJSON;
+JsonBuffer faciSettings;
+JsonBuffer devConfig;
 
 //ボタンオブジェクト
-ToggleButton feedbackToggleButton;
+StartButton startButton;
 SettingsButton settingsButton;
 SettingsToTitleButton settingsToTitleButton;
+ToggleButton feedbackToggleButton;
+ToggleButton gaugeToggleButton;
 
 //その他オブジェクト
 Gauge gauge;
 JudgeField judgeField;
-JudgeOutput judgeOutput;
+Feedback feedback;
 
 //システム関係
 PApplet applet = this;
@@ -113,42 +123,45 @@ void setup() {
   //定数初期化
   BUTTON_TITLES = new HashMap<String, String>();
   BUTTON_TITLES.put(isActiveFeedback, "フィードバック");
+  BUTTON_TITLES.put(isActiveGauge, "ゲージ");
 
 
   //変数初期化
   woodImage = loadImage("images/wood.png");
   woodImage.resize(width, height);
   gearImage = loadImage("images/gear.png");
-  goodImage = loadImage("images/goodCarrot.png");
-  niceImage = loadImage("images/niceCarrot.png");
-  badImage = loadImage("images/badCarrot.png");
-  frame = 0;
+  goodImage = loadImage("images/carrot_good.png");
+  niceImage = loadImage("images/carrot_nice.png");
+  badImage = loadImage("images/carrot_bad.png");
+  playingFrame = 0;
   loopFrame = 0;
   noteLoadIndex = 0;
-  isRunning = true;
   screen = Screen.Title;
-  faciSettingJSON = new FileBuffer("facilitator_settings.json");
-  devConfigJSON = new FileBuffer("developer_config.json");
-  feedbackToggleButton = new ToggleButton(width/2, height/2, isActiveFeedback);
+  faciSettings = new JsonBuffer("facilitator_settings.json");
+  devConfig = new JsonBuffer("developer_config.json");
+  startButton = new StartButton();
   settingsButton = new SettingsButton();
   settingsToTitleButton = new SettingsToTitleButton();
+  feedbackToggleButton = new ToggleButton(width*2/5, height/2, isActiveFeedback);
+  gaugeToggleButton = new ToggleButton(width*3/5, height/2, isActiveGauge);
   gauge = new Gauge();
   judgeField = new JudgeField();
-  judgeOutput = new JudgeOutput();
+  feedback = new Feedback();
 
   //インスタンス初期化
   goodSEPool = new SoundFile[5];
   niceSEPool = new SoundFile[5];
   badSEPool  = new SoundFile[5];
   for (int i=0; i<5; i++) {
-    goodSEPool[i] = new SoundFile(applet, "SEs/goodCutting.wav");
-    niceSEPool[i] = new SoundFile(applet, "SEs/niceCutting.wav");
-    badSEPool[i]  = new SoundFile(applet, "SEs/badCutting.wav");
+    goodSEPool[i] = new SoundFile(applet, "SEs/slash_good.wav");
+    niceSEPool[i] = new SoundFile(applet, "SEs/slash_nice.wav");
+    badSEPool[i]  = new SoundFile(applet, "SEs/slash_bad.wav");
   }
   timingSE = new SoundFile(applet, "SEs/timing.wav");
 }
 
 void draw() {
+//  if (frameCount%60==0) { println("frameRate: " + frameRate); }
   switch(screen) {
   case Title:
     titleScreen();

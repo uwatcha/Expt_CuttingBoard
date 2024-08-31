@@ -4,16 +4,27 @@ class Gauge {
   final private int SIZE = 200;
   final private color FRAME_COLOR = DARK_GREY;
   final private color FILL_COLOR = LIGHT_GREY;
+  private boolean isActive;
   
-  Gauge() {}
-  
-  public void run() {
-    displayFrame();
-    displayFill();
+  Gauge() {
+    setIsActive();
   }
   
-  private void displayFrame() {
-    displaySquare(X, Y, SIZE, STROKE_DEFAULT, FRAME_COLOR, BLACK);
+  public void run() {
+    if (isActive) {
+      displayFrame();
+      displayFill();
+    }
+  }
+  
+  public void setIsActive() {
+    isActive = faciSettings.myGetBoolean(isActiveGauge);
+  }
+  
+  public void displayFrame() {
+    if (isActive) {
+      displaySquare(X, Y, SIZE, STROKE_DEFAULT, FRAME_COLOR, BLACK);
+    }
   }
   
   private void displayFill() {

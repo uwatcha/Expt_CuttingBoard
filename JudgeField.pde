@@ -10,9 +10,15 @@ class JudgeField {
   }
 
   public Judgment run() {
-    displayRect(TOP_LEFT_X, TOP_LEFT_Y, WIDTH, HEIGHT, 0, CLEAR_GREY);
+    display();
     resetHasTouched();
-    return judgeTouchTiming();
+    Judgment j = judgeTouchTiming();
+    if (j != null) println(j);
+    return j;
+  }
+  
+  public void display() {
+    displayRect(TOP_LEFT_X, TOP_LEFT_Y, WIDTH, HEIGHT, 0, CLEAR_GREY);
   }
   
   private Judgment judgeTouchTiming() {
@@ -27,12 +33,12 @@ class JudgeField {
   }
   
   private boolean isNowWithinPeriod(int lowerBoundFrame, int upperBoundFrame) {
-    int frameLoopCount = frame/TOUCH_INTERVAL;
-    int frameRemainder = frame%TOUCH_INTERVAL;
+    int frameLoopCount = playingFrame/TOUCH_INTERVAL;
+    int frameRemainder = playingFrame%TOUCH_INTERVAL;
     if (frameRemainder >= TOUCH_INTERVAL/2) {
       frameLoopCount++;
     }
-    int judgedPeriod = abs(frame-frameLoopCount*TOUCH_INTERVAL);
+    int judgedPeriod = abs(playingFrame-frameLoopCount*TOUCH_INTERVAL);
     return (lowerBoundFrame <= judgedPeriod&&judgedPeriod <= upperBoundFrame);
   }
   

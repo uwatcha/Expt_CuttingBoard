@@ -3,13 +3,26 @@ void displayText(String text, int x, int y, int textSize, color textColor) {
   fill(textColor);
   text(text, x, y);
 }
+void displayText(String text, int x, int y, int textSize) {
+  displayText(text, x, y, textSize, BLACK);
+}
 
+//Circle----------------------------------------------
 void displayRing(PVector coord, int r, int strokeWeight, color ringColor) {
   noFill();
   mySetStroke(strokeWeight, ringColor);
   circle(coord.x, coord.y, r*2);
 }
 
+void displayArcRing(int x, int y, int r, float startPI, float endPI, int strokeWeight, int ringColor) {
+  noFill();
+  mySetStroke(strokeWeight, ringColor);
+  //startPIが0の時、3時ではなく12時の方向の方が直感的。
+  arc(x, y, 2*r, 2*r, startPI-HALF_PI, endPI-HALF_PI);
+}
+//----------------------------------------------------
+
+//Rect, Square------------------------------------------------------------------------------------------------------------
 void displayRect(int x, int y, int w, int h, int strokeWeight, color squareColor, color strokeColor) {
   mySetStroke(strokeWeight, strokeColor);
   fill(squareColor);
@@ -30,7 +43,9 @@ void displayRoundedRect(int x, int y, int w, int h, int r, int strokeWeight, col
   fill(squareColor);
   rect(x, y, w, h, r);
 }
+//------------------------------------------------------------------------------------------------------------------------
 
+//Line-------------------------------------------------------------------------------------
 void displayLine(int x1, int y1, int x2, int y2, int strokeWeight, color lineColor) {
   strokeWeight(strokeWeight);
   stroke(lineColor);
@@ -39,11 +54,15 @@ void displayLine(int x1, int y1, int x2, int y2, int strokeWeight, color lineCol
 void displayLine(int x1, int y1, int x2, int y2, int strokeWeight) {
   displayLine(x1, y1, x2, y2, strokeWeight, BLACK);
 }
-
+void displayLine(int x1, int y1, int x2, int y2) {
+  displayLine(x1, y1, x2, y2, STROKE_DEFAULT, BLACK);
+}
 void displayVerticalLine(int x, int strokeWeight, color lineColor) {
   mySetStroke(strokeWeight, lineColor);
   line(x, 0, x, height);
 }
+//-----------------------------------------------------------------------------------------
+
 
 void mySetStroke(int strokeWeight,color strokeColor) {
   if (strokeWeight!=0) {

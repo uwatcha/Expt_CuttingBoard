@@ -26,18 +26,25 @@ abstract class Button {
 }
 
 class StartButton extends Button {
-  private final int X = width/2;
+  private final int LINE_START_X, LINE_END_X; 
   
   StartButton() {
-    super(width/2, height*3/4, 1000, 150);
+    super(width/2-600, height*4/7, 1200, 120);
+    LINE_START_X = X-WIDTH/2;
+    LINE_END_X = LINE_START_X+WIDTH;
   }
   
   @Override
   protected void display() {
+    displayLine(X, Y, X+WIDTH, Y);
+    displayText("Game Start", X+WIDTH/2, Y+HEIGHT/2, HEIGHT);
+    displayLine(X, Y+HEIGHT, X+WIDTH, Y+HEIGHT);
   }
   
   @Override
   protected void effect() {
+    screen = Screen.Playing;
+    playStartFrame = frameCount;
   }
 }
 
@@ -98,6 +105,8 @@ class SettingsToTitleButton extends ScreenBackButton {
   @Override
   protected void effect() {
     super.effect();
-    faciSettingJSON.saveJSON();
+    faciSettings.saveJSON();
+    feedback.setIsActive();
+    gauge.setIsActive();
   }
 }

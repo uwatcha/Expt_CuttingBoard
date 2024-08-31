@@ -43,7 +43,7 @@ class ToggleButton {
     TITLE = BUTTON_TITLES.get(JSON_KEY);
     hasTouched = false;
     
-    updateStateVariable(faciSettingJSON.getJSON().getBoolean(JSON_KEY));
+    updateStateVariable(faciSettings.myGetBoolean(JSON_KEY));
   }
   
   public void run() {
@@ -76,9 +76,8 @@ class ToggleButton {
   }
   
   private void toggleState() {
-    JSONObject json = faciSettingJSON.getJSON();
-    boolean newState = !json.getBoolean(JSON_KEY);
-    json.setBoolean(JSON_KEY, newState);
+    boolean newState = !faciSettings.myGetBoolean(JSON_KEY);
+    faciSettings.mySetBoolean(JSON_KEY, newState);
     updateStateVariable(newState);
   }
   
