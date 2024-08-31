@@ -30,7 +30,7 @@ void playingScreen() {
       println("half");
     }
     
-    if (loopFrame+SOUND_LAG_BUFFER==TOUCH_INTERVAL/2) {
+    if (loopFrame/*+SOUND_LAG_BUFFER*/==TOUCH_INTERVAL/2) {
       timingSE.play();
     }
     

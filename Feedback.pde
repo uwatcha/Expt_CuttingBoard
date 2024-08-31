@@ -73,6 +73,13 @@ class Feedback {
         }
         break;
       }
+    } else {
+      if (judgment!=null) {
+        if (!soundEffectHasPlayed) {
+          playHitSE();
+          soundEffectHasPlayed = true;
+        }
+      }
     }
   }
 

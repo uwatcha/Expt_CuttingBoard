@@ -28,7 +28,7 @@ class Gauge {
   }
   
   private void displayFill() {
-    displayRect(X, Y, SIZE, (int)getGaugeHeight(), STROKE_DEFAULT, FILL_COLOR);
+    displayRect(X, Y, SIZE, (int)getGaugeHeight()-(int)sec(0.1), STROKE_DEFAULT, FILL_COLOR);
   }
   
   private float getGaugeHeight() {

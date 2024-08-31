@@ -25,3 +25,12 @@ void playBadSE() {
     }
   }
 }
+void playHitSE() {
+  for (int i=0; i<5; i++) {
+    if (!hitSEPool[i].isPlaying()) {
+      hitSEPool[i].play();
+      println("hitPlay");
+      break;
+    }
+  }
+}

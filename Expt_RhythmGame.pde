@@ -86,6 +86,7 @@ PImage badImage;
 SoundFile[] goodSEPool;
 SoundFile[] niceSEPool;
 SoundFile[] badSEPool;
+SoundFile[] hitSEPool;
 SoundFile timingSE;
 
 //フラグ
@@ -152,10 +153,12 @@ void setup() {
   goodSEPool = new SoundFile[5];
   niceSEPool = new SoundFile[5];
   badSEPool  = new SoundFile[5];
+  hitSEPool  = new SoundFile[5];
   for (int i=0; i<5; i++) {
     goodSEPool[i] = new SoundFile(applet, "SEs/slash_good.wav");
     niceSEPool[i] = new SoundFile(applet, "SEs/slash_nice.wav");
     badSEPool[i]  = new SoundFile(applet, "SEs/slash_bad.wav");
+    hitSEPool[i]  = new SoundFile(applet, "SEs/hit.wav");
   }
   timingSE = new SoundFile(applet, "SEs/timing.wav");
 }
