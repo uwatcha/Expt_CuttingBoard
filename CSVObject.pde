@@ -17,7 +17,33 @@ class CSVObject {
       writeJudgment(judgment);
       writeTouchPosition();
     }
-    println(table);
+    //println(table);
+    Field[] f = {Field.TouchTiming, Field.CorrectTiming, Field.TimingDiff, Field.Judgment, Field.TouchPositionX, Field.TouchPositionY};
+    ListToString(f);///////
+  }
+  
+  public boolean saveCSV() {
+    try {
+      
+      return true;
+    } catch (Exception e) {
+      return false;
+    }
+  }
+  
+  private String ListToString(Field[] outputField) {
+    String rtn = "";
+    rtn += "Feedback: "+ (faciSettings.myGetBoolean(isActiveFeedback) ? "Active" : "Inactive") + ", ";
+    rtn += "Gauge: "+ (faciSettings.myGetBoolean(isActiveGauge) ? "Active" : "Inactive") + "\n";
+    rtn += "TouchTiming, CorrectTiming, TimingDiff, Judgment, TouchPositionX, TouchPositionY\n";
+    for (HashMap<Field, String> record : table) {
+      for (int i=0; i<outputField.length; i++) {
+        rtn += record.get(outputField[i]);
+        rtn += (i != outputField.length-1) ? ", " : "\n";
+      }
+    }
+    println(rtn);
+    return rtn;
   }
 
   private void addRecord() {
@@ -25,15 +51,16 @@ class CSVObject {
   }
 
   private void writeTouchTiming() {
-    table.getLast().put(Field.TouchTiming, str(playingFrame));
+    table.getLast().put(Field.TouchTiming, String.format("%5s", str(playingFrame)));
   }
 
   private void writeCorrectTiming() {
-    table.getLast().put(Field.CorrectTiming, str(judgeField.getJustFrame()));
+    table.getLast().put(Field.CorrectTiming, String.format("%5s", str(judgeField.getJustFrame())));
   }
 
+  //TODO: +-表示する
   private void writeTimingDiff() {
-    table.getLast().put(Field.TimingDiff, str(judgeField.getTimingDiff()));
+    table.getLast().put(Field.TimingDiff, String.format("%3s", str(judgeField.getTimingDiff())));
   }
 
   private void writeJudgment(Judgment judgment) {
@@ -44,8 +71,8 @@ class CSVObject {
 //TODO: JudgeFieldから必要な値をまとめて受け取るメソッドを作ったほうがいい？　JudgeFieldの中でないと判定されたtouchが何番目かわからない？ 末尾のtouchが判定されたtouch？
   private void writeTouchPosition() {
     processing.event.TouchEvent.Pointer touch = touches[touches.length-1];
-    table.getLast().put(Field.TouchPositionX, str(touch.x));
-    table.getLast().put(Field.TouchPositionY, str(touch.y));
+    table.getLast().put(Field.TouchPositionX, String.format("%4s", str((int)touch.x)));
+    table.getLast().put(Field.TouchPositionY, String.format("%4s", str((int)touch.y)));
   }
 
   private String judgmentToString(Judgment judgment) {
@@ -55,7 +82,7 @@ class CSVObject {
     case Nice:
       return "Nice";
     case Bad:
-      return "Bad";
+      return " Bad";
     default:
       return "Error";
     }
