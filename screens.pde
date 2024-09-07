@@ -18,6 +18,7 @@ void settingsScreen() {
 
 void playingScreen() {
   background(woodImage);  
+  playingToTitleButton.run();
   if (frameCount-playStartFrame < START_INTERVAL) {
     displayArcRing(width/2, height/4, 125, 0, map(frameCount-playStartFrame, 0, START_INTERVAL, 0, TWO_PI), 40, LIGHT_GREEN);
     gauge.displayFrame();

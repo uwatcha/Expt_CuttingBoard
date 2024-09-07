@@ -110,3 +110,19 @@ class SettingsToTitleButton extends ScreenBackButton {
     gauge.setIsActive();
   }
 }
+
+class PlayingToTitleButton extends ScreenBackButton {
+  
+  PlayingToTitleButton () {
+    super(Screen.Title);
+  }
+  
+  @Override
+  protected void effect() {
+    super.effect();
+    playingFrame = 0;
+    loopFrame = 0;
+    csvObject.saveCSV();
+    csvObject.resetCSV();
+  }
+}

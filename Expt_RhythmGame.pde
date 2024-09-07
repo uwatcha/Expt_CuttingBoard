@@ -64,6 +64,9 @@ final int START_INTERVAL = (int)sec(1);
 final String isActiveFeedback = "is_active_feedback";
 final String isActiveGauge = "is_active_gauge";
 
+//パス
+String EXPORT_PATH;
+
 //その他定数
 HashMap<String, String> BUTTON_TITLES;
 
@@ -103,6 +106,7 @@ CSVObject csvObject;
 StartButton startButton;
 SettingsButton settingsButton;
 SettingsToTitleButton settingsToTitleButton;
+PlayingToTitleButton playingToTitleButton;
 ToggleButton feedbackToggleButton;
 ToggleButton gaugeToggleButton;
 
@@ -128,6 +132,8 @@ void setup() {
   BUTTON_TITLES = new HashMap<String, String>();
   BUTTON_TITLES.put(isActiveFeedback, "フィードバック");
   BUTTON_TITLES.put(isActiveGauge, "ゲージ");
+  println("getActivity(): "+getActivity());
+  EXPORT_PATH = getActivity().getExternalFilesDir("").getPath();
 
 
   //変数初期化
@@ -147,6 +153,7 @@ void setup() {
   startButton = new StartButton();
   settingsButton = new SettingsButton();
   settingsToTitleButton = new SettingsToTitleButton();
+  playingToTitleButton = new PlayingToTitleButton();
   feedbackToggleButton = new ToggleButton(width*2/5, height/2, isActiveFeedback);
   gaugeToggleButton = new ToggleButton(width*3/5, height/2, isActiveGauge);
   gauge = new Gauge();

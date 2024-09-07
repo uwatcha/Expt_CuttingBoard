@@ -3,9 +3,11 @@
 
 class CSVObject {
   private LinkedList<HashMap<Field, String>> table;
+  private Field[] fields;
 
   CSVObject() {
-    table = new LinkedList<HashMap<Field, String>>();
+    resetCSV();
+    fields = new Field[] {Field.TouchTiming, Field.CorrectTiming, Field.TimingDiff, Field.Judgment, Field.TouchPositionX, Field.TouchPositionY};
   }
 
   public void createRecord(Judgment judgment) {
@@ -18,28 +20,44 @@ class CSVObject {
       writeTouchPosition();
     }
     //println(table);
-    Field[] f = {Field.TouchTiming, Field.CorrectTiming, Field.TimingDiff, Field.Judgment, Field.TouchPositionX, Field.TouchPositionY};
-    ListToString(f);///////
   }
-  
+
   public boolean saveCSV() {
+    File file = new File(EXPORT_PATH+File.separator+getTime()+"_touch.csv");
+    FileOutputStream fos;
+    OutputStreamWriter isw;
+    BufferedWriter bw;
     try {
+      fos = new FileOutputStream(file);
+      isw = new OutputStreamWriter(fos, "UTF-8");
+      bw = new BufferedWriter(isw);
       
+      for (String data: tableToArrayList()) {
+        bw.write(data);
+      }
+      bw.flush(); bw.close(); isw.close(); fos.close();
       return true;
     } catch (Exception e) {
       return false;
     }
   }
   
-  private String ListToString(Field[] outputField) {
-    String rtn = "";
-    rtn += "Feedback: "+ (faciSettings.myGetBoolean(isActiveFeedback) ? "Active" : "Inactive") + ", ";
-    rtn += "Gauge: "+ (faciSettings.myGetBoolean(isActiveGauge) ? "Active" : "Inactive") + "\n";
-    rtn += "TouchTiming, CorrectTiming, TimingDiff, Judgment, TouchPositionX, TouchPositionY\n";
+  public void resetCSV() {
+    table = new LinkedList<HashMap<Field, String>>();
+  }
+  
+  private ArrayList<String> tableToArrayList() {
+    ArrayList<String> rtn = new ArrayList<String>();
+    rtn.add("DateTime: "+ getTime() +"\n");
+    rtn.add("Feedback: "+ (faciSettings.myGetBoolean(isActiveFeedback) ? "Active" : "Inactive") + ", ");
+    rtn.add("Gauge: "+ (faciSettings.myGetBoolean(isActiveGauge) ? "Active" : "Inactive") + "\n");
+    rtn.add("TouchTiming, CorrectTiming, TimingDiff, Judgment, TouchPositionX, TouchPositionY\n");
     for (HashMap<Field, String> record : table) {
-      for (int i=0; i<outputField.length; i++) {
-        rtn += record.get(outputField[i]);
-        rtn += (i != outputField.length-1) ? ", " : "\n";
+      for (int i=0; i<fields.length; i++) {
+        String line = "";
+        line += record.get(fields[i]);
+        line += (i != fields.length-1) ? ", " : "\n";
+        rtn.add(line);
       }
     }
     println(rtn);
@@ -88,6 +106,9 @@ class CSVObject {
     }
   }
   
+  private String getTime() {
+    return nf(year(), 4)+"-"+nf(month(), 2)+"-"+nf(day(), 2)+"--"+nf(hour(), 2)+"-"+nf(minute(), 2);
+  }
   
 //TODO: TouchActionはこのテーブルでは保持しない。現在の仕様ではでは結果的にTOUCH_DOWNの瞬間のみにレコードが記録されるので、タッチした時のフレームとTouchActionだけを保持するテーブルを用意する。
 //TODO: または、TOUCH_UPの時はTouchTiming, TouchAction, TouchPosition以外は空欄のレコードを追加するべき？
