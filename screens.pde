@@ -16,29 +16,60 @@ void settingsScreen() {
   gaugeToggleButton.run();
 }
 
+ArrayList<Object> judgeFieldValues;
+int logJustFrame;
+int logTimingDiff;
+float logTouchPositionX, logTouchPositionY;
+Judgment judgment = Judgment.None;
 void playingScreen() {
-  background(woodImage);  
+  //背景-----------------------------------------------------------------------------------------------------------------------------------------------
+  background(woodImage);
+  //オブジェクト実行-------------------------------------------------------------------------------------------------------------------------------------
   playingToTitleButton.run();
+  //バッファタイム
   if (frameCount-playStartFrame < START_INTERVAL) {
     displayArcRing(width/2, height/4, 125, 0, map(frameCount-playStartFrame, 0, START_INTERVAL, 0, TWO_PI), 40, LIGHT_GREEN);
     gauge.displayFrame();
     judgeField.display();
   } else {
+    //ゲーム実行中
     playingFrame++;
     loopFrame = loopFrame+1<TOUCH_INTERVAL ? loopFrame+1 : 0;
-  
+
     if (loopFrame==TOUCH_INTERVAL/2) {
       println("half");
     }
-    
+
     if (loopFrame==TOUCH_INTERVAL/2) {
       timingSE.play();
     }
-    Judgment j = judgeField.run();
     gauge.run();
-    feedback.run(j);
-    if (j!=null) {
-      csvObject.createRecord(j);
+    judgeFieldValues = judgeField.run();
+    if(judgeField.run().size()!=0) {
+      println(judgeField.run());
     }
+    if(judgeFieldValues.size()!=0) {
+      println(judgeFieldValues);
+    }
+    if (judgeFieldValues.size()!=0) {
+      logJustFrame = (int)judgeFieldValues.get(JUST_FRAME_INDEX);
+      logTimingDiff = (int)judgeFieldValues.get(TIMING_DIFF_INDEX);
+      judgment = (Judgment)judgeFieldValues.get(JUDGMENT_INDEX);
+      logTouchPositionX = (float)judgeFieldValues.get(POSITION_X_INDEX);
+      logTouchPositionY = (float)judgeFieldValues.get(POSITION_Y_INDEX);
+      
+      touchCSV.createRecord(logJustFrame, logTimingDiff, judgment, logTouchPositionX, logTouchPositionY);
+      
+    } else {
+    }
+    feedback.run(judgment);
+    //TODO: 次にやること：justFrame, timingDiff, judgment, positionのログが取れてない。ファイルの出力はできてる
+    if (actionID==MotionEvent.ACTION_DOWN) {
+      actionCSV.createRecord(actionID, logJustFrame, actionPosition[0], actionPosition[1]);
+    }
+    if (actionID==MotionEvent.ACTION_UP) {
+      actionCSV.createRecord(actionID, logJustFrame, actionPosition[0], actionPosition[1]);
+    }
+    judgment = Judgment.None;
   }
 }

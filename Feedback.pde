@@ -17,6 +17,7 @@ class Feedback {
     setIsActive();
     text = "";
     startFrame = -1;
+    judgment = Judgment.None;
     soundEffectHasPlayed = false;
   }
 
@@ -31,9 +32,10 @@ class Feedback {
   }
 
   private void setJudgment(Judgment judgment) {
-    if (judgment != null) {
+    if (judgment != Judgment.None) {
       startFrame = playingFrame;
       this.judgment = judgment;
+    } else {
     }
   }
 
@@ -43,7 +45,7 @@ class Feedback {
         image(image, X, Y);
       }
       displayText(text, X, Y-250, JUDGE_TEXT_SIZE, BLACK);
-      if (judgment==null) {
+      if (judgment==Judgment.None) {
         return;
       }
 
@@ -74,7 +76,7 @@ class Feedback {
         break;
       }
     } else {
-      if (judgment!=null) {
+      if (judgment!=Judgment.None) {
         if (!soundEffectHasPlayed) {
           playHitSE();
           soundEffectHasPlayed = true;
@@ -84,10 +86,10 @@ class Feedback {
   }
 
   private void reset() {
-    if (judgment!=null && (playingFrame-startFrame) >= JUDGE_DISPLAY_DURATION) {
+    if (judgment!=Judgment.None && (playingFrame-startFrame) >= JUDGE_DISPLAY_DURATION) {
       startFrame = -1;
       soundEffectHasPlayed = false;
-      judgment = null;
+      judgment = Judgment.None;
     }
   }
 }

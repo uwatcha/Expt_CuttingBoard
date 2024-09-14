@@ -26,6 +26,7 @@ abstract class Button {
 }
 
 class StartButton extends Button {
+  //TODO: 使われてない？
   private final int LINE_START_X, LINE_END_X; 
   
   StartButton() {
@@ -122,7 +123,9 @@ class PlayingToTitleButton extends ScreenBackButton {
     super.effect();
     playingFrame = 0;
     loopFrame = 0;
-    csvObject.saveCSV();
-    csvObject.resetCSV();
+    touchCSV.output(TOUCH_EXPORT_PATH);
+    touchCSV.resetTable();
+    actionCSV.output(ACTION_EXPORT_PATH);
+    actionCSV.resetTable();
   }
 }

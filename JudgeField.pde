@@ -9,33 +9,51 @@ class JudgeField {
   private boolean hasTouched;
   private int justFrame;
   private int timingDiff;
+  private processing.event.TouchEvent.Pointer touch;
+  private ArrayList<Object> rtn;
+  
   public JudgeField() {
     hasTouched = false;
+    rtn = new ArrayList<Object>();
   }
 
-  public Judgment run() {
+  public ArrayList<Object> run() {
+    if (this.touch!=null) {
+      println(this.touch);
+    }
     display();
     resetHasTouched();
-    Judgment j = judgeTouchTiming();
-    if (j != null) println(j);
-    return j;
+    setTouchedPointer();
+    Judgment judgment = judgeTouchTiming();
+    if (judgment != Judgment.None) {
+      println(judgment);
+      rtn.add(JUST_FRAME_INDEX, justFrame);
+      rtn.add(TIMING_DIFF_INDEX, timingDiff);
+      rtn.add(JUDGMENT_INDEX, judgment);
+      rtn.add(POSITION_X_INDEX, touch.x);
+      rtn.add(POSITION_Y_INDEX, touch.y);
+    } else {
+      rtn = new ArrayList<Object>();
+    }
+    if (this.touch!=null) {
+      println(this.touch);
+    }
+    return rtn;
   }
   
   public void display() {
     displayRect(TOP_LEFT_X, TOP_LEFT_Y, WIDTH, HEIGHT, 0, CLEAR_GREY);
   }
   
-  public int getJustFrame() { return justFrame; }
-  public int getTimingDiff() { return timingDiff; }
-  
   private Judgment judgeTouchTiming() {
-    if (getTouchedPointer() != null) {
+    if (touch != null) {
+      println("judge start");
            if (isNowWithinRange(         0, GOOD_FRAME))         { return Judgment.Good; } 
       else if (isNowWithinRange(GOOD_FRAME, NICE_FRAME))         { return Judgment.Nice; }
       else if (isNowWithinRange(NICE_FRAME, Integer.MAX_VALUE))  { return Judgment.Bad;  } 
-      else                                                       { return null; }
+      else                                                       { return Judgment.None; }
     } else {
-      return null;
+      return Judgment.None;
     }
   }
   
@@ -46,26 +64,29 @@ class JudgeField {
       frameLoopCount++;
     }
     justFrame = frameLoopCount*TOUCH_INTERVAL;
-    timingDiff = abs(playingFrame-justFrame);
-    return (lowerBoundFrame <= timingDiff&&timingDiff <= upperBoundFrame);
+    timingDiff = playingFrame-justFrame;
+    println(lowerBoundFrame <= abs(timingDiff)&&abs(timingDiff) <= upperBoundFrame);
+    return (lowerBoundFrame <= abs(timingDiff)&&abs(timingDiff) <= upperBoundFrame);
   }
     
-  private processing.event.TouchEvent.Pointer getTouchedPointer() {
+  private void setTouchedPointer() {
     for (processing.event.TouchEvent.Pointer touch : touches) {
       if ((TOP_LEFT_X <= touch.x&&touch.x <= TOP_LEFT_X+WIDTH) && (TOP_LEFT_Y <= touch.y&&touch.y <= TOP_LEFT_Y+HEIGHT)) {
         if (!hasTouched) {
           hasTouched = true;
-          return touch;
+          this.touch = touch;
+          break;
         } else {
-          return null;
+          this.touch = null;
+          break;
         }
       }
     }
-    return null;
   }
   
   private void resetHasTouched() {
     if (hasTouched && touches.length==0) {
+      println("reseted");
       hasTouched = false;
     }
   }

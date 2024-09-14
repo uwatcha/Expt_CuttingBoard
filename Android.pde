@@ -1,17 +1,7 @@
-boolean isTouch, isTouchDown, isTouchUp;
-
 @Override
   public boolean surfaceTouchEvent(MotionEvent event) {
-  switch (event.getAction()) {
-  case MotionEvent.ACTION_DOWN:
-    isTouchDown = true;
-    break;
-  case MotionEvent.ACTION_UP:
-    isTouchUp = true;
-    break;
-  default:
-    isTouch = isTouchDown = isTouchUp = false;
-    break;
-  }
+  actionID = event.getAction();
+  actionPosition[0] = event.getX(event.getPointerCount()-1);
+  actionPosition[1] = event.getY(event.getPointerCount()-1);
   return super.surfaceTouchEvent(event);
 }

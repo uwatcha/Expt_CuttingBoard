@@ -1,8 +1,8 @@
-//TODO: 値にNoneを追加してもいいかも
 enum Judgment {
   Good,
   Nice,
-  Bad
+  Bad, 
+  None
 }
 
 // draw()内でswitch()で画面を切り替えるため

@@ -1,7 +1,5 @@
-/*
-
-*/
 //TODO: 各判定の猶予時間を古い実験ソフトと揃える
+//TODO: 開発者メニューで、デバッグモードをオンにすると、ログファイルの出力先を変える
 //アンドロイド関係のライブラリ
 import android.content.Intent;
 import android.view.MotionEvent;
@@ -47,6 +45,7 @@ final color LIGHT_GREEN = color(127, 255, 212);
 //150: [Device: samsung]で、大文字のSの縦幅が1cm
 final int STROKE_DEFAULT = 2;
 
+//TODO: 調整する
 //判定フレーム定数
 final int GOOD_FRAME = 8;
 final int NICE_FRAME = 16;
@@ -66,15 +65,40 @@ final String isActiveGauge = "is_active_gauge";
 
 //パス
 String EXPORT_PATH;
+String TOUCH_EXPORT_PATH;
+String ACTION_EXPORT_PATH;
+
+//CSVフィールド
+final String TOUCH_TIMING = "TouchTiming";
+final String CORRECT_TIMING = "CorrectTiming";
+final String TOUCH_POSITION_X = "TouchPositinoX";
+final String TOUCH_POSITION_Y = "TouchPositinoY";
+
+final String JUDGMENT = "Judgment";
+final String TIMING_DIFF = "TouchDiff";
+
+final String ACTION = "Action";
+final String[] TOUCH_TABLE_FIELDS = {TOUCH_TIMING, CORRECT_TIMING, TIMING_DIFF, JUDGMENT, TOUCH_POSITION_X, TOUCH_POSITION_Y};
+final String[] ACTION_TABLE_FIELDS = {ACTION, TOUCH_TIMING, CORRECT_TIMING, TOUCH_POSITION_X, TOUCH_POSITION_Y};
+
+//JudgeField出力ArrayList
+final int JUST_FRAME_INDEX = 0;
+final int TIMING_DIFF_INDEX = 1;
+final int JUDGMENT_INDEX = 2;
+final int POSITION_X_INDEX = 3;
+final int POSITION_Y_INDEX = 4;
 
 //その他定数
 HashMap<String, String> BUTTON_TITLES;
+final int ACTION_DEFAULT = -10;
 
 //グローバル変数
 int playingFrame;
 int playStartFrame;
 int loopFrame;
 boolean isRunning;
+int actionID;
+float[] actionPosition;
 
 //ノーツ関係
 final int NOTE_COUNT = 512;
@@ -100,7 +124,8 @@ Screen screen;
 //入出力オブジェクト
 JsonBuffer faciSettings;
 JsonBuffer devConfig;
-CSVObject csvObject;
+TouchCSV touchCSV;
+ActionCSV actionCSV;
 
 //ボタンオブジェクト
 StartButton startButton;
@@ -134,6 +159,8 @@ void setup() {
   BUTTON_TITLES.put(isActiveGauge, "ゲージ");
   println("getActivity(): "+getActivity());
   EXPORT_PATH = getActivity().getExternalFilesDir("").getPath();
+  TOUCH_EXPORT_PATH = EXPORT_PATH+File.separator+getTime()+"_touch.csv";
+  ACTION_EXPORT_PATH = EXPORT_PATH+File.separator+getTime()+"_action.csv";
 
 
   //変数初期化
@@ -146,10 +173,13 @@ void setup() {
   playingFrame = 0;
   loopFrame = 0;
   noteLoadIndex = 0;
+  actionID = ACTION_DEFAULT;
+  actionPosition = new float[2];
   screen = Screen.Title;
   faciSettings = new JsonBuffer("facilitator_settings.json");
   devConfig = new JsonBuffer("developer_config.json");
-  csvObject = new CSVObject();
+  touchCSV = new TouchCSV();
+  actionCSV = new ActionCSV();
   startButton = new StartButton();
   settingsButton = new SettingsButton();
   settingsToTitleButton = new SettingsToTitleButton();
@@ -175,7 +205,6 @@ void setup() {
 }
 
 void draw() {
-//  if (frameCount%60==0) { println("frameRate: " + frameRate); }
   switch(screen) {
   case Title:
     titleScreen();
@@ -187,4 +216,7 @@ void draw() {
     playingScreen();
     break;
   }
+  actionID = ACTION_DEFAULT;
+  actionPosition[0] = ACTION_DEFAULT;
+  actionPosition[1] = ACTION_DEFAULT;
 }
