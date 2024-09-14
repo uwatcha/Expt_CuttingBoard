@@ -36,16 +36,14 @@ abstract class CSVObject implements CommonTable {
     }
   }
   
-  private boolean makeDirectory(String path) {
+  private void makeDirectory(String path) {
     int startIndex = EXPORT_PATH.length();
     int endIndex = path.lastIndexOf(File.separator);
     String directoryName = path.substring(startIndex, endIndex);
     File dir = new File(EXPORT_PATH+File.separator+directoryName);
     if (!(dir.exists() && dir.isDirectory())) {
-      return dir.mkdirs();
-    } else {
-      return false;
-    }
+      dir.mkdirs();
+    } 
   }
   
   private ArrayList<String> tableToList() {
