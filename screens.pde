@@ -45,12 +45,6 @@ void playingScreen() {
     }
     gauge.run();
     judgeFieldValues = judgeField.run();
-    if(judgeField.run().size()!=0) {
-      println(judgeField.run());
-    }
-    if(judgeFieldValues.size()!=0) {
-      println(judgeFieldValues);
-    }
     if (judgeFieldValues.size()!=0) {
       logJustFrame = (int)judgeFieldValues.get(JUST_FRAME_INDEX);
       logTimingDiff = (int)judgeFieldValues.get(TIMING_DIFF_INDEX);
@@ -63,7 +57,6 @@ void playingScreen() {
     } else {
     }
     feedback.run(judgment);
-    //TODO: 次にやること：justFrame, timingDiff, judgment, positionのログが取れてない。ファイルの出力はできてる
     if (actionID==MotionEvent.ACTION_DOWN) {
       actionCSV.createRecord(actionID, logJustFrame, actionPosition[0], actionPosition[1]);
     }

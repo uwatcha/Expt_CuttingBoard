@@ -67,6 +67,7 @@ final String isActiveGauge = "is_active_gauge";
 String EXPORT_PATH;
 String TOUCH_EXPORT_PATH;
 String ACTION_EXPORT_PATH;
+String GENERAL_EXPORT_PATH;
 
 //CSVフィールド
 final String TOUCH_TIMING = "TouchTiming";
@@ -157,11 +158,10 @@ void setup() {
   BUTTON_TITLES = new HashMap<String, String>();
   BUTTON_TITLES.put(isActiveFeedback, "フィードバック");
   BUTTON_TITLES.put(isActiveGauge, "ゲージ");
-  println("getActivity(): "+getActivity());
   EXPORT_PATH = getActivity().getExternalFilesDir("").getPath();
-  TOUCH_EXPORT_PATH = EXPORT_PATH+File.separator+getTime()+"_touch.csv";
-  ACTION_EXPORT_PATH = EXPORT_PATH+File.separator+getTime()+"_action.csv";
-
+  TOUCH_EXPORT_PATH = EXPORT_PATH+File.separator+"touch"+File.separator+getTime()+"_touch.csv";
+  ACTION_EXPORT_PATH = EXPORT_PATH+File.separator+"action"+File.separator+getTime()+"_action.csv";
+  GENERAL_EXPORT_PATH = EXPORT_PATH+File.separator+"general"+File.separator+getTime()+"_general.csv";
 
   //変数初期化
   woodImage = loadImage("images/wood.png");

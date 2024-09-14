@@ -17,6 +17,7 @@ abstract class CSVObject implements CommonTable {
     OutputStreamWriter isw;
     BufferedWriter bw;
     try {
+      makeDirectory(path);
       fos = new FileOutputStream(file);
       isw = new OutputStreamWriter(fos, "UTF-8");
       bw = new BufferedWriter(isw);
@@ -31,6 +32,18 @@ abstract class CSVObject implements CommonTable {
       return true;
     }
     catch (Exception e) {
+      return false;
+    }
+  }
+  
+  private boolean makeDirectory(String path) {
+    int startIndex = EXPORT_PATH.length();
+    int endIndex = path.lastIndexOf(File.separator);
+    String directoryName = path.substring(startIndex, endIndex);
+    File dir = new File(EXPORT_PATH+File.separator+directoryName);
+    if (!(dir.exists() && dir.isDirectory())) {
+      return dir.mkdirs();
+    } else {
       return false;
     }
   }

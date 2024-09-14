@@ -18,9 +18,6 @@ class JudgeField {
   }
 
   public ArrayList<Object> run() {
-    if (this.touch!=null) {
-      println(this.touch);
-    }
     display();
     resetHasTouched();
     setTouchedPointer();
@@ -35,9 +32,6 @@ class JudgeField {
     } else {
       rtn = new ArrayList<Object>();
     }
-    if (this.touch!=null) {
-      println(this.touch);
-    }
     return rtn;
   }
   
@@ -47,7 +41,6 @@ class JudgeField {
   
   private Judgment judgeTouchTiming() {
     if (touch != null) {
-      println("judge start");
            if (isNowWithinRange(         0, GOOD_FRAME))         { return Judgment.Good; } 
       else if (isNowWithinRange(GOOD_FRAME, NICE_FRAME))         { return Judgment.Nice; }
       else if (isNowWithinRange(NICE_FRAME, Integer.MAX_VALUE))  { return Judgment.Bad;  } 
@@ -65,7 +58,6 @@ class JudgeField {
     }
     justFrame = frameLoopCount*TOUCH_INTERVAL;
     timingDiff = playingFrame-justFrame;
-    println(lowerBoundFrame <= abs(timingDiff)&&abs(timingDiff) <= upperBoundFrame);
     return (lowerBoundFrame <= abs(timingDiff)&&abs(timingDiff) <= upperBoundFrame);
   }
     
@@ -86,7 +78,6 @@ class JudgeField {
   
   private void resetHasTouched() {
     if (hasTouched && touches.length==0) {
-      println("reseted");
       hasTouched = false;
     }
   }

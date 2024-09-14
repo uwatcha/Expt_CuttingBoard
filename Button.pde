@@ -26,13 +26,9 @@ abstract class Button {
 }
 
 class StartButton extends Button {
-  //TODO: 使われてない？
-  private final int LINE_START_X, LINE_END_X; 
   
   StartButton() {
     super(width/2-600, height*4/7, 1200, 120);
-    LINE_START_X = X-WIDTH/2;
-    LINE_END_X = LINE_START_X+WIDTH;
   }
   
   @Override
