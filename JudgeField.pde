@@ -18,8 +18,6 @@ class JudgeField {
   }
 
   public ArrayList<Object> run() {
-    display();
-    resetHasTouched();
     setTouchedPointer();
     Judgment judgment = judgeTouchTiming();
     if (judgment != Judgment.None) {
@@ -32,6 +30,8 @@ class JudgeField {
     } else {
       rtn = new ArrayList<Object>();
     }
+    display();
+    resetHasTouched();
     return rtn;
   }
   

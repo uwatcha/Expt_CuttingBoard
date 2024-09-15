@@ -119,6 +119,8 @@ class PlayingToTitleButton extends ScreenBackButton {
     super.effect();
     playingFrame = 0;
     loopFrame = 0;
+    generalCSV.output(GENERAL_EXPORT_PATH);
+    generalCSV.resetTable();
     touchCSV.output(TOUCH_EXPORT_PATH);
     touchCSV.resetTable();
     actionCSV.output(ACTION_EXPORT_PATH);

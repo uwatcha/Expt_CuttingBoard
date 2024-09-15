@@ -79,8 +79,10 @@ final String JUDGMENT = "Judgment";
 final String TIMING_DIFF = "TouchDiff";
 
 final String ACTION = "Action";
+
 final String[] TOUCH_TABLE_FIELDS = {TOUCH_TIMING, CORRECT_TIMING, TIMING_DIFF, JUDGMENT, TOUCH_POSITION_X, TOUCH_POSITION_Y};
 final String[] ACTION_TABLE_FIELDS = {ACTION, TOUCH_TIMING, CORRECT_TIMING, TOUCH_POSITION_X, TOUCH_POSITION_Y};
+final String[] GENERAL_TABLE_FIELDS = {ACTION, TOUCH_TIMING, CORRECT_TIMING, TIMING_DIFF, JUDGMENT, TOUCH_POSITION_X, TOUCH_POSITION_Y};
 
 //JudgeField出力ArrayList
 final int JUST_FRAME_INDEX = 0;
@@ -91,7 +93,8 @@ final int POSITION_Y_INDEX = 4;
 
 //その他定数
 HashMap<String, String> BUTTON_TITLES;
-final int ACTION_DEFAULT = -10;
+final int FIELD_RESET_VALUE = Integer.MAX_VALUE;
+
 
 //グローバル変数
 int playingFrame;
@@ -125,6 +128,7 @@ Screen screen;
 //入出力オブジェクト
 JsonBuffer faciSettings;
 JsonBuffer devConfig;
+GeneralCSV generalCSV;
 TouchCSV touchCSV;
 ActionCSV actionCSV;
 
@@ -173,11 +177,12 @@ void setup() {
   playingFrame = 0;
   loopFrame = 0;
   noteLoadIndex = 0;
-  actionID = ACTION_DEFAULT;
+  actionID = FIELD_RESET_VALUE;
   actionPosition = new float[2];
   screen = Screen.Title;
   faciSettings = new JsonBuffer("facilitator_settings.json");
   devConfig = new JsonBuffer("developer_config.json");
+  generalCSV = new GeneralCSV();
   touchCSV = new TouchCSV();
   actionCSV = new ActionCSV();
   startButton = new StartButton();
@@ -205,6 +210,7 @@ void setup() {
 }
 
 void draw() {
+  println("------------------");
   switch(screen) {
   case Title:
     titleScreen();
@@ -216,7 +222,7 @@ void draw() {
     playingScreen();
     break;
   }
-  actionID = ACTION_DEFAULT;
-  actionPosition[0] = ACTION_DEFAULT;
-  actionPosition[1] = ACTION_DEFAULT;
+  actionID = FIELD_RESET_VALUE;
+  actionPosition[0] = FIELD_RESET_VALUE;
+  actionPosition[1] = FIELD_RESET_VALUE;
 }
