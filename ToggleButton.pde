@@ -90,8 +90,8 @@ class ToggleButton {
   }
 
   private boolean isTouched() {
-    for (processing.event.TouchEvent.Pointer touch : touches) {
-      if (rectTouchJudge(X-SIZE_UNIT, Y, SIZE_UNIT*2+RECT_WIDTH, DIAMETER, touch.x, touch.y)) {
+    if (actionID==MotionEvent.ACTION_DOWN) {
+      if (rectTouchJudge(X-SIZE_UNIT, Y, SIZE_UNIT*2+RECT_WIDTH, DIAMETER, actionPosition[0], actionPosition[1])) {
         if (!hasTouched) {
           hasTouched = true;
           return true;
@@ -102,7 +102,7 @@ class ToggleButton {
   }
 
   private void resetHasTouched() {
-    if (hasTouched && touches.length==0) {
+    if (hasTouched && actionID==FIELD_RESET_VALUE) {
       hasTouched = false;
     }
   }

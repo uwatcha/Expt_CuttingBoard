@@ -86,7 +86,7 @@ class Feedback {
   }
 
   private void reset() {
-    if (judgment!=Judgment.None && (playingFrame-startFrame) >= JUDGE_DISPLAY_DURATION) {
+    if (actionID == MotionEvent.ACTION_UP) {
       startFrame = -1;
       soundEffectHasPlayed = false;
       judgment = Judgment.None;

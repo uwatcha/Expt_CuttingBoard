@@ -35,55 +35,75 @@ void playingScreen() {
     //ゲーム実行中
     playingFrame++;
     loopFrame = loopFrame+1<TOUCH_INTERVAL ? loopFrame+1 : 0;
+    
+    
+    //if (loopFrame==TOUCH_INTERVAL/2) {
+    //  //println("half");
+    //}
 
-    if (loopFrame==TOUCH_INTERVAL/2) {
-      //println("half");
-    }
-
-    if (loopFrame==TOUCH_INTERVAL/2) {
-      timingSE.play();
-    }
-    gauge.run();
+    //if (loopFrame==TOUCH_INTERVAL/2) {
+    //  timingSE.play();
+    //}
+    //gauge.run();
     judgeFieldValues = judgeField.run();
-    //ログ
-    //TODO: action, generalで、
-    //correctTiming, touchPositionがズレてる.
-    //UPの時にtimingDiff, Judgmentを空欄にする
-    //Judgmentがnullになってる
+    ///*
     if (judgeFieldValues.size()!=0) {
-      println("judgeFieldValues.size()!=0");
       logJustFrame = (int)judgeFieldValues.get(JUST_FRAME_INDEX);
       logTimingDiff = (int)judgeFieldValues.get(TIMING_DIFF_INDEX);
       judgment = (Judgment)judgeFieldValues.get(JUDGMENT_INDEX);
       logTouchPositionX = (float)judgeFieldValues.get(POSITION_X_INDEX);
       logTouchPositionY = (float)judgeFieldValues.get(POSITION_Y_INDEX);
-      
-      generalCSV.createRecord(actionID, logJustFrame, logTimingDiff, judgment, actionPosition[0], actionPosition[1]);
-      //println("generalCSV create down record");
-      actionCSV.createRecord(actionID, logJustFrame, actionPosition[0], actionPosition[1]);
-      //println("actionCSV create down record");
-      touchCSV.createRecord(logJustFrame, logTimingDiff, judgment, logTouchPositionX, logTouchPositionY);
-      //println("touchCSV create record");
-    }
 
-    feedback.run(judgment);
-    
-    //TODO: field内のタッチのみ受け付けるようにする
-    if (actionID==MotionEvent.ACTION_DOWN) {
-      println("actionID==MotionEvent.ACTION_DOWN");
-    }
-    if (actionID==MotionEvent.ACTION_UP) {
-      println("actionID==MotionEvent.ACTION_UP");
       generalCSV.createRecord(actionID, logJustFrame, logTimingDiff, judgment, actionPosition[0], actionPosition[1]);
-      //println("generalCSV create up record");
-      actionCSV.createRecord(actionID, logJustFrame, actionPosition[0], actionPosition[1]);
-      //println("actionCSV create up record");
+    }
+    if (actionID==MotionEvent.ACTION_UP && judgeField.isTouchInField()) {
+      generalCSV.createRecord(actionID, logJustFrame, logTimingDiff, judgment, actionPosition[0], actionPosition[1]);
       judgeFieldValues = new ArrayList<Object>();
       logJustFrame = FIELD_RESET_VALUE;
       logTimingDiff = FIELD_RESET_VALUE;
       judgment = Judgment.None;
       logTouchPositionX = FIELD_RESET_VALUE;
       logTouchPositionY = FIELD_RESET_VALUE;
+
     }
+    //*/
+    //ログ
+    //TODO: action, generalで、UPの時にtimingDiff, Judgmentを空欄にする
+
+//    if (judgeFieldValues.size()!=0) {
+//      logJustFrame = (int)judgeFieldValues.get(JUST_FRAME_INDEX);
+//      logTimingDiff = (int)judgeFieldValues.get(TIMING_DIFF_INDEX);
+//      judgment = (Judgment)judgeFieldValues.get(JUDGMENT_INDEX);
+//      logTouchPositionX = (float)judgeFieldValues.get(POSITION_X_INDEX);
+//      logTouchPositionY = (float)judgeFieldValues.get(POSITION_Y_INDEX);
+      
+//      generalCSV.createRecord(actionID, logJustFrame, logTimingDiff, judgment, actionPosition[0], actionPosition[1]);
+//      actionCSV.createRecord(actionID, logJustFrame, actionPosition[0], actionPosition[1]);
+//      touchCSV.createRecord(logJustFrame, logTimingDiff, judgment, logTouchPositionX, logTouchPositionY);
+//    }
+
+//    feedback.run(judgment);
+
+////TODO: 以下の条件に、JudgeField内であることを追加
+//    if (actionID==MotionEvent.ACTION_UP && judgeField.isTouchInField()) {
+//      generalCSV.createRecord(actionID, logJustFrame, logTimingDiff, judgment, actionPosition[0], actionPosition[1]);
+//      actionCSV.createRecord(actionID, logJustFrame, actionPosition[0], actionPosition[1]);
+//      judgeFieldValues = new ArrayList<Object>();
+//      logJustFrame = FIELD_RESET_VALUE;
+//      logTimingDiff = FIELD_RESET_VALUE;
+//      judgment = Judgment.None;
+//      logTouchPositionX = FIELD_RESET_VALUE;
+//      logTouchPositionY = FIELD_RESET_VALUE;
+//    }
+
+//    if (judgeField.getJustFrame()==playingFrame) {
+//      playHitSE();
+//      generalCSV.createJustFrameRecord(judgeField.getJustFrame());
+//      actionCSV.createJustFrameRecord(judgeField.getJustFrame());
+//      touchCSV.createJustFrameRecord(judgeField.getJustFrame());
+//    }
   }
+  //if (actionID == MotionEvent.ACTION_DOWN) {
+  //  println("touch down after screen is shown");
+  //}
 }

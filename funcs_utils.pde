@@ -62,7 +62,7 @@ void displayVerticalLine(int x, int strokeWeight, color lineColor) {
 }
 
 //Others-----------------------------------------------------------------------------------------------------------------------------------------------
-void mySetStroke(int strokeWeight,color strokeColor) {
+void mySetStroke(int strokeWeight, color strokeColor) {
   if (strokeWeight!=0) {
     strokeWeight(strokeWeight);
     stroke(strokeColor);
@@ -82,3 +82,32 @@ float sec(float sec) {
 String getTime() {
   return nf(year(), 4)+"-"+nf(month(), 2)+"-"+nf(day(), 2)+"--"+nf(hour(), 2)+"-"+nf(minute(), 2);
 }
+
+String getGeneralExportPath() {
+  return EXPORT_PATH+File.separator+"general"+File.separator+getTime()+"_general.csv";
+}
+
+String getTouchExportPath() {
+  return EXPORT_PATH+File.separator+"touch"+File.separator+getTime()+"_touch.csv";
+}
+
+String getActionExportPath() {
+  return EXPORT_PATH+File.separator+"action"+File.separator+getTime()+"_action.csv";
+}
+
+void appHaltButton() {
+  int x = 50;
+  int y = 200;
+  int w = 200;
+  int h = 200;
+  pauseImage.resize(w, h);
+  image(pauseImage, x+w/2, y+h/2);
+  if (rectTouchJudge(x, y, w, h, actionPosition[0], actionPosition[1])) {
+    println("break");
+  }
+}
+
+//void breakPoint(String text) {
+//  println("breakPoint at "+text);
+//  println("break");
+//}

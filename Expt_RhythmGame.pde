@@ -65,9 +65,6 @@ final String isActiveGauge = "is_active_gauge";
 
 //パス
 String EXPORT_PATH;
-String TOUCH_EXPORT_PATH;
-String ACTION_EXPORT_PATH;
-String GENERAL_EXPORT_PATH;
 
 //CSVフィールド
 final String TOUCH_TIMING = "TouchTiming";
@@ -100,6 +97,7 @@ final int FIELD_RESET_VALUE = Integer.MAX_VALUE;
 int playingFrame;
 int playStartFrame;
 int loopFrame;
+int frameLoopCount;
 boolean isRunning;
 int actionID;
 float[] actionPosition;
@@ -114,6 +112,7 @@ PImage gearImage;
 PImage goodImage;
 PImage niceImage;
 PImage badImage;
+PImage pauseImage;
 
 //音楽系オブジェクト
 SoundFile[] goodSEPool;
@@ -163,9 +162,6 @@ void setup() {
   BUTTON_TITLES.put(isActiveFeedback, "フィードバック");
   BUTTON_TITLES.put(isActiveGauge, "ゲージ");
   EXPORT_PATH = getActivity().getExternalFilesDir("").getPath();
-  TOUCH_EXPORT_PATH = EXPORT_PATH+File.separator+"touch"+File.separator+getTime()+"_touch.csv";
-  ACTION_EXPORT_PATH = EXPORT_PATH+File.separator+"action"+File.separator+getTime()+"_action.csv";
-  GENERAL_EXPORT_PATH = EXPORT_PATH+File.separator+"general"+File.separator+getTime()+"_general.csv";
 
   //変数初期化
   woodImage = loadImage("images/wood.png");
@@ -174,8 +170,10 @@ void setup() {
   goodImage = loadImage("images/carrot_good.png");
   niceImage = loadImage("images/carrot_nice.png");
   badImage = loadImage("images/carrot_bad.png");
+  pauseImage = loadImage("images/pause_button.png");
   playingFrame = 0;
   loopFrame = 0;
+  frameLoopCount = 0;
   noteLoadIndex = 0;
   actionID = FIELD_RESET_VALUE;
   actionPosition = new float[2];
@@ -210,7 +208,6 @@ void setup() {
 }
 
 void draw() {
-  println("------------------");
   switch(screen) {
   case Title:
     titleScreen();
@@ -222,6 +219,8 @@ void draw() {
     playingScreen();
     break;
   }
+
+  appHaltButton();
   actionID = FIELD_RESET_VALUE;
   actionPosition[0] = FIELD_RESET_VALUE;
   actionPosition[1] = FIELD_RESET_VALUE;

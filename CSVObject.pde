@@ -29,7 +29,7 @@ abstract class CSVObject implements CommonTable {
       bw.close();
       isw.close();
       fos.close();
-      println(table);
+      //println(table);
       return true;
     }
     catch (Exception e) {
@@ -52,7 +52,8 @@ abstract class CSVObject implements CommonTable {
     for (HashMap<String, String> record : table) {
       for (int i=0; i<fields.length; i++) {
         String line = "";
-        line += record.get(fields[i]);
+        String value = record.get(fields[i]);
+        line += value!=null ? value : "-------";
         line += (i != fields.length-1) ? ", " : "\n";
         rtn.add(line);
       }
@@ -71,6 +72,11 @@ abstract class CSVObject implements CommonTable {
     }
     return rtn;
   }
+  
+  public void createJustFrameRecord(int justFrame) {
+    addRecord();
+    addCorrectTiming(justFrame, table, CORRECT_TIMING);
+  }
 
   public void resetTable() {
     table = new LinkedList<HashMap<String, String>>();
@@ -84,13 +90,17 @@ class GeneralCSV extends CSVObject implements GeneralTable {
     super(GENERAL_TABLE_FIELDS);
   }
   
+  public void output() {
+    super.output(getGeneralExportPath());
+  }
+  
   public void createRecord(int actionID, int justFrame, int diff, Judgment judgment, float touchX, float touchY) {
     addRecord();
     addTouchTiming(playingFrame, table, TOUCH_TIMING);
     addAction(actionID, table, ACTION);
     addCorrectTiming(justFrame, table, CORRECT_TIMING);
     addTimingDiff(diff, table, TIMING_DIFF);
-    addJudgment(judgment, table, JUDGMENT);
+    addJudgment(judgment, table, JUDGMENT, loopFrame);
     addTouchPosition(touchX, touchY, table, TOUCH_POSITION_X, TOUCH_POSITION_Y);
   }
 }
@@ -102,13 +112,16 @@ class TouchCSV extends CSVObject implements TouchTable {
     super(TOUCH_TABLE_FIELDS);
   }
   
+  public void output() {
+    super.output(getTouchExportPath());
+  }
   
   public void createRecord(int justFrame, int diff, Judgment judgment, float touchX, float touchY) {
     addRecord();
     addTouchTiming(playingFrame, table, TOUCH_TIMING);
     addCorrectTiming(justFrame, table, CORRECT_TIMING);
     addTimingDiff(diff, table, TIMING_DIFF);
-    addJudgment(judgment, table, JUDGMENT);
+    addJudgment(judgment, table, JUDGMENT, loopFrame);
     addTouchPosition(touchX, touchY, table, TOUCH_POSITION_X, TOUCH_POSITION_Y);
   }
 }
@@ -119,6 +132,10 @@ class ActionCSV extends CSVObject implements ActionTable {
   
   ActionCSV() {
     super(ACTION_TABLE_FIELDS);
+  }
+  
+  public void output() {
+    super.output(getActionExportPath());
   }
   
   void createRecord(int actionID, int justFrame, float touchX, float touchY) {

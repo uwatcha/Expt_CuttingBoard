@@ -43,12 +43,14 @@ interface AddAction {
   }
 }
 interface AddJudgment {
-  default void addJudgment(Judgment judgment, LinkedList<HashMap<String, String>> table, String field) {
+  default void addJudgment(Judgment judgment, LinkedList<HashMap<String, String>> table, String field, int loopFrame) {
     if (judgment!=Judgment.None) {
       //TODO: Badの時に空白埋めする
       table.getLast().put(field, judgment.name());
+      println("normal");
     } else {
-      println("addJudgeのjudgmentがJudgment.Noneです。");
+      //println("addJudgeのjudgmentがJudgment.Noneです。");
+      println("error! loopFrame: "+loopFrame);
     }
   }
 

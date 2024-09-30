@@ -14,8 +14,8 @@ abstract class Button {
 
   protected void run() {
     display();
-    if (touches.length > 0) {
-      if (rectTouchJudge(X, Y, WIDTH, HEIGHT, touches[0].x, touches[0].y)) {
+    if (actionID==MotionEvent.ACTION_DOWN) {
+      if (rectTouchJudge(X, Y, WIDTH, HEIGHT, actionPosition[0], actionPosition[1])) {
         effect();
       }
     }
@@ -119,11 +119,11 @@ class PlayingToTitleButton extends ScreenBackButton {
     super.effect();
     playingFrame = 0;
     loopFrame = 0;
-    generalCSV.output(GENERAL_EXPORT_PATH);
+    generalCSV.output();
     generalCSV.resetTable();
-    touchCSV.output(TOUCH_EXPORT_PATH);
+    touchCSV.output();
     touchCSV.resetTable();
-    actionCSV.output(ACTION_EXPORT_PATH);
+    actionCSV.output();
     actionCSV.resetTable();
   }
 }
