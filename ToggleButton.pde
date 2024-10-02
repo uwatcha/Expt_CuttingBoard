@@ -25,7 +25,6 @@ class ToggleButton {
   private int stateTextX;
   private color sliderColor;
   private int nobX;
-  private boolean hasTouched;
   
   ToggleButton(int x, int y, String jsonKey) {
     X = x-SIZE_UNIT;
@@ -41,7 +40,6 @@ class ToggleButton {
     NOB_X_OFF = X;
     JSON_KEY = jsonKey;
     TITLE = BUTTON_TITLES.get(JSON_KEY);
-    hasTouched = false;
     
     updateStateVariable(faciSettings.myGetBoolean(JSON_KEY));
   }
@@ -52,7 +50,6 @@ class ToggleButton {
     if (isTouched()) {
       toggleState();
     }
-    resetHasTouched();
   }
   
   private void displayButton() {
@@ -90,20 +87,10 @@ class ToggleButton {
   }
 
   private boolean isTouched() {
-    for (processing.event.TouchEvent.Pointer touch : touches) {
-      if (rectTouchJudge(X-SIZE_UNIT, Y, SIZE_UNIT*2+RECT_WIDTH, DIAMETER, touch.x, touch.y)) {
-        if (!hasTouched) {
-          hasTouched = true;
-          return true;
-        } 
+     if (actionID==MotionEvent.ACTION_DOWN) {
+      if (rectTouchJudge(X-SIZE_UNIT, Y, SIZE_UNIT*2+RECT_WIDTH, DIAMETER, actionPosition[0], actionPosition[1])) {
       }
     }
     return false;
-  }
-
-  private void resetHasTouched() {
-    if (hasTouched && touches.length==0) {
-      hasTouched = false;
-    }
   }
 }

@@ -5,7 +5,6 @@ enum Judgment {
   None
 }
 
-// draw()内でswitch()で画面を切り替えるため
 enum Screen {
   Title,
   Settings,

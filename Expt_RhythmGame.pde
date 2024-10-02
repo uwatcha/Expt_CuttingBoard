@@ -114,6 +114,7 @@ PImage gearImage;
 PImage goodImage;
 PImage niceImage;
 PImage badImage;
+PImage pauseImage;
 
 //音楽系オブジェクト
 SoundFile[] goodSEPool;
@@ -174,6 +175,7 @@ void setup() {
   goodImage = loadImage("images/carrot_good.png");
   niceImage = loadImage("images/carrot_nice.png");
   badImage = loadImage("images/carrot_bad.png");
+  pauseImage = loadImage("images/pause_button.png");
   playingFrame = 0;
   loopFrame = 0;
   noteLoadIndex = 0;
@@ -210,7 +212,6 @@ void setup() {
 }
 
 void draw() {
-  println("------------------");
   switch(screen) {
   case Title:
     titleScreen();
@@ -222,6 +223,7 @@ void draw() {
     playingScreen();
     break;
   }
+  appHaltButton();
   actionID = FIELD_RESET_VALUE;
   actionPosition[0] = FIELD_RESET_VALUE;
   actionPosition[1] = FIELD_RESET_VALUE;

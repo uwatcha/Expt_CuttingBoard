@@ -51,7 +51,6 @@ void playingScreen() {
     //UPの時にtimingDiff, Judgmentを空欄にする
     //Judgmentがnullになってる
     if (judgeFieldValues.size()!=0) {
-      println("judgeFieldValues.size()!=0");
       logJustFrame = (int)judgeFieldValues.get(JUST_FRAME_INDEX);
       logTimingDiff = (int)judgeFieldValues.get(TIMING_DIFF_INDEX);
       judgment = (Judgment)judgeFieldValues.get(JUDGMENT_INDEX);
@@ -69,15 +68,9 @@ void playingScreen() {
     feedback.run(judgment);
     
     //TODO: field内のタッチのみ受け付けるようにする
-    if (actionID==MotionEvent.ACTION_DOWN) {
-      println("actionID==MotionEvent.ACTION_DOWN");
-    }
     if (actionID==MotionEvent.ACTION_UP) {
-      println("actionID==MotionEvent.ACTION_UP");
       generalCSV.createRecord(actionID, logJustFrame, logTimingDiff, judgment, actionPosition[0], actionPosition[1]);
-      //println("generalCSV create up record");
       actionCSV.createRecord(actionID, logJustFrame, actionPosition[0], actionPosition[1]);
-      //println("actionCSV create up record");
       judgeFieldValues = new ArrayList<Object>();
       logJustFrame = FIELD_RESET_VALUE;
       logTimingDiff = FIELD_RESET_VALUE;

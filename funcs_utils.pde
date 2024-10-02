@@ -82,3 +82,15 @@ float sec(float sec) {
 String getTime() {
   return nf(year(), 4)+"-"+nf(month(), 2)+"-"+nf(day(), 2)+"--"+nf(hour(), 2)+"-"+nf(minute(), 2);
 }
+
+void appHaltButton() {
+  int x = 50;
+  int y = 200;
+  int w = 200;
+  int h = 200;
+  pauseImage.resize(w, h);
+  image(pauseImage, x+w/2, y+h/2);
+  if (rectTouchJudge(x, y, w, h, actionPosition[0], actionPosition[1])) {
+    println("break");
+  }
+}
