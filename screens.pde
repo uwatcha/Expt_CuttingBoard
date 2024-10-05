@@ -40,27 +40,27 @@ void playingScreen() {
     }
     gauge.run();
     judgeFieldValues = judgeField.run();
-    //ログ
-    //TODO: action, generalで、
-    //correctTiming, touchPositionがズレてる.
-    //UPの時にtimingDiff, Judgmentを空欄にする
-    //Judgmentがnullになってる
     if (judgeFieldValues.size()!=0) {
       logJustFrame = (int)judgeFieldValues.get(JUST_FRAME_INDEX);
       logTimingDiff = (int)judgeFieldValues.get(TIMING_DIFF_INDEX);
       judgment = (Judgment)judgeFieldValues.get(JUDGMENT_INDEX);
       logTouchPositionX = (float)judgeFieldValues.get(POSITION_X_INDEX);
       logTouchPositionY = (float)judgeFieldValues.get(POSITION_Y_INDEX);
-      
+    }
+    //ログ
+    //TODO: action, generalで、
+    //correctTiming, touchPositionがズレてる.
+    //UPの時にtimingDiff, Judgmentを空欄にする
+    //Judgmentがnullになってる
+    if (actionID==MotionEvent.ACTION_DOWN && judgeField.isTouchInField()) {
       generalCSV.createRecord(actionID, logJustFrame, logTimingDiff, judgment, actionPosition[0], actionPosition[1]);
       actionCSV.createRecord(actionID, logJustFrame, actionPosition[0], actionPosition[1]);
       touchCSV.createRecord(logJustFrame, logTimingDiff, judgment, logTouchPositionX, logTouchPositionY);
-    } else if (judgeFieldValues.size()==0 && actionID==MotionEvent.ACTION_DOWN && judgeField.isTouchInField()) {
-      println("error: judgeFieldValues is none");
-    }
+    } 
+    
     feedback.run(judgment);
-    //TODO: field内のタッチのみ受け付けるようにする
-    if (actionID==MotionEvent.ACTION_UP && judgeField.isTouchInField()) {
+    
+    if (actionID==MotionEvent.ACTION_UP && judgeField.isTouchInField() && judgment!=Judgment.None) {
       generalCSV.createRecord(actionID, logJustFrame, logTimingDiff, judgment, actionPosition[0], actionPosition[1]);
       actionCSV.createRecord(actionID, logJustFrame, actionPosition[0], actionPosition[1]);
       judgeFieldValues = new ArrayList<Object>();

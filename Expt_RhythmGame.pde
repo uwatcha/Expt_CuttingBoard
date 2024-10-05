@@ -230,7 +230,12 @@ void draw() {
       actionPosition[0] = FIELD_RESET_VALUE;
       actionPosition[1] = FIELD_RESET_VALUE;
   }
-
+  if (actionID==MotionEvent.ACTION_DOWN) {
+    println("actionID: 0");
+  }
+  if (actionID==MotionEvent.ACTION_UP) {
+    println("actionID: 1");
+  }
   switch(screen) {
   case Title:
     titleScreen();
