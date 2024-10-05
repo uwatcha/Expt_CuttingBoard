@@ -36,7 +36,8 @@ interface AddAction {
       output = "Touch___UP";
       break;
       default: 
-      //println("Not expected Value!!: "+actionID);
+      output = ""+actionID;
+      println("Not expected Value!!: "+actionID);
     }
     table.getLast().put(field, output);
 
@@ -47,10 +48,7 @@ interface AddJudgment {
     if (judgment!=Judgment.None) {
       //TODO: Badの時に空白埋めする
       table.getLast().put(field, judgment.name());
-      println("addJudgment() succeeded");
-    } else {
-      println("addJudgeのjudgmentがJudgment.Noneです。");
-    }
+    } 
   }
 
 }

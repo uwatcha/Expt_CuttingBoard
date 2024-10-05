@@ -94,3 +94,16 @@ void appHaltButton() {
     println("break");
   }
 }
+
+boolean hasPrintedRESETVALUE = false;
+void myPrintln(int actionID) {
+  if(actionID==2147483647) {
+    if (!hasPrintedRESETVALUE) {
+      hasPrintedRESETVALUE = true;
+      println("draw("+actionID+")");
+    }
+  } else {
+    hasPrintedRESETVALUE = false;
+    println("draw("+actionID+")");
+  }
+}

@@ -17,7 +17,6 @@ class JudgeField {
   public ArrayList<Object> run() {
     Judgment judgment = judgeTouchTiming();
     if (judgment != Judgment.None) {
-      println(judgment);
       rtn.add(JUST_FRAME_INDEX, justFrame);
       rtn.add(TIMING_DIFF_INDEX, timingDiff);
       rtn.add(JUDGMENT_INDEX, judgment);
@@ -63,10 +62,14 @@ class JudgeField {
 
   private boolean isTouched() {
     if (actionID==MotionEvent.ACTION_DOWN) {
-      if (rectTouchJudge(TOP_LEFT_X, TOP_LEFT_Y, TOP_LEFT_X+WIDTH, TOP_LEFT_Y+HEIGHT, actionPosition[0], actionPosition[1])) {
+      if (isTouchInField()) {
         return true;
       }
     }
     return false;
+  }
+  
+  public boolean isTouchInField() {
+    return rectTouchJudge(TOP_LEFT_X, TOP_LEFT_Y, TOP_LEFT_X+WIDTH, TOP_LEFT_Y+HEIGHT, actionPosition[0], actionPosition[1]);
   }
 }

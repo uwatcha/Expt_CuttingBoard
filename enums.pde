@@ -20,3 +20,8 @@ enum Field {
   TouchPositionX,
   TouchPositionY
 }
+
+enum Action {
+  Down,
+  Up
+}

@@ -35,11 +35,6 @@ void playingScreen() {
     //ゲーム実行中
     playingFrame++;
     loopFrame = loopFrame+1<TOUCH_INTERVAL ? loopFrame+1 : 0;
-
-    if (loopFrame==TOUCH_INTERVAL/2) {
-      //println("half");
-    }
-
     if (loopFrame==TOUCH_INTERVAL/2) {
       timingSE.play();
     }
@@ -58,17 +53,14 @@ void playingScreen() {
       logTouchPositionY = (float)judgeFieldValues.get(POSITION_Y_INDEX);
       
       generalCSV.createRecord(actionID, logJustFrame, logTimingDiff, judgment, actionPosition[0], actionPosition[1]);
-      //println("generalCSV create down record");
       actionCSV.createRecord(actionID, logJustFrame, actionPosition[0], actionPosition[1]);
-      //println("actionCSV create down record");
       touchCSV.createRecord(logJustFrame, logTimingDiff, judgment, logTouchPositionX, logTouchPositionY);
-      //println("touchCSV create record");
+    } else if (judgeFieldValues.size()==0 && actionID==MotionEvent.ACTION_DOWN && judgeField.isTouchInField()) {
+      println("error: judgeFieldValues is none");
     }
-
     feedback.run(judgment);
-    
     //TODO: field内のタッチのみ受け付けるようにする
-    if (actionID==MotionEvent.ACTION_UP) {
+    if (actionID==MotionEvent.ACTION_UP && judgeField.isTouchInField()) {
       generalCSV.createRecord(actionID, logJustFrame, logTimingDiff, judgment, actionPosition[0], actionPosition[1]);
       actionCSV.createRecord(actionID, logJustFrame, actionPosition[0], actionPosition[1]);
       judgeFieldValues = new ArrayList<Object>();
