@@ -99,6 +99,7 @@ int playStartFrame;
 int loopFrame;
 int frameLoopCount;
 boolean isRunning;
+int actionIdFromAndroid = FIELD_RESET_VALUE;
 int actionID;
 float[] actionPosition;
 
@@ -143,17 +144,16 @@ ToggleButton gaugeToggleButton;
 Gauge gauge;
 JudgeField judgeField;
 Feedback feedback;
+Action nextExpected = Action.Down;
 
 //システム関係
 PApplet applet = this;
-Runtime runtime = Runtime.getRuntime();
-
 
 void setup() {
 
   //設定
   //なぜかframeRateを変更できない。FRAME_RATEを60というデフォルトにしておく。
-  frameRate(FRAME_RATE);
+  frameRate(120);
   imageMode(CENTER);
   textAlign(CENTER, CENTER);
 
@@ -208,6 +208,30 @@ void setup() {
 }
 
 void draw() {
+  switch(actionIdFromAndroid) {
+    case MotionEvent.ACTION_DOWN:
+      if (nextExpected == Action.Down) {
+        actionID = actionIdFromAndroid;
+        nextExpected = Action.Up;
+      }
+      break;
+    case MotionEvent.ACTION_UP:
+      if (nextExpected == Action.Up) {
+        actionID = actionIdFromAndroid;
+        nextExpected = Action.Down;
+      }
+      break;
+    default:
+      actionID = FIELD_RESET_VALUE;
+      actionPosition[0] = FIELD_RESET_VALUE;
+      actionPosition[1] = FIELD_RESET_VALUE;
+  }
+  if (actionID==MotionEvent.ACTION_DOWN) {
+    println("actionID: 0");
+  }
+  if (actionID==MotionEvent.ACTION_UP) {
+    println("actionID: 1");
+  }
   switch(screen) {
   case Title:
     titleScreen();
@@ -219,9 +243,10 @@ void draw() {
     playingScreen();
     break;
   }
-
   appHaltButton();
-  actionID = FIELD_RESET_VALUE;
-  actionPosition[0] = FIELD_RESET_VALUE;
-  actionPosition[1] = FIELD_RESET_VALUE;
+  if (actionID==MotionEvent.ACTION_DOWN || actionID==MotionEvent.ACTION_UP) {
+    actionID = FIELD_RESET_VALUE;
+    actionPosition[0] = FIELD_RESET_VALUE;
+    actionPosition[1] = FIELD_RESET_VALUE;
+  }
 }
