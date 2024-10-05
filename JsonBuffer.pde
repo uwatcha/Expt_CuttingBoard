@@ -17,7 +17,5 @@ class JsonBuffer {
    public void saveJSON() {
      saveJSONObject(json, FILE_PATH);
      println("JSON saved");
-     //println("Buffer: " + json);
-     //println("SavedFile: " + loadJSONObject(sketchPath("") + "/" + FILE_PATH));
    }
 }

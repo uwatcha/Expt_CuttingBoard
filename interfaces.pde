@@ -36,24 +36,20 @@ interface AddAction {
       output = "Touch___UP";
       break;
       default: 
-      //println("Not expected Value!!: "+actionID);
+      output = ""+actionID;
+      println("Not expected Value!!: "+actionID);
     }
     table.getLast().put(field, output);
 
   }
 }
 interface AddJudgment {
-  default void addJudgment(Judgment judgment, LinkedList<HashMap<String, String>> table, String field, int loopFrame) {
+  default void addJudgment(Judgment judgment, LinkedList<HashMap<String, String>> table, String field) {
     if (judgment!=Judgment.None) {
       //TODO: Badの時に空白埋めする
       table.getLast().put(field, judgment.name());
-      println("normal");
-    } else {
-      //println("addJudgeのjudgmentがJudgment.Noneです。");
-      println("error! loopFrame: "+loopFrame);
-    }
+    } 
   }
-
 }
 interface AddTimingDiff {
   default void addTimingDiff(int diff, LinkedList<HashMap<String, String>> table, String field) {

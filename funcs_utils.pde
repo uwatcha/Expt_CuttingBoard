@@ -107,7 +107,16 @@ void appHaltButton() {
   }
 }
 
-//void breakPoint(String text) {
-//  println("breakPoint at "+text);
-//  println("break");
+//actionID==2147483647の出力が連続するときに出力しない関数だが、今後汎用的にする
+//boolean hasPrintedRESETVALUE = false;
+//void myPrintln(int actionID) {
+//  if(actionID==2147483647) {
+//    if (!hasPrintedRESETVALUE) {
+//      hasPrintedRESETVALUE = true;
+//      println("draw("+actionID+")");
+//    }
+//  } else {
+//    hasPrintedRESETVALUE = false;
+//    println("draw("+actionID+")");
+//  }
 //}

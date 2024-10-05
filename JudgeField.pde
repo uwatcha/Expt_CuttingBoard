@@ -22,7 +22,6 @@ class JudgeField {
     calcJustFrame();
     judgeTouchTiming();
     if (judgment != Judgment.None) {
-      //println("judgment sended to screen: "+judgment);
       rtn.add(JUST_FRAME_INDEX, justFrame);
       rtn.add(TIMING_DIFF_INDEX, timingDiff);
       rtn.add(JUDGMENT_INDEX, judgment);
@@ -32,7 +31,6 @@ class JudgeField {
       rtn = new ArrayList<Object>();
     }
     display();
-    //resetHasTouched();
     return rtn;
   }
 
@@ -42,10 +40,7 @@ class JudgeField {
   
   public int getJustFrame() { return justFrame; }
   
-//TODO: hasTouched使わずに、ACTION_DOWNを検知すればいいのでは？
   private void judgeTouchTiming() {
-    //問題が起こるときはこの関数がなぜか呼ばれていない
-    //println("judgeTouchTiming() called");
     if (isTouched()) {
       if (isNowWithinRange(         0, GOOD_FRAME)) {
         judgment = Judgment.Good;
@@ -72,32 +67,14 @@ class JudgeField {
 
   private boolean isNowWithinRange(int lowerBoundFrame, int upperBoundFrame) {
     timingDiff = playingFrame-justFrame;
-    //println("timingDiff: "+timingDiff);
     return (lowerBoundFrame <= abs(timingDiff)&&abs(timingDiff) <= upperBoundFrame);
   }
 
   private boolean isTouched() {
-    //if (actionID==FIELD_RESET_VALUE) {
-    //  print("actionID: "+actionID);
-    //} else {
-    //  println("actionID: "+actionID);
-    //}
     if (actionID==MotionEvent.ACTION_DOWN) {
-      //println("touch down in isTouched()");
       if (isTouchInField()) {
-        //println("isTouched succeeded");
         return true;
-        //if (!hasTouched) {
-        //  println("! hasTouched");
-        //  hasTouched = true;
-        //  //println("field touched");
-        //  //println("rect: "+TOP_LEFT_X+", "+TOP_LEFT_Y+", "+(TOP_LEFT_X+WIDTH)+", "+(TOP_LEFT_Y+HEIGHT));
-        //  //println("position: "+actionPosition[0]+", "+actionPosition[1]);
-        //  return true;
-        //}
       }
-    } else if (actionID==MotionEvent.ACTION_UP) {
-      //println("ACTION_UP");
     }
     return false;
   }

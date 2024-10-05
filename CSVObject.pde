@@ -100,7 +100,7 @@ class GeneralCSV extends CSVObject implements GeneralTable {
     addAction(actionID, table, ACTION);
     addCorrectTiming(justFrame, table, CORRECT_TIMING);
     addTimingDiff(diff, table, TIMING_DIFF);
-    addJudgment(judgment, table, JUDGMENT, loopFrame);
+    addJudgment(judgment, table, JUDGMENT);
     addTouchPosition(touchX, touchY, table, TOUCH_POSITION_X, TOUCH_POSITION_Y);
   }
 }
@@ -121,7 +121,7 @@ class TouchCSV extends CSVObject implements TouchTable {
     addTouchTiming(playingFrame, table, TOUCH_TIMING);
     addCorrectTiming(justFrame, table, CORRECT_TIMING);
     addTimingDiff(diff, table, TIMING_DIFF);
-    addJudgment(judgment, table, JUDGMENT, loopFrame);
+    addJudgment(judgment, table, JUDGMENT);
     addTouchPosition(touchX, touchY, table, TOUCH_POSITION_X, TOUCH_POSITION_Y);
   }
 }

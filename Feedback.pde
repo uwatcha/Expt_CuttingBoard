@@ -9,14 +9,12 @@ class Feedback {
   private boolean isActive;
   private PImage image;
   private String text;
-  private int startFrame;
   private Judgment judgment;
   private boolean soundEffectHasPlayed;
 
   Feedback() {
     setIsActive();
     text = "";
-    startFrame = -1;
     judgment = Judgment.None;
     soundEffectHasPlayed = false;
   }
@@ -33,7 +31,6 @@ class Feedback {
 
   private void setJudgment(Judgment judgment) {
     if (judgment != Judgment.None) {
-      startFrame = playingFrame;
       this.judgment = judgment;
     } else {
     }
@@ -87,7 +84,6 @@ class Feedback {
 
   private void reset() {
     if (actionID == MotionEvent.ACTION_UP) {
-      startFrame = -1;
       soundEffectHasPlayed = false;
       judgment = Judgment.None;
     }
