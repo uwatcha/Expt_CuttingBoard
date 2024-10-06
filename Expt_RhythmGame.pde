@@ -236,7 +236,6 @@ void draw() {
   if (actionID==MotionEvent.ACTION_UP) {
     println("actionID: 1");
   }
-
   switch(screen) {
   case Title:
     titleScreen();
