@@ -196,13 +196,16 @@ void setup() {
   //インスタンス初期化
   goodSEPool = new SoundFile[5];
   niceSEPool = new SoundFile[5];
-  badSEPool  = new SoundFile[5];
+  badSEPool  = new SoundFile[10];
   hitSEPool  = new SoundFile[5];
   for (int i=0; i<5; i++) {
     goodSEPool[i] = new SoundFile(applet, "SEs/slash_good.wav");
     niceSEPool[i] = new SoundFile(applet, "SEs/slash_nice.wav");
     badSEPool[i]  = new SoundFile(applet, "SEs/slash_bad.wav");
     hitSEPool[i]  = new SoundFile(applet, "SEs/hit.wav");
+  }
+  for (int i=5; i<10; i++) {
+    badSEPool[i]  = new SoundFile(applet, "SEs/slash_bad.wav");
   }
   timingSE = new SoundFile(applet, "SEs/timing.wav");
 }
@@ -226,12 +229,14 @@ void draw() {
       actionPosition[0] = FIELD_RESET_VALUE;
       actionPosition[1] = FIELD_RESET_VALUE;
   }
+  
   if (actionID==MotionEvent.ACTION_DOWN) {
     println("actionID: 0");
   }
   if (actionID==MotionEvent.ACTION_UP) {
     println("actionID: 1");
   }
+
   switch(screen) {
   case Title:
     titleScreen();
