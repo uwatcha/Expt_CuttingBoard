@@ -153,7 +153,7 @@ void setup() {
 
   //設定
   //なぜかframeRateを変更できない。FRAME_RATEを60というデフォルトにしておく。
-  frameRate(120);
+  frameRate(60);
   imageMode(CENTER);
   textAlign(CENTER, CENTER);
 

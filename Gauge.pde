@@ -5,13 +5,16 @@ class Gauge {
   final private color FRAME_COLOR = DARK_GREY;
   final private color FILL_COLOR = LIGHT_GREY;
   private boolean isActive;
+  private int fillHeight;
   
   Gauge() {
     setIsActive();
+    fillHeight = 0;
   }
   
   public void run() {
     if (isActive) {
+      calcFillHeight();
       displayFrame();
       displayFill();
     }
@@ -21,6 +24,20 @@ class Gauge {
     isActive = faciSettings.myGetBoolean(isActiveGauge);
   }
   
+  private void calcFillHeight() {
+    int subtractedLoopFrame = loopFrame-(int)sec(0.1);
+    if (subtractedLoopFrame >= 0) {
+      fillHeight = subtractedLoopFrame;
+    } else {
+      if (playingFrame < TOUCH_INTERVAL) {
+        fillHeight = 0;
+      } else {
+        fillHeight = TOUCH_INTERVAL+subtractedLoopFrame;
+      }
+    }
+    fillHeight = (int)map(fillHeight, 0, TOUCH_INTERVAL, 0, SIZE);
+  }
+  
   public void displayFrame() {
     if (isActive) {
       displaySquare(X, Y, SIZE, STROKE_DEFAULT, FRAME_COLOR, BLACK);
@@ -28,10 +45,6 @@ class Gauge {
   }
   
   private void displayFill() {
-    displayRect(X, Y, SIZE, (int)getGaugeHeight()-(int)sec(0.1), STROKE_DEFAULT, FILL_COLOR);
-  }
-  
-  private float getGaugeHeight() {
-    return map(loopFrame, 0, TOUCH_INTERVAL, 0, SIZE);
+    displayRect(X, Y, SIZE, fillHeight, STROKE_DEFAULT, FILL_COLOR);
   }
 }
