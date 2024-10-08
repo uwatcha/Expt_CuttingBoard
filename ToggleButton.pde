@@ -39,7 +39,7 @@ class ToggleButton {
     NOB_X_ON = X+SIZE_UNIT*2;
     NOB_X_OFF = X;
     JSON_KEY = jsonKey;
-    TITLE = BUTTON_TITLES.get(JSON_KEY);
+    TITLE = UI_TITLES.get(JSON_KEY);
     
     updateStateVariable(faciSettings.myGetBoolean(JSON_KEY));
   }

@@ -62,6 +62,7 @@ final int START_INTERVAL = (int)sec(1);
 //JSON キー
 final String isActiveFeedback = "is_active_feedback";
 final String isActiveGauge = "is_active_gauge";
+final String tempo = "tempo";
 
 //パス
 String EXPORT_PATH;
@@ -89,7 +90,7 @@ final int POSITION_X_INDEX = 3;
 final int POSITION_Y_INDEX = 4;
 
 //その他定数
-HashMap<String, String> BUTTON_TITLES;
+HashMap<String, String> UI_TITLES;
 final int FIELD_RESET_VALUE = Integer.MAX_VALUE;
 
 
@@ -140,6 +141,9 @@ PlayingToTitleButton playingToTitleButton;
 ToggleButton feedbackToggleButton;
 ToggleButton gaugeToggleButton;
 
+//スライダーオブジェクト
+Slider tempoSlider;
+
 //その他オブジェクト
 Gauge gauge;
 JudgeField judgeField;
@@ -158,9 +162,10 @@ void setup() {
   textAlign(CENTER, CENTER);
 
   //定数初期化
-  BUTTON_TITLES = new HashMap<String, String>();
-  BUTTON_TITLES.put(isActiveFeedback, "フィードバック");
-  BUTTON_TITLES.put(isActiveGauge, "ゲージ");
+  UI_TITLES = new HashMap<String, String>();
+  UI_TITLES.put(isActiveFeedback, "フィードバック");
+  UI_TITLES.put(isActiveGauge, "ゲージ");
+  UI_TITLES.put(tempo, "テンポ");
   EXPORT_PATH = getActivity().getExternalFilesDir("").getPath();
 
   //変数初期化
@@ -189,6 +194,7 @@ void setup() {
   playingToTitleButton = new PlayingToTitleButton();
   feedbackToggleButton = new ToggleButton(width*2/5, height/2, isActiveFeedback);
   gaugeToggleButton = new ToggleButton(width*3/5, height/2, isActiveGauge);
+  tempoSlider = new Slider(width/2, height*3/4, width*3/5, 0, 360, tempo);
   gauge = new Gauge();
   judgeField = new JudgeField();
   feedback = new Feedback();

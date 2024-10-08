@@ -14,6 +14,7 @@ void settingsScreen() {
   settingsToTitleButton.run();
   feedbackToggleButton.run();
   gaugeToggleButton.run();
+  tempoSlider.run();
 }
 
 ArrayList<Object> judgeFieldValues;
