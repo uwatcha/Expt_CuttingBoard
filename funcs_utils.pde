@@ -1,21 +1,21 @@
 //Text-------------------------------------------------------------------------------------------------------------------------------------------------
-void displayText(String text, int x, int y, int textSize, color textColor) {
+void displayText(String text, float x, float y, int textSize, color textColor) {
   textSize(textSize);
   fill(textColor);
   text(text, x, y);
 }
-void displayText(String text, int x, int y, int textSize) {
+void displayText(String text, float x, float y, int textSize) {
   displayText(text, x, y, textSize, BLACK);
 }
 
 //Circle-----------------------------------------------------------------------------------------------------------------------------------------------
-void displayRing(PVector coord, int r, int strokeWeight, color ringColor) {
+void displayRing(PVector coord, float r, float strokeWeight, color ringColor) {
   noFill();
   mySetStroke(strokeWeight, ringColor);
   circle(coord.x, coord.y, r*2);
 }
 
-void displayArcRing(int x, int y, int r, float startPI, float endPI, int strokeWeight, int ringColor) {
+void displayArcRing(float x, float y, float r, float startPI, float endPI, float strokeWeight, color ringColor) {
   noFill();
   mySetStroke(strokeWeight, ringColor);
   //startPIが0の時、3時ではなく12時の方向の方が直感的。
@@ -23,46 +23,46 @@ void displayArcRing(int x, int y, int r, float startPI, float endPI, int strokeW
 }
 
 //Rect, Square-----------------------------------------------------------------------------------------------------------------------------------------
-void displayRect(int x, int y, int w, int h, int strokeWeight, color squareColor, color strokeColor) {
+void displayRect(float x, float y, float w, float h, float strokeWeight, color squareColor, color strokeColor) {
   mySetStroke(strokeWeight, strokeColor);
   fill(squareColor);
   rect(x, y, w, h);
 }
-void displayRect(int x, int y, int rectWidth, int rectHeight, int strokeWeight, color squareColor) {
+void displayRect(float x, float y, float rectWidth, float rectHeight, float strokeWeight, color squareColor) {
   displayRect(x, y, rectWidth, rectHeight, strokeWeight, squareColor, BLACK);
 }
 
-void displaySquare(int x, int y, int size, int strokeWeight, color squareColor, color strokeColor) {
+void displaySquare(float x, float y, float size, float strokeWeight, color squareColor, color strokeColor) {
   mySetStroke(strokeWeight, strokeColor);
   fill(squareColor);
   square(x, y, size);
 }
 
-void displayRoundedRect(int x, int y, int w, int h, int r, int strokeWeight, color squareColor, color strokeColor) {
+void displayRoundedRect(float x, float y, float w, float h, float r, float strokeWeight, color squareColor, color strokeColor) {
   mySetStroke(strokeWeight, strokeColor);
   fill(squareColor);
   rect(x, y, w, h, r);
 }
 
 //Line-------------------------------------------------------------------------------------------------------------------------------------------------
-void displayLine(int x1, int y1, int x2, int y2, int strokeWeight, color lineColor) {
+void displayLine(float x1, float y1, float x2, float y2, float strokeWeight, color lineColor) {
   strokeWeight(strokeWeight);
   stroke(lineColor);
   line(x1, y1, x2, y2);
 }
-void displayLine(int x1, int y1, int x2, int y2, int strokeWeight) {
+void displayLine(float x1, float y1, float x2, float y2, float strokeWeight) {
   displayLine(x1, y1, x2, y2, strokeWeight, BLACK);
 }
-void displayLine(int x1, int y1, int x2, int y2) {
+void displayLine(float x1, float y1, float x2, float y2) {
   displayLine(x1, y1, x2, y2, STROKE_DEFAULT, BLACK);
 }
-void displayVerticalLine(int x, int strokeWeight, color lineColor) {
+void displayVerticalLine(float x, float strokeWeight, color lineColor) {
   mySetStroke(strokeWeight, lineColor);
   line(x, 0, x, height);
 }
 
 //Others-----------------------------------------------------------------------------------------------------------------------------------------------
-void mySetStroke(int strokeWeight, color strokeColor) {
+void mySetStroke(float strokeWeight, color strokeColor) {
   if (strokeWeight!=0) {
     strokeWeight(strokeWeight);
     stroke(strokeColor);
@@ -71,7 +71,7 @@ void mySetStroke(int strokeWeight, color strokeColor) {
   }
 }
 
-boolean rectTouchJudge(int x, int y, int w, int h, float touchX, float touchY) {
+boolean rectTouchJudge(float x, float y, float w, float h, float touchX, float touchY) {
   return (x <= touchX&&touchX <= x+w) && (y <= touchY&&touchY <= y+h);
 }
 

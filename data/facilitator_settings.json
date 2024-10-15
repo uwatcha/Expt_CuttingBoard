@@ -1,4 +1,5 @@
 {
     "is_active_feedback": true,
-    "is_active_gauge": true
+    "is_active_gauge": true,
+    "tempo": 60
 }

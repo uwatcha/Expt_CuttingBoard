@@ -47,9 +47,8 @@ final int STROKE_DEFAULT = 2;
 
 //TODO: 調整する
 //判定フレーム定数
-final int GOOD_FRAME = 8;
-final int NICE_FRAME = 16;
-final int BAD_FRAME = 20;
+final int GOOD_FRAME = 6;
+final int NICE_FRAME = GOOD_FRAME+6;
 
 //フレーム定数
 final int FRAME_RATE = 60;
@@ -223,6 +222,9 @@ void draw() {
         actionID = actionIdFromAndroid;
         nextExpected = Action.Up;
       }
+      break;
+    case MotionEvent.ACTION_MOVE:
+      //defaultにMOVEを含めないため
       break;
     case MotionEvent.ACTION_UP:
       if (nextExpected == Action.Up) {

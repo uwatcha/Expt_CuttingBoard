@@ -45,7 +45,7 @@ class ToggleButton {
   }
   
   public void run() {
-    displayText(TITLE, titleX, titleY, TITLE_SIZE, BLACK);
+    displayText(TITLE, titleX, titleY, TITLE_SIZE);
     displayButton();
     if (isTouched()) {
       toggleState();
