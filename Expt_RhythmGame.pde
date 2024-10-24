@@ -164,7 +164,7 @@ void setup() {
   UI_TITLES = new HashMap<String, String>();
   UI_TITLES.put(isActiveFeedback, "フィードバック");
   UI_TITLES.put(isActiveGauge, "ゲージ");
-  UI_TITLES.put(bpm, "テンポ");
+  UI_TITLES.put(bpm, "BPM");
   EXPORT_PATH = getActivity().getExternalFilesDir("").getPath();
 
   //変数初期化

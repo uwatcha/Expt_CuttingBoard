@@ -111,8 +111,8 @@ void appHaltButton() {
 //TODO: 現在はフラグで一度だけ呼び出してるので、修正する。
 public void setTouchIntervalFrame() {
   //touchIntervalFrame = (int)sec(2);
-  touchIntervalFrame = faciSettings.myGetInt(bpm);
-  println("set json value: "+faciSettings.myGetInt(bpm));
+  touchIntervalFrame = (int)(pow(FRAME_RATE*2, 2)/faciSettings.myGetInt(bpm));
+  println("touchIntervalFrame: "+touchIntervalFrame);
 }
 
 //actionID==2147483647の出力が連続するときに出力しない関数だが、今後汎用的にする
