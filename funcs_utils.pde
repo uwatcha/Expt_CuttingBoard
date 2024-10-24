@@ -111,7 +111,7 @@ void appHaltButton() {
 //TODO: 現在はフラグで一度だけ呼び出してるので、修正する。
 public void setTouchIntervalFrame() {
   //touchIntervalFrame = (int)sec(2);
-  touchIntervalFrame = (int)(pow(FRAME_RATE*2, 2)/faciSettings.myGetInt(bpm));
+  touchIntervalFrame = pow(FRAME_RATE*2, 2)/faciSettings.myGetInt(bpm);
   println("touchIntervalFrame: "+touchIntervalFrame);
 }
 

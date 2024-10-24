@@ -95,7 +95,7 @@ final int FIELD_RESET_VALUE = Integer.MAX_VALUE;
 //グローバル変数
 int playingFrame;
 int playStartFrame;
-int touchIntervalFrame = 60;
+float touchIntervalFrame = 60;
 int loopFrame;
 int frameLoopCount;
 boolean isRunning;

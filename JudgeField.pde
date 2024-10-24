@@ -57,12 +57,12 @@ class JudgeField {
   }
   
   private void calcJustFrame() {
-    int frameLoopCount = playingFrame/touchIntervalFrame;
-    int frameRemainder = playingFrame%touchIntervalFrame;
+    int frameLoopCount = playingFrame/(int)touchIntervalFrame;
+    int frameRemainder = playingFrame%(int)touchIntervalFrame;
     if (frameRemainder >= touchIntervalFrame/2) {
       frameLoopCount++;
     }
-    justFrame = frameLoopCount*touchIntervalFrame;
+    justFrame = frameLoopCount*(int)touchIntervalFrame;
   }
 
   private boolean isNowWithinRange(int lowerBoundFrame, int upperBoundFrame) {

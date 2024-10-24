@@ -5,7 +5,7 @@ class Gauge {
   final private color FRAME_COLOR = DARK_GREY;
   final private color FILL_COLOR = LIGHT_GREY;
   private boolean isActive;
-  private int fillHeight;
+  private float fillHeight;
   
   Gauge() {
     setIsActive();
