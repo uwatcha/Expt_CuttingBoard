@@ -14,7 +14,7 @@ void settingsScreen() {
   settingsToTitleButton.run();
   feedbackToggleButton.run();
   gaugeToggleButton.run();
-  tempoSlider.run();
+  bpmSlider.run();
 }
 
 ArrayList<Object> judgeFieldValues;
@@ -22,7 +22,13 @@ int logJustFrame;
 int logTimingDiff;
 float logTouchPositionX, logTouchPositionY;
 Judgment judgment = Judgment.None;
+boolean initializeFirstRun = true;
+
 void playingScreen() {
+  if (initializeFirstRun) {
+    setTouchIntervalFrame();
+    initializeFirstRun = false;
+  }
   //背景-----------------------------------------------------------------------------------------------------------------------------------------------
   background(woodImage);
   //オブジェクト実行-------------------------------------------------------------------------------------------------------------------------------------
@@ -35,8 +41,8 @@ void playingScreen() {
   } else {
     //ゲーム実行中
     playingFrame++;
-    loopFrame = loopFrame+1<TOUCH_INTERVAL ? loopFrame+1 : 0;
-    if (loopFrame==TOUCH_INTERVAL/2) {
+    loopFrame = loopFrame+1<touchIntervalFrame ? loopFrame+1 : 0;
+    if (loopFrame==touchIntervalFrame/2) {
       timingSE.play();
     }
     gauge.run();

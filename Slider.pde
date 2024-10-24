@@ -118,6 +118,7 @@ class Slider {
   
   private void setValueToJSON() {
     faciSettings.mySetInt(JSON_KEY, value);
+    println("set value: "+value);
   }
 
   private void setValueToThumbX(int value) {

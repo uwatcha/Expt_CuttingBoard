@@ -41,6 +41,7 @@ class StartButton extends Button {
     protected void effect() {
     screen = Screen.Playing;
     playStartFrame = frameCount;
+    initializeFirstRun = true;
   }
 }
 

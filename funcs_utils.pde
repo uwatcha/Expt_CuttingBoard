@@ -107,6 +107,14 @@ void appHaltButton() {
   }
 }
 
+//TODO: スクリーンをオブジェクト化&スクリーンのInitialize()で呼び出す
+//TODO: 現在はフラグで一度だけ呼び出してるので、修正する。
+public void setTouchIntervalFrame() {
+  //touchIntervalFrame = (int)sec(2);
+  touchIntervalFrame = faciSettings.myGetInt(bpm);
+  println("set json value: "+faciSettings.myGetInt(bpm));
+}
+
 //actionID==2147483647の出力が連続するときに出力しない関数だが、今後汎用的にする
 //boolean hasPrintedRESETVALUE = false;
 //void myPrintln(int actionID) {

@@ -29,13 +29,13 @@ class Gauge {
     if (subtractedLoopFrame >= 0) {
       fillHeight = subtractedLoopFrame;
     } else {
-      if (playingFrame < TOUCH_INTERVAL) {
+      if (playingFrame < touchIntervalFrame) {
         fillHeight = 0;
       } else {
-        fillHeight = TOUCH_INTERVAL+subtractedLoopFrame;
+        fillHeight = touchIntervalFrame+subtractedLoopFrame;
       }
     }
-    fillHeight = (int)map(fillHeight, 0, TOUCH_INTERVAL, 0, SIZE);
+    fillHeight = (int)map(fillHeight, 0, touchIntervalFrame, 0, SIZE);
   }
   
   public void displayFrame() {
