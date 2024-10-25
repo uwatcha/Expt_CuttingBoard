@@ -54,8 +54,8 @@ final int NICE_MILLIS = framesToMillis(12);
 final int FRAME_RATE = 60;
 final int JUDGE_DISPLAY_DURATION = 30;
 //TODO: 使ってない
-final int SOUND_LAG_BUFFER = (int)secToFrames(0.05);
-final int START_INTERVAL = (int)secToFrames(1);
+final int SOUND_LAG_BUFFER = 50;
+final int START_INTERVAL = 1000;
 
 //JSON キー
 final String isActiveFeedback = "is_active_feedback";

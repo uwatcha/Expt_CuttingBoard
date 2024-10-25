@@ -23,6 +23,7 @@ int logTimingDiff;
 float logTouchPositionX, logTouchPositionY;
 Judgment judgment = Judgment.None;
 boolean initializeFirstRun = true;
+boolean hasTimingSEPlayed = false;
 
 void playingScreen() {
   if (initializeFirstRun) {
@@ -40,8 +41,14 @@ void playingScreen() {
     judgeField.display();
   } else {
     //ゲーム実行中
-    if (loopPlayingMillis()==touchIntervalMillis/2) {
+    
+    println("loopPlayingMillis(): "+loopPlayingMillis());
+    println("touchIntervalMillis/2: "+touchIntervalMillis/2);
+    if (!hasTimingSEPlayed && abs(loopPlayingMillis()-touchIntervalMillis/2) < 1000/FRAME_RATE) {
       timingSE.play();
+      hasTimingSEPlayed = true;
+    } else if (hasTimingSEPlayed && loopPlayingMillis()-touchIntervalMillis/2 >= 1000/FRAME_RATE) {
+      hasTimingSEPlayed = false;
     }
     gauge.run();
     judgeFieldValues = judgeField.run();

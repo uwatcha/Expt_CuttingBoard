@@ -63,6 +63,7 @@ class JudgeField {
       loopCount++;
     }
     justMillis = loopCount*touchIntervalMillis;
+    //println("justMillis: "+justMillis);
   }
 
   private boolean isNowWithinRange(int lowerBoundMillis, int upperBoundMillis) {
