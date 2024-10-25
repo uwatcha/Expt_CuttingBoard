@@ -75,8 +75,16 @@ boolean rectTouchJudge(float x, float y, float w, float h, float touchX, float t
   return (x <= touchX&&touchX <= x+w) && (y <= touchY&&touchY <= y+h);
 }
 
-float sec(float sec) {
+float secToFrames(float sec) {
   return FRAME_RATE*sec;
+}
+
+int playingMillis() {
+  return millis()-playStartMillis;
+}
+
+int loopPlayingMillis() {
+  return playingMillis()%touchIntervalMillis;
 }
 
 String getTime() {
@@ -109,10 +117,10 @@ void appHaltButton() {
 
 //TODO: スクリーンをオブジェクト化&スクリーンのInitialize()で呼び出す
 //TODO: 現在はフラグで一度だけ呼び出してるので、修正する。
-public void setTouchIntervalFrame() {
-  //touchIntervalFrame = (int)sec(2);
-  touchIntervalFrame = pow(FRAME_RATE*2, 2)/faciSettings.myGetInt(bpm);
-  println("touchIntervalFrame: "+touchIntervalFrame);
+public void setTouchIntervalMillis() {
+  //touchIntervalMillis = (int)secToFrames(2);
+  touchIntervalMillis = (int)(pow(FRAME_RATE*2, 2)/faciSettings.myGetInt(bpm));
+  println("touchIntervalMillis: "+touchIntervalMillis);
 }
 
 //actionID==2147483647の出力が連続するときに出力しない関数だが、今後汎用的にする

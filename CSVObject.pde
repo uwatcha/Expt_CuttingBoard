@@ -73,9 +73,9 @@ abstract class CSVObject implements CommonTable {
     return rtn;
   }
   
-  public void createJustFrameRecord(int justFrame) {
+  public void createJustMillisRecord(int justMillis) {
     addRecord();
-    addCorrectTiming(justFrame, table, CORRECT_TIMING);
+    addCorrectTiming(justMillis, table, CORRECT_TIMING);
   }
 
   public void resetTable() {
@@ -94,11 +94,11 @@ class GeneralCSV extends CSVObject implements GeneralTable {
     super.output(getGeneralExportPath());
   }
   
-  public void createRecord(int actionID, int justFrame, int diff, Judgment judgment, float touchX, float touchY) {
+  public void createRecord(int actionID, int justMillis, int diff, Judgment judgment, float touchX, float touchY) {
     addRecord();
-    addTouchTiming(playingFrame, table, TOUCH_TIMING);
+    addTouchTiming(playingMillis(), table, TOUCH_TIMING);
     addAction(actionID, table, ACTION);
-    addCorrectTiming(justFrame, table, CORRECT_TIMING);
+    addCorrectTiming(justMillis, table, CORRECT_TIMING);
     addTimingDiff(diff, table, TIMING_DIFF);
     addJudgment(judgment, table, JUDGMENT);
     addTouchPosition(touchX, touchY, table, TOUCH_POSITION_X, TOUCH_POSITION_Y);
@@ -116,10 +116,10 @@ class TouchCSV extends CSVObject implements TouchTable {
     super.output(getTouchExportPath());
   }
   
-  public void createRecord(int justFrame, int diff, Judgment judgment, float touchX, float touchY) {
+  public void createRecord(int justMillis, int diff, Judgment judgment, float touchX, float touchY) {
     addRecord();
-    addTouchTiming(playingFrame, table, TOUCH_TIMING);
-    addCorrectTiming(justFrame, table, CORRECT_TIMING);
+    addTouchTiming(playingMillis(), table, TOUCH_TIMING);
+    addCorrectTiming(justMillis, table, CORRECT_TIMING);
     addTimingDiff(diff, table, TIMING_DIFF);
     addJudgment(judgment, table, JUDGMENT);
     addTouchPosition(touchX, touchY, table, TOUCH_POSITION_X, TOUCH_POSITION_Y);
@@ -138,11 +138,11 @@ class ActionCSV extends CSVObject implements ActionTable {
     super.output(getActionExportPath());
   }
   
-  void createRecord(int actionID, int justFrame, float touchX, float touchY) {
+  void createRecord(int actionID, int justMillis, float touchX, float touchY) {
     addRecord();
     addAction(actionID, table, ACTION);
-    addTouchTiming(playingFrame, table, TOUCH_TIMING);
-    addCorrectTiming(justFrame, table, CORRECT_TIMING);
+    addTouchTiming(playingMillis(), table, TOUCH_TIMING);
+    addCorrectTiming(justMillis, table, CORRECT_TIMING);
     addTouchPosition(touchX, touchY, table, TOUCH_POSITION_X, TOUCH_POSITION_Y);
   }
 }

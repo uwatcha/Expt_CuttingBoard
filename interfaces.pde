@@ -3,12 +3,12 @@
 
 //注意：以下のTableのinterface内のメソッドは仕様上、実装クラスでprivateにできないが、createRecord以外は実装クラス外で使用されることを想定していない
 interface CommonTable {
-  default void addTouchTiming(int playingFrame, LinkedList<HashMap<String, String>> table, String field) {
-    table.getLast().put(field, String.format("%5s", str(playingFrame)));
+  default void addTouchTiming(int playingMillis, LinkedList<HashMap<String, String>> table, String field) {
+    table.getLast().put(field, String.format("%5s", str(playingMillis)));
   }
 
-  default void addCorrectTiming(int justFrame, LinkedList<HashMap<String, String>> table, String field) {
-    table.getLast().put(field, String.format("%5s", str(justFrame)));
+  default void addCorrectTiming(int justMillis, LinkedList<HashMap<String, String>> table, String field) {
+    table.getLast().put(field, String.format("%5s", str(justMillis)));
   }
   default void addTouchPosition(float touchX, float touchY, LinkedList<HashMap<String, String>> table, String fieldX, String fieldY) {
     table.getLast().put(fieldX, String.format("%4s", str((int)touchX)));
@@ -16,13 +16,13 @@ interface CommonTable {
   }
 }
 interface GeneralTable extends AddJudgment, AddTimingDiff, AddAction {
-  void createRecord(int action, int justFrame, int diff, Judgment judgment, float touchX, float touchY);
+  void createRecord(int action, int justMillis, int diff, Judgment judgment, float touchX, float touchY);
 }
 interface TouchTable extends AddJudgment, AddTimingDiff {
-  void createRecord(int justFrame, int diff, Judgment judgment, float touchX, float touchY);
+  void createRecord(int justMillis, int diff, Judgment judgment, float touchX, float touchY);
 }
 interface ActionTable extends AddAction {
-  void createRecord(int action, int justFrame, float touchX, float touchY);
+  void createRecord(int action, int justMillis, float touchX, float touchY);
 }
 
 interface AddAction {

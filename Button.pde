@@ -40,7 +40,7 @@ class StartButton extends Button {
   @Override
     protected void effect() {
     screen = Screen.Playing;
-    playStartFrame = frameCount;
+    playStartMillis = millis();
     initializeFirstRun = true;
   }
 }
@@ -117,8 +117,6 @@ class PlayingToTitleButton extends ScreenBackButton {
   @Override
     protected void effect() {
     super.effect();
-    playingFrame = 0;
-    loopFrame = 0;
     generalCSV.output();
     generalCSV.resetTable();
     touchCSV.output();

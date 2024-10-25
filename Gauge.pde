@@ -4,6 +4,7 @@ class Gauge {
   final private int SIZE = 200;
   final private color FRAME_COLOR = DARK_GREY;
   final private color FILL_COLOR = LIGHT_GREY;
+  final private int HUMAN_REACTION_OFFSET = 100;
   private boolean isActive;
   private float fillHeight;
   
@@ -25,17 +26,17 @@ class Gauge {
   }
   
   private void calcFillHeight() {
-    int subtractedLoopFrame = loopFrame-(int)sec(0.1);
-    if (subtractedLoopFrame >= 0) {
-      fillHeight = subtractedLoopFrame;
+    int subtractedLoopMillis = loopPlayingMillis()-HUMAN_REACTION_OFFSET;
+    if (subtractedLoopMillis >= 0) {
+      fillHeight = subtractedLoopMillis;
     } else {
-      if (playingFrame < touchIntervalFrame) {
+      if (playingMillis() < touchIntervalMillis) {
         fillHeight = 0;
       } else {
-        fillHeight = touchIntervalFrame+subtractedLoopFrame;
+        fillHeight = touchIntervalMillis+subtractedLoopMillis;
       }
     }
-    fillHeight = (int)map(fillHeight, 0, touchIntervalFrame, 0, SIZE);
+    fillHeight = (int)map(fillHeight, 0, touchIntervalMillis, 0, SIZE);
   }
   
   public void displayFrame() {

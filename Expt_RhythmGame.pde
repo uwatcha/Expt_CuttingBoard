@@ -54,8 +54,8 @@ final int NICE_FRAME = GOOD_FRAME+6;
 final int FRAME_RATE = 60;
 final int JUDGE_DISPLAY_DURATION = 30;
 //TODO: 使ってない
-final int SOUND_LAG_BUFFER = (int)sec(0.05);
-final int START_INTERVAL = (int)sec(1);
+final int SOUND_LAG_BUFFER = (int)secToFrames(0.05);
+final int START_INTERVAL = (int)secToFrames(1);
 
 //JSON キー
 final String isActiveFeedback = "is_active_feedback";
@@ -81,7 +81,7 @@ final String[] ACTION_TABLE_FIELDS = {ACTION, TOUCH_TIMING, CORRECT_TIMING, TOUC
 final String[] GENERAL_TABLE_FIELDS = {ACTION, TOUCH_TIMING, CORRECT_TIMING, TIMING_DIFF, JUDGMENT, TOUCH_POSITION_X, TOUCH_POSITION_Y};
 
 //JudgeField出力ArrayList
-final int JUST_FRAME_INDEX = 0;
+final int JUST_MILLIS_INDEX = 0;
 final int TIMING_DIFF_INDEX = 1;
 final int JUDGMENT_INDEX = 2;
 final int POSITION_X_INDEX = 3;
@@ -93,11 +93,8 @@ final int FIELD_RESET_VALUE = Integer.MAX_VALUE;
 
 
 //グローバル変数
-int playingFrame;
-int playStartFrame;
-float touchIntervalFrame = 60;
-int loopFrame;
-int frameLoopCount;
+int playStartMillis;
+int touchIntervalMillis;
 boolean isRunning;
 int actionIdFromAndroid = FIELD_RESET_VALUE;
 int actionID;
@@ -156,6 +153,7 @@ void setup() {
 
   //設定
   //なぜかframeRateを変更できない。FRAME_RATEを60というデフォルトにしておく。
+  //TODO: 120にしてみる
   frameRate(60);
   imageMode(CENTER);
   textAlign(CENTER, CENTER);
@@ -175,9 +173,6 @@ void setup() {
   niceImage = loadImage("images/carrot_nice.png");
   badImage = loadImage("images/carrot_bad.png");
   pauseImage = loadImage("images/pause_button.png");
-  playingFrame = 0;
-  loopFrame = 0;
-  frameLoopCount = 0;
   noteLoadIndex = 0;
   actionID = FIELD_RESET_VALUE;
   actionPosition = new float[2];

@@ -6,23 +6,23 @@ class JudgeField {
   final int TOP_LEFT_Y = height/2;
   final int WIDTH = width;
   final int HEIGHT = height/2;
-  private int justFrame;
+  private int justMillis;
   private Judgment judgment;
   private int timingDiff;
   private ArrayList<Object> rtn;
 
   public JudgeField() {
-    justFrame = FIELD_RESET_VALUE;
+    justMillis = FIELD_RESET_VALUE;
     judgment = Judgment.None;
     timingDiff = FIELD_RESET_VALUE;
     rtn = new ArrayList<Object>();
   }
 
   public ArrayList<Object> run() {
-    calcJustFrame();
+    calcJustMillis();
     judgeTouchTiming();
     if (judgment != Judgment.None) {
-      rtn.add(JUST_FRAME_INDEX, justFrame);
+      rtn.add(JUST_MILLIS_INDEX, justMillis);
       rtn.add(TIMING_DIFF_INDEX, timingDiff);
       rtn.add(JUDGMENT_INDEX, judgment);
       rtn.add(POSITION_X_INDEX, actionPosition[0]);
@@ -38,11 +38,11 @@ class JudgeField {
     displayRect(TOP_LEFT_X, TOP_LEFT_Y, WIDTH, HEIGHT, 0, CLEAR_GREY);
   }
   
-  public int getJustFrame() { return justFrame; }
+  public int getJustMillis() { return justMillis; }
   
   private void judgeTouchTiming() {
     if (isTouched()) {
-      if (isNowWithinRange(         0, GOOD_FRAME)) {
+      if (isNowWithinRange(0, GOOD_FRAME)) {
         judgment = Judgment.Good;
       } else if (isNowWithinRange(GOOD_FRAME, NICE_FRAME)) {
         judgment = Judgment.Nice;
@@ -56,18 +56,18 @@ class JudgeField {
     }
   }
   
-  private void calcJustFrame() {
-    int frameLoopCount = playingFrame/(int)touchIntervalFrame;
-    int frameRemainder = playingFrame%(int)touchIntervalFrame;
-    if (frameRemainder >= touchIntervalFrame/2) {
-      frameLoopCount++;
+  private void calcJustMillis() {
+    int loopCount = playingMillis()/touchIntervalMillis;
+    int loopRemainder = playingMillis()%touchIntervalMillis;
+    if (loopRemainder >= touchIntervalMillis/2) {
+      loopCount++;
     }
-    justFrame = frameLoopCount*(int)touchIntervalFrame;
+    justMillis = loopCount*touchIntervalMillis;
   }
 
-  private boolean isNowWithinRange(int lowerBoundFrame, int upperBoundFrame) {
-    timingDiff = playingFrame-justFrame;
-    return (lowerBoundFrame <= abs(timingDiff)&&abs(timingDiff) <= upperBoundFrame);
+  private boolean isNowWithinRange(int lowerBoundMillis, int upperBoundMillis) {
+    timingDiff = playingMillis()-justMillis;
+    return (lowerBoundMillis <= abs(timingDiff)&&abs(timingDiff) <= upperBoundMillis);
   }
 
   private boolean isTouched() {

@@ -18,7 +18,7 @@ void settingsScreen() {
 }
 
 ArrayList<Object> judgeFieldValues;
-int logJustFrame;
+int logJustMillis;
 int logTimingDiff;
 float logTouchPositionX, logTouchPositionY;
 Judgment judgment = Judgment.None;
@@ -26,7 +26,7 @@ boolean initializeFirstRun = true;
 
 void playingScreen() {
   if (initializeFirstRun) {
-    setTouchIntervalFrame();
+    setTouchIntervalMillis();
     initializeFirstRun = false;
   }
   //背景-----------------------------------------------------------------------------------------------------------------------------------------------
@@ -34,22 +34,20 @@ void playingScreen() {
   //オブジェクト実行-------------------------------------------------------------------------------------------------------------------------------------
   playingToTitleButton.run();
   //バッファタイム
-  if (frameCount-playStartFrame < START_INTERVAL) {
-    displayArcRing(width/2, height/4, 125, 0, map(frameCount-playStartFrame, 0, START_INTERVAL, 0, TWO_PI), 40, LIGHT_GREEN);
+  if (playingMillis() < START_INTERVAL) {
+    displayArcRing(width/2, height/4, 125, 0, map(playingMillis(), 0, START_INTERVAL, 0, TWO_PI), 40, LIGHT_GREEN);
     gauge.displayFrame();
     judgeField.display();
   } else {
     //ゲーム実行中
-    playingFrame++;
-    loopFrame = loopFrame+1<touchIntervalFrame ? loopFrame+1 : 0;
-    if (loopFrame==touchIntervalFrame/2) {
+    if (loopPlayingMillis()==touchIntervalMillis/2) {
       timingSE.play();
     }
     gauge.run();
     judgeFieldValues = judgeField.run();
     ///*
     if (judgeFieldValues.size()!=0) {
-      logJustFrame = (int)judgeFieldValues.get(JUST_FRAME_INDEX);
+      logJustMillis = (int)judgeFieldValues.get(JUST_MILLIS_INDEX);
       logTimingDiff = (int)judgeFieldValues.get(TIMING_DIFF_INDEX);
       judgment = (Judgment)judgeFieldValues.get(JUDGMENT_INDEX);
       logTouchPositionX = (float)judgeFieldValues.get(POSITION_X_INDEX);
@@ -57,18 +55,18 @@ void playingScreen() {
     }
     
     if (actionID==MotionEvent.ACTION_DOWN && judgeField.isTouchInField()) {
-      generalCSV.createRecord(actionID, logJustFrame, logTimingDiff, judgment, actionPosition[0], actionPosition[1]);
-      actionCSV.createRecord(actionID, logJustFrame, actionPosition[0], actionPosition[1]);
-      touchCSV.createRecord(logJustFrame, logTimingDiff, judgment, logTouchPositionX, logTouchPositionY);
+      generalCSV.createRecord(actionID, logJustMillis, logTimingDiff, judgment, actionPosition[0], actionPosition[1]);
+      actionCSV.createRecord(actionID, logJustMillis, actionPosition[0], actionPosition[1]);
+      touchCSV.createRecord(logJustMillis, logTimingDiff, judgment, logTouchPositionX, logTouchPositionY);
     } 
     
     feedback.run(judgment);
     
     if (actionID==MotionEvent.ACTION_UP && judgeField.isTouchInField() && judgment!=Judgment.None) {
-      generalCSV.createRecord(actionID, logJustFrame, logTimingDiff, judgment, actionPosition[0], actionPosition[1]);
-      actionCSV.createRecord(actionID, logJustFrame, actionPosition[0], actionPosition[1]);
+      generalCSV.createRecord(actionID, logJustMillis, logTimingDiff, judgment, actionPosition[0], actionPosition[1]);
+      actionCSV.createRecord(actionID, logJustMillis, actionPosition[0], actionPosition[1]);
       judgeFieldValues = new ArrayList<Object>();
-      logJustFrame = FIELD_RESET_VALUE;
+      logJustMillis = FIELD_RESET_VALUE;
       logTimingDiff = FIELD_RESET_VALUE;
       judgment = Judgment.None;
       logTouchPositionX = FIELD_RESET_VALUE;
@@ -76,11 +74,11 @@ void playingScreen() {
 
     }
 
-    if (judgeField.getJustFrame()==playingFrame) {
+    if (judgeField.getJustMillis()==playingMillis()) {
       playHitSE();
-      generalCSV.createJustFrameRecord(judgeField.getJustFrame());
-      actionCSV.createJustFrameRecord(judgeField.getJustFrame());
-      touchCSV.createJustFrameRecord(judgeField.getJustFrame());
+      generalCSV.createJustMillisRecord(judgeField.getJustMillis());
+      actionCSV.createJustMillisRecord(judgeField.getJustMillis());
+      touchCSV.createJustMillisRecord(judgeField.getJustMillis());
     }
   }
 }
