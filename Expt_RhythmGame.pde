@@ -47,8 +47,8 @@ final int STROKE_DEFAULT = 2;
 
 //TODO: 調整する
 //判定フレーム定数
-final int GOOD_FRAME = 6;
-final int NICE_FRAME = GOOD_FRAME+6;
+final int GOOD_MILLIS = framesToMillis(6);
+final int NICE_MILLIS = framesToMillis(12);
 
 //フレーム定数
 final int FRAME_RATE = 60;

@@ -42,11 +42,11 @@ class JudgeField {
   
   private void judgeTouchTiming() {
     if (isTouched()) {
-      if (isNowWithinRange(0, GOOD_FRAME)) {
+      if (isNowWithinRange(0, GOOD_MILLIS)) {
         judgment = Judgment.Good;
-      } else if (isNowWithinRange(GOOD_FRAME, NICE_FRAME)) {
+      } else if (isNowWithinRange(GOOD_MILLIS, NICE_MILLIS)) {
         judgment = Judgment.Nice;
-      } else if (isNowWithinRange(NICE_FRAME, Integer.MAX_VALUE)) {
+      } else if (isNowWithinRange(NICE_MILLIS, Integer.MAX_VALUE)) {
         judgment = Judgment.Bad;
       } else {
         judgment = Judgment.None;
