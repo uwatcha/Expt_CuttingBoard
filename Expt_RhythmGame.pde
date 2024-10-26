@@ -93,6 +93,7 @@ final int FIELD_RESET_VALUE = Integer.MAX_VALUE;
 
 
 //グローバル変数
+int intervalStartMillis;
 int playStartMillis;
 int touchIntervalMillis;
 boolean isRunning;
@@ -176,6 +177,8 @@ void setup() {
   badImage = loadImage("images/carrot_bad.png");
   pauseImage = loadImage("images/pause_button.png");
   noteLoadIndex = 0;
+  intervalStartMillis = FIELD_RESET_VALUE;
+  playStartMillis = FIELD_RESET_VALUE;
   actionID = FIELD_RESET_VALUE;
   actionPosition = new float[2];
   screen = Screen.Title;

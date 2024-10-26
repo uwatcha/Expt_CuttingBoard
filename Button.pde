@@ -40,8 +40,8 @@ class StartButton extends Button {
   @Override
     protected void effect() {
     screen = Screen.Playing;
-    playStartMillis = millis();
-    initializeFirstRun = true;
+    intervalStartMillis = millis();
+    playingFirstLoop = true;
   }
 }
 

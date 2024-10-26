@@ -79,8 +79,20 @@ float secToFrames(float sec) {
   return FRAME_RATE*sec;
 }
 
+int intervalMillis() {
+  if (intervalStartMillis!=FIELD_RESET_VALUE) {
+    return millis()-intervalStartMillis;
+  } else {
+    return 0;
+  }
+}
+
 int playingMillis() {
-  return millis()-playStartMillis;
+  if (playStartMillis!=FIELD_RESET_VALUE) {
+    return millis()-playStartMillis;
+  } else {
+    return 0;
+  }
 }
 
 int loopPlayingMillis() {
@@ -122,10 +134,10 @@ int framesToMillis(int frame) {
 //TODO: スクリーンをオブジェクト化&スクリーンのInitialize()で呼び出す
 //TODO: 現在はフラグで一度だけ呼び出してるので、修正する。
 void setTouchIntervalMillis() {
+  touchIntervalMillis = 1000*4*FRAME_RATE/faciSettings.myGetInt(bpm);
   //本来なら以下のように計算するが、簡略化できるので直接計算している。
   //int touchIntervalFrame = 4*FRAME_RATE/faciSettings.myGetInt(bpm);
   //touchIntervalMillis = framesToMillis(touchIntervalFrame);
-  touchIntervalMillis = 1000*4*FRAME_RATE/faciSettings.myGetInt(bpm);
 }
 
 //actionID==2147483647の出力が連続するときに出力しない関数だが、今後汎用的にする
