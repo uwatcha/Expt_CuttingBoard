@@ -75,7 +75,7 @@ class Feedback {
     } else {
       if (judgment!=Judgment.None) {
         if (!soundEffectHasPlayed) {
-          playHitSE();
+          playNiceSE();
           soundEffectHasPlayed = true;
         }
       }

@@ -145,6 +145,8 @@ Gauge gauge;
 JudgeField judgeField;
 Feedback feedback;
 Action nextExpected = Action.Down;
+MillisMatchChecker timingSEChecker;
+MillisMatchChecker justMillisChecker;
 
 //システム関係
 PApplet applet = this;
@@ -192,6 +194,8 @@ void setup() {
   gauge = new Gauge();
   judgeField = new JudgeField();
   feedback = new Feedback();
+  timingSEChecker = new MillisMatchChecker();
+  justMillisChecker = new MillisMatchChecker();
 
   //インスタンス初期化
   goodSEPool = new SoundFile[5];

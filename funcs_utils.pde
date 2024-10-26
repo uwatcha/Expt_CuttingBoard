@@ -126,7 +126,6 @@ void setTouchIntervalMillis() {
   //int touchIntervalFrame = 4*FRAME_RATE/faciSettings.myGetInt(bpm);
   //touchIntervalMillis = framesToMillis(touchIntervalFrame);
   touchIntervalMillis = 1000*4*FRAME_RATE/faciSettings.myGetInt(bpm);
-  println("touchIntervalMillis: "+touchIntervalMillis);
 }
 
 //actionID==2147483647の出力が連続するときに出力しない関数だが、今後汎用的にする

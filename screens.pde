@@ -23,7 +23,6 @@ int logTimingDiff;
 float logTouchPositionX, logTouchPositionY;
 Judgment judgment = Judgment.None;
 boolean initializeFirstRun = true;
-boolean hasTimingSEPlayed = false;
 
 void playingScreen() {
   if (initializeFirstRun) {
@@ -41,14 +40,8 @@ void playingScreen() {
     judgeField.display();
   } else {
     //ゲーム実行中
-    
-    println("loopPlayingMillis(): "+loopPlayingMillis());
-    println("touchIntervalMillis/2: "+touchIntervalMillis/2);
-    if (!hasTimingSEPlayed && abs(loopPlayingMillis()-touchIntervalMillis/2) < 1000/FRAME_RATE) {
+    if (timingSEChecker.isMatched(loopPlayingMillis(), touchIntervalMillis/2)) {
       timingSE.play();
-      hasTimingSEPlayed = true;
-    } else if (hasTimingSEPlayed && loopPlayingMillis()-touchIntervalMillis/2 >= 1000/FRAME_RATE) {
-      hasTimingSEPlayed = false;
     }
     gauge.run();
     judgeFieldValues = judgeField.run();
@@ -80,8 +73,10 @@ void playingScreen() {
       logTouchPositionY = FIELD_RESET_VALUE;
 
     }
-
-    if (judgeField.getJustMillis()==playingMillis()) {
+    //TODO: ゲージが半分から始まる問題修正
+    println("justMillis: "+judgeField.getJustMillis());
+    println("playingMillis: "+playingMillis());
+    if (justMillisChecker.isMatched(judgeField.getJustMillis(), playingMillis())) {
       playHitSE();
       generalCSV.createJustMillisRecord(judgeField.getJustMillis());
       actionCSV.createJustMillisRecord(judgeField.getJustMillis());

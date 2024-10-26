@@ -63,9 +63,11 @@ abstract class CSVObject implements CommonTable {
 
   private ArrayList<String> getHeader() {
     ArrayList<String> rtn = new ArrayList<String>();
-    rtn.add("DateTime: "+ getTime() +"\n");
-    rtn.add("Feedback: "+ (faciSettings.myGetBoolean(isActiveFeedback) ? "Active" : "Inactive") + ", ");
-    rtn.add("Gauge: "+ (faciSettings.myGetBoolean(isActiveGauge) ? "Active" : "Inactive") + "\n");
+    rtn.add("DateTime, Feedback, Gauge, BPM\n");
+    rtn.add(getTime() +", ");
+    rtn.add((faciSettings.myGetBoolean(isActiveFeedback) ? "Active" : "Inactive") + ", ");
+    rtn.add((faciSettings.myGetBoolean(isActiveGauge) ? "Active" : "Inactive") + ", ");
+    rtn.add((faciSettings.myGetInt(bpm))+"\n\n");
     for (int i=0; i<fields.length; i++) {
       rtn.add(fields[i]);
       rtn.add(i!=fields.length-1 ? ", " : "\n");
