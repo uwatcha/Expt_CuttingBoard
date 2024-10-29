@@ -1,0 +1,86 @@
+//TODO: 画面上に複数の指が触れている場合を想定したコードに書き直す
+//ex)画面上部に触れている状態で画面下部をタッチすると、１回目は判定されるが、２回目は反応しない
+
+class JudgeField {
+  final int TOP_LEFT_X = 0;
+  final int TOP_LEFT_Y = height/2;
+  final int WIDTH = width;
+  final int HEIGHT = height/2;
+  private int justMillis;
+  private Judgment judgment;
+  private int timingDiff;
+  private ArrayList<Object> rtn;
+
+  public JudgeField() {
+    justMillis = FIELD_RESET_VALUE;
+    judgment = Judgment.None;
+    timingDiff = FIELD_RESET_VALUE;
+    rtn = new ArrayList<Object>();
+  }
+
+  public ArrayList<Object> run() {
+    calcJustMillis();
+    judgeTouchTiming();
+    if (judgment != Judgment.None) {
+      rtn.add(JUST_MILLIS_INDEX, justMillis);
+      rtn.add(TIMING_DIFF_INDEX, timingDiff);
+      rtn.add(JUDGMENT_INDEX, judgment);
+      rtn.add(POSITION_X_INDEX, actionPosition[0]);
+      rtn.add(POSITION_Y_INDEX, actionPosition[1]);
+    } else {
+      rtn = new ArrayList<Object>();
+    }
+    display();
+    return rtn;
+  }
+
+  public void display() {
+    displayRect(TOP_LEFT_X, TOP_LEFT_Y, WIDTH, HEIGHT, 0, CLEAR_GREY);
+  }
+  
+  public int getJustMillis() { return justMillis; }
+  
+  private void judgeTouchTiming() {
+    if (isTouched()) {
+      if (isNowWithinRange(0, GOOD_MILLIS)) {
+        judgment = Judgment.Good;
+      } else if (isNowWithinRange(GOOD_MILLIS, NICE_MILLIS)) {
+        judgment = Judgment.Nice;
+      } else if (isNowWithinRange(NICE_MILLIS, Integer.MAX_VALUE)) {
+        judgment = Judgment.Bad;
+      } else {
+        judgment = Judgment.None;
+      }
+    } else {
+      judgment = Judgment.None;
+    }
+  }
+  
+  private void calcJustMillis() {
+    int loopCount = playingMillis()/touchIntervalMillis;
+    int loopRemainder = playingMillis()%touchIntervalMillis;
+    if (loopRemainder >= touchIntervalMillis/2) {
+      loopCount++;
+    }
+    justMillis = loopCount*touchIntervalMillis;
+    //println("justMillis: "+justMillis);
+  }
+
+  private boolean isNowWithinRange(int lowerBoundMillis, int upperBoundMillis) {
+    timingDiff = playingMillis()-justMillis;
+    return (lowerBoundMillis <= abs(timingDiff)&&abs(timingDiff) <= upperBoundMillis);
+  }
+
+  private boolean isTouched() {
+    if (actionID==MotionEvent.ACTION_DOWN) {
+      if (isTouchInField()) {
+        return true;
+      }
+    }
+    return false;
+  }
+  
+  public boolean isTouchInField() {
+    return rectTouchJudge(TOP_LEFT_X, TOP_LEFT_Y, TOP_LEFT_X+WIDTH, TOP_LEFT_Y+HEIGHT, actionPosition[0], actionPosition[1]);
+  }
+}

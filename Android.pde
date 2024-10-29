@@ -1,30 +1,7 @@
-boolean isTouch, isTouchDown, isTouchUp, isPointerTouchDown, isPointerTouchUp;
-
 @Override
   public boolean surfaceTouchEvent(MotionEvent event) {
-  switch (event.getAction()) {
-  case MotionEvent.ACTION_DOWN:
-    isTouchDown = true;
-    break;
-  case MotionEvent.ACTION_UP:
-    isTouchUp = true;
-    break;
-  case MotionEvent.ACTION_POINTER_DOWN:
-    isPointerTouchDown = true;
-    break;
-  case MotionEvent.ACTION_POINTER_UP:
-    isPointerTouchUp = true;
-    break;
-  default:
-    isTouch = isTouchDown = isTouchUp = isPointerTouchDown = isPointerTouchUp = false;
-    break;
-  }
+  actionIdFromAndroid = event.getActionMasked();
+  actionPosition[0] = event.getX(event.getPointerCount()-1);
+  actionPosition[1] = event.getY(event.getPointerCount()-1);
   return super.surfaceTouchEvent(event);
-}
-
-@Override
-  void onPause() {
-  super.onPause();
-  isRunning = false;
-  audioManager.pauseMusic();
 }
