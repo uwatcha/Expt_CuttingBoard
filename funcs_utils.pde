@@ -115,6 +115,24 @@ String getActionExportPath() {
   return EXPORT_PATH+File.separator+"action"+File.separator+getTime()+"_action.csv";
 }
 
+int framesToMillis(int frame) {
+  return 1000*frame/FRAME_RATE;
+}
+
+void closeFiles() {
+  generalCSV.closeFile();
+  touchCSV.closeFile();
+  actionCSV.closeFile();
+}
+
+
+
+
+
+
+
+
+
 void appHaltButton() {
   int x = 50;
   int y = 200;
@@ -125,10 +143,6 @@ void appHaltButton() {
   if (rectTouchJudge(x, y, w, h, actionPosition[0], actionPosition[1])) {
     println("break");
   }
-}
-
-int framesToMillis(int frame) {
-  return 1000*frame/FRAME_RATE;
 }
 
 //TODO: スクリーンをオブジェクト化&スクリーンのInitialize()で呼び出す

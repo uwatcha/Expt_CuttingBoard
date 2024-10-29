@@ -3,16 +3,16 @@
 
 //注意：以下のTableのinterface内のメソッドは仕様上、実装クラスでprivateにできないが、createRecord以外は実装クラス外で使用されることを想定していない
 interface CommonTable {
-  default void addTouchTiming(int playingMillis, LinkedList<HashMap<String, String>> table, String field) {
-    table.getLast().put(field, String.format("%5s", str(playingMillis)));
+  default void addTouchTiming(int playingMillis, HashMap<String, String> record, String field) {
+    record.put(field, String.format("%5s", str(playingMillis)));
   }
 
-  default void addCorrectTiming(int justMillis, LinkedList<HashMap<String, String>> table, String field) {
-    table.getLast().put(field, String.format("%5s", str(justMillis)));
+  default void addCorrectTiming(int justMillis, HashMap<String, String> record, String field) {
+    record.put(field, String.format("%5s", str(justMillis)));
   }
-  default void addTouchPosition(float touchX, float touchY, LinkedList<HashMap<String, String>> table, String fieldX, String fieldY) {
-    table.getLast().put(fieldX, String.format("%4s", str((int)touchX)));
-    table.getLast().put(fieldY, String.format("%4s", str((int)touchY)));
+  default void addTouchPosition(float touchX, float touchY, HashMap<String, String> record, String fieldX, String fieldY) {
+    record.put(fieldX, String.format("%4s", str((int)touchX)));
+    record.put(fieldY, String.format("%4s", str((int)touchY)));
   }
 }
 interface GeneralTable extends AddJudgment, AddTimingDiff, AddAction {
@@ -26,7 +26,7 @@ interface ActionTable extends AddAction {
 }
 
 interface AddAction {
-  default void addAction(int actionID, LinkedList<HashMap<String, String>> table, String field) {
+  default void addAction(int actionID, HashMap<String, String> record, String field) {
     String output = "";
     switch (actionID) {
       case MotionEvent.ACTION_DOWN:
@@ -39,20 +39,20 @@ interface AddAction {
       output = ""+actionID;
       println("Not expected Value!!: "+actionID);
     }
-    table.getLast().put(field, output);
+    record.put(field, output);
 
   }
 }
 interface AddJudgment {
-  default void addJudgment(Judgment judgment, LinkedList<HashMap<String, String>> table, String field) {
+  default void addJudgment(Judgment judgment, HashMap<String, String> record, String field) {
     if (judgment!=Judgment.None) {
       //TODO: Badの時に空白埋めする
-      table.getLast().put(field, judgment.name());
+      record.put(field, judgment.name());
     } 
   }
 }
 interface AddTimingDiff {
-  default void addTimingDiff(int diff, LinkedList<HashMap<String, String>> table, String field) {
+  default void addTimingDiff(int diff, HashMap<String, String> record, String field) {
     String sign = "";
     if (diff > 0) {
       sign = "+";
@@ -61,6 +61,6 @@ interface AddTimingDiff {
     } else {
       sign = " ";
     }
-    table.getLast().put(field, sign+String.format("%3s", str(abs(diff))));
+    record.put(field, sign+String.format("%3s", str(abs(diff))));
   }
 }

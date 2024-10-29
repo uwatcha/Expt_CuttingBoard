@@ -27,6 +27,7 @@ import java.io.UnsupportedEncodingException;
 import java.io.BufferedWriter;
 
 import java.util.LinkedList;
+import java.util.Map;
 
 //Java関係のライブラリ
 
@@ -122,6 +123,7 @@ SoundFile timingSE;
 
 //フラグ
 Screen screen;
+boolean isContinueWriting = false;
 
 //入出力オブジェクト
 JsonBuffer faciSettings;

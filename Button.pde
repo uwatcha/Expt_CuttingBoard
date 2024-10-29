@@ -42,6 +42,9 @@ class StartButton extends Button {
     screen = Screen.Playing;
     intervalStartMillis = millis();
     playingFirstLoop = true;
+    generalCSV.createFile();
+    touchCSV.createFile();
+    actionCSV.createFile();
   }
 }
 
@@ -117,11 +120,7 @@ class PlayingToTitleButton extends ScreenBackButton {
   @Override
     protected void effect() {
     super.effect();
-    generalCSV.output();
-    generalCSV.resetTable();
-    touchCSV.output();
-    touchCSV.resetTable();
-    actionCSV.output();
-    actionCSV.resetTable();
+    closeFiles();
+    isContinueWriting = false;
   }
 }
