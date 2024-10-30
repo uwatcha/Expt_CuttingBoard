@@ -1,6 +1,4 @@
-//TODO: getTouchedPointerを改善
 //TODO: 定数は、そのクラスでしか使わないものは、デカすぎないorそのクラスをたくさん実体化しない限り、そのクラス内で定義する。
-//TODO: jsonを、各ページごとに要素を作り、それらの子要素にそのページで使う定数を要素として持つ
 class ToggleButton {
   final private int X, Y;
   final private int TEXT_OFFSET_X, TEXT_OFFSET_Y;
@@ -87,7 +85,7 @@ class ToggleButton {
   }
 
   private boolean isTouched() {
-     if (action==Action.Down) {
+    if (action==Action.Down) {
       if (rectTouchJudge(X-SIZE_UNIT, Y, SIZE_UNIT*2+RECT_WIDTH, DIAMETER, actionPosition[0], actionPosition[1])) {
         return true;
       }

@@ -1,6 +1,3 @@
-//TODO: 画面上に複数の指が触れている場合を想定したコードに書き直す
-//ex)画面上部に触れている状態で画面下部をタッチすると、１回目は判定されるが、２回目は反応しない
-
 class JudgeField {
   final int TOP_LEFT_X = 0;
   final int TOP_LEFT_Y = height/2;

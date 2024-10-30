@@ -30,13 +30,10 @@ interface AddAction {
     println("action: "+action);
     String output;
     if (action==Action.Down) {
-      println("case down");
       output = "Touch_DOWN";
     } else if (action==Action.Up) {
-      println("case up");
       output = "Touch___UP";
     } else {
-      println("default");
       output = ""+action;
       println("Not expected Value!!: "+action);
     }
@@ -46,8 +43,11 @@ interface AddAction {
 interface AddJudgment {
   default void addJudgment(Judgment judgment, HashMap<String, String> record, String field) {
     if (judgment!=Judgment.None) {
-      //TODO: Badの時に空白埋めする
-      record.put(field, judgment.name());
+      if (judgment==Judgment.Bad) {
+        record.put(field, " "+judgment.name());
+      } else {
+        record.put(field, judgment.name());
+      }
     }
   }
 }
@@ -61,6 +61,6 @@ interface AddTimingDiff {
     } else {
       sign = " ";
     }
-    record.put(field, sign+String.format("%3s", str(abs(diff))));
+    record.put(field, sign+String.format("%4s", str(abs(diff))));
   }
 }

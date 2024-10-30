@@ -87,7 +87,30 @@ abstract class CSVObject implements CommonTable {
     String rtn = "";
     for (int i=0; i<FIELDS.length; i++) {
       String value = record.get(FIELDS[i]);
-      rtn += value!=null ? value : "-------";
+      if (value!=null) {
+        rtn += value;
+      } else {
+        switch(FIELDS[i]) {
+          case ACTION: 
+            rtn += "----------";
+            break;
+          case TOUCH_TIMING:
+            rtn += "-----";
+            break;
+          case TIMING_DIFF:
+            rtn += "-----";
+            break;
+          case JUDGMENT:
+            rtn += "----";
+            break;
+          case TOUCH_POSITION_X:
+            rtn += "----";
+            break;
+          case TOUCH_POSITION_Y:
+            rtn += "----";
+            break;
+        }
+      }
       rtn += (i != FIELDS.length-1) ? ", " : "";
     }
     return rtn;
