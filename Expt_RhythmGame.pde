@@ -80,8 +80,8 @@ int intervalStartMillis;
 int playStartMillis;
 int touchIntervalMillis;
 boolean isRunning;
-int actionIdFromAndroid = FIELD_RESET_VALUE;
-int actionID;
+Action actionFromAndroid;
+Action action;
 float[] actionPosition;
 
 //ノーツ関係
@@ -163,7 +163,8 @@ void setup() {
   noteLoadIndex = 0;
   intervalStartMillis = FIELD_RESET_VALUE;
   playStartMillis = FIELD_RESET_VALUE;
-  actionID = FIELD_RESET_VALUE;
+  actionFromAndroid = Action.Other;
+  action = Action.Other;
   actionPosition = new float[2];
   screen = Screen.Title;
   faciSettings = new JsonBuffer("facilitator_settings.json");
@@ -201,25 +202,23 @@ void setup() {
   timingSE = new SoundFile(applet, "SEs/timing.wav");
 }
 
+//TODO: 無印とPOINTERのcase内の処理を関数化し、dryを守る
 void draw() {
-  switch(actionIdFromAndroid) {
-    case MotionEvent.ACTION_DOWN:
+  switch(actionFromAndroid) {
+    case Down:
       if (nextExpected == Action.Down) {
-        actionID = actionIdFromAndroid;
+        action = actionFromAndroid;
         nextExpected = Action.Up;
       }
       break;
-    case MotionEvent.ACTION_MOVE:
-      //defaultにMOVEを含めないため
-      break;
-    case MotionEvent.ACTION_UP:
+    case Up:
       if (nextExpected == Action.Up) {
-        actionID = actionIdFromAndroid;
+        action = actionFromAndroid;
         nextExpected = Action.Down;
       }
       break;
     default:
-      actionID = FIELD_RESET_VALUE;
+      action = Action.Other;
       actionPosition[0] = FIELD_RESET_VALUE;
       actionPosition[1] = FIELD_RESET_VALUE;
   }
@@ -235,8 +234,8 @@ void draw() {
     playingScreen();
     break;
   }
-  if (actionID==MotionEvent.ACTION_DOWN || actionID==MotionEvent.ACTION_UP) {
-    actionID = FIELD_RESET_VALUE;
+  if (action!=Action.Other) {
+    action = Action.Other;
     actionPosition[0] = FIELD_RESET_VALUE;
     actionPosition[1] = FIELD_RESET_VALUE;
   }

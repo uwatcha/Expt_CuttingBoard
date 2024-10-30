@@ -135,14 +135,14 @@ void appHaltButton() {
 
 //actionID==2147483647の出力が連続するときに出力しない関数だが、今後汎用的にする
 boolean hasPrintedRESETVALUE = false;
-void myPrintln(int actionID) {
-  if(actionID==2147483647) {
+void myPrintln(Action action) {
+  if(action==Action.Other) {
     if (!hasPrintedRESETVALUE) {
       hasPrintedRESETVALUE = true;
-      println("draw("+actionID+")");
+      println("draw("+action+")");
     }
   } else {
     hasPrintedRESETVALUE = false;
-    println("draw("+actionID+")");
+    println("draw("+action+")");
   }
 }

@@ -54,17 +54,17 @@ void playingScreen() {
       logTouchPositionY = (float)judgeFieldValues.get(POSITION_Y_INDEX);
     }
 
-    if (actionID==MotionEvent.ACTION_DOWN && judgeField.isTouchInField()) {
-      generalCSV.createRecord(actionID, logJustMillis, logTimingDiff, judgment, actionPosition[0], actionPosition[1]);
-      actionCSV.createRecord(actionID, logJustMillis, actionPosition[0], actionPosition[1]);
+    if (action==Action.Down && judgeField.isTouchInField()) {
+      generalCSV.createRecord(action, logJustMillis, logTimingDiff, judgment, actionPosition[0], actionPosition[1]);
+      actionCSV.createRecord(action, logJustMillis, actionPosition[0], actionPosition[1]);
       touchCSV.createRecord(logJustMillis, logTimingDiff, judgment, logTouchPositionX, logTouchPositionY);
     }
 
     feedback.run(judgment);
 
-    if (actionID==MotionEvent.ACTION_UP && judgeField.isTouchInField() && judgment!=Judgment.None) {
-      generalCSV.createRecord(actionID, logJustMillis, logTimingDiff, judgment, actionPosition[0], actionPosition[1]);
-      actionCSV.createRecord(actionID, logJustMillis, actionPosition[0], actionPosition[1]);
+    if (action==Action.Up && judgeField.isTouchInField() && judgment!=Judgment.None) {
+      generalCSV.createRecord(action, logJustMillis, logTimingDiff, judgment, actionPosition[0], actionPosition[1]);
+      actionCSV.createRecord(action, logJustMillis, actionPosition[0], actionPosition[1]);
       judgeFieldValues = new ArrayList<Object>();
       logJustMillis = FIELD_RESET_VALUE;
       logTimingDiff = FIELD_RESET_VALUE;

@@ -1,6 +1,10 @@
 @Override
   public boolean surfaceTouchEvent(MotionEvent event) {
-  actionIdFromAndroid = event.getActionMasked();
+  if (event.getActionMasked()==MotionEvent.ACTION_DOWN || event.getActionMasked()==MotionEvent.ACTION_POINTER_DOWN) {
+    actionFromAndroid = Action.Down;
+  } else if (event.getActionMasked()==MotionEvent.ACTION_UP || event.getActionMasked()==MotionEvent.ACTION_POINTER_UP) {
+    actionFromAndroid = Action.Up;
+  }
   actionPosition[0] = event.getX(event.getPointerCount()-1);
   actionPosition[1] = event.getY(event.getPointerCount()-1);
   return super.surfaceTouchEvent(event);

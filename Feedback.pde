@@ -83,7 +83,7 @@ class Feedback {
   }
 
   private void reset() {
-    if (actionID == MotionEvent.ACTION_UP) {
+    if (action == Action.Up) {
       soundEffectHasPlayed = false;
       judgment = Judgment.None;
     }

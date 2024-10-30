@@ -16,31 +16,31 @@ interface CommonTable {
   }
 }
 interface GeneralTable extends AddJudgment, AddTimingDiff, AddAction {
-  void createRecord(int action, int justMillis, int diff, Judgment judgment, float touchX, float touchY);
+  void createRecord(Action action, int justMillis, int diff, Judgment judgment, float touchX, float touchY);
 }
 interface TouchTable extends AddJudgment, AddTimingDiff {
   void createRecord(int justMillis, int diff, Judgment judgment, float touchX, float touchY);
 }
 interface ActionTable extends AddAction {
-  void createRecord(int action, int justMillis, float touchX, float touchY);
+  void createRecord(Action action, int justMillis, float touchX, float touchY);
 }
 
 interface AddAction {
-  default void addAction(int actionID, HashMap<String, String> record, String field) {
-    String output = "";
-    switch (actionID) {
-      case MotionEvent.ACTION_DOWN:
+  default void addAction(Action action, HashMap<String, String> record, String field) {
+    println("action: "+action);
+    String output;
+    if (action==Action.Down) {
+      println("case down");
       output = "Touch_DOWN";
-      break;
-      case MotionEvent.ACTION_UP:
+    } else if (action==Action.Up) {
+      println("case up");
       output = "Touch___UP";
-      break;
-      default: 
-      output = ""+actionID;
-      println("Not expected Value!!: "+actionID);
+    } else {
+      println("default");
+      output = ""+action;
+      println("Not expected Value!!: "+action);
     }
     record.put(field, output);
-
   }
 }
 interface AddJudgment {
@@ -48,7 +48,7 @@ interface AddJudgment {
     if (judgment!=Judgment.None) {
       //TODO: Badの時に空白埋めする
       record.put(field, judgment.name());
-    } 
+    }
   }
 }
 interface AddTimingDiff {

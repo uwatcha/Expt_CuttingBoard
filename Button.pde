@@ -13,7 +13,7 @@ abstract class Button {
 
   protected void run() {
     display();
-    if (actionID==MotionEvent.ACTION_DOWN) {
+    if (action==Action.Down) {
       if (rectTouchJudge(X, Y, WIDTH, HEIGHT, actionPosition[0], actionPosition[1])) {
         effect();
       }

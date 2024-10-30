@@ -134,10 +134,10 @@ class GeneralCSV extends CSVObject implements GeneralTable {
     super.createFile(getExportPath("general"));
   }
 
-  public void createRecord(int actionID, int justMillis, int diff, Judgment judgment, float touchX, float touchY) {
+  public void createRecord(Action action, int justMillis, int diff, Judgment judgment, float touchX, float touchY) {
     resetRecord();
     addTouchTiming(playingMillis(), record, TOUCH_TIMING);
-    addAction(actionID, record, ACTION);
+    addAction(action, record, ACTION);
     addCorrectTiming(justMillis, record, CORRECT_TIMING);
     addTimingDiff(diff, record, TIMING_DIFF);
     addJudgment(judgment, record, JUDGMENT);
@@ -180,9 +180,9 @@ class ActionCSV extends CSVObject implements ActionTable {
     super.createFile(getExportPath("action"));
   }
 
-  void createRecord(int actionID, int justMillis, float touchX, float touchY) {
+  void createRecord(Action action, int justMillis, float touchX, float touchY) {
     resetRecord();
-    addAction(actionID, record, ACTION);
+    addAction(action, record, ACTION);
     addTouchTiming(playingMillis(), record, TOUCH_TIMING);
     addCorrectTiming(justMillis, record, CORRECT_TIMING);
     addTouchPosition(touchX, touchY, record, TOUCH_POSITION_X, TOUCH_POSITION_Y);

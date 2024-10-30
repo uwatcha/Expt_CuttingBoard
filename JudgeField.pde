@@ -72,7 +72,7 @@ class JudgeField {
   }
 
   private boolean isTouched() {
-    if (actionID==MotionEvent.ACTION_DOWN) {
+    if (action==Action.Down) {
       if (isTouchInField()) {
         return true;
       }

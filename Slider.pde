@@ -106,11 +106,11 @@ class Slider {
   private float getTickPositionX(int i) { return X+TICK_SCALE_LENGTH*i; }
   
   private void setIsGrabing() {
-    if (actionID == MotionEvent.ACTION_DOWN) {
+    if (action == Action.Down) {
       if (rectTouchJudge(X-SIZE_UNIT*3, Y-SIZE_UNIT*2, TRACK_WIDTH+SIZE_UNIT*3, TRACK_HEIGHT+SIZE_UNIT*2, actionPosition[0], actionPosition[1])) {
         isGrabing = true;
       }
-    } else if (actionID == MotionEvent.ACTION_UP) {
+    } else if (action == Action.Up) {
       isGrabing = false;
       setValueToJSON();
     }

@@ -23,5 +23,6 @@ enum Field {
 
 enum Action {
   Down,
-  Up
+  Up,
+  Other
 }

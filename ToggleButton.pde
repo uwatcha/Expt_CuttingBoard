@@ -87,7 +87,7 @@ class ToggleButton {
   }
 
   private boolean isTouched() {
-     if (actionID==MotionEvent.ACTION_DOWN) {
+     if (action==Action.Down) {
       if (rectTouchJudge(X-SIZE_UNIT, Y, SIZE_UNIT*2+RECT_WIDTH, DIAMETER, actionPosition[0], actionPosition[1])) {
         return true;
       }
