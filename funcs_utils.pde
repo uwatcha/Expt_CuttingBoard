@@ -103,18 +103,6 @@ String getTime() {
   return nf(year(), 4)+"-"+nf(month(), 2)+"-"+nf(day(), 2)+"--"+nf(hour(), 2)+"-"+nf(minute(), 2);
 }
 
-String getGeneralExportPath() {
-  return EXPORT_PATH+File.separator+"general"+File.separator+getTime()+"_general.csv";
-}
-
-String getTouchExportPath() {
-  return EXPORT_PATH+File.separator+"touch"+File.separator+getTime()+"_touch.csv";
-}
-
-String getActionExportPath() {
-  return EXPORT_PATH+File.separator+"action"+File.separator+getTime()+"_action.csv";
-}
-
 int framesToMillis(int frame) {
   return 1000*frame/FRAME_RATE;
 }
@@ -124,14 +112,6 @@ void closeFiles() {
   touchCSV.closeFile();
   actionCSV.closeFile();
 }
-
-
-
-
-
-
-
-
 
 void appHaltButton() {
   int x = 50;

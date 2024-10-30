@@ -1,35 +1,20 @@
-//TODO: 各判定の猶予時間を古い実験ソフトと揃える
-//TODO: 開発者メニューで、デバッグモードをオンにすると、ログファイルの出力先を変える
-//アンドロイド関係のライブラリ
-import android.content.Intent;
+//TODO: 開発者メニューで、デバッグモードをオンにすると、ログファイルの出力先を変える。本来のログファイルを保存するフォルダを散らかさないため
+
 import android.view.MotionEvent;
-import android.os.Environment;
-import android.os.Bundle;
 import android.app.Activity;
-import android.content.Context;
 
-//スマホ及びBluetooth関係のライブラリ
-import ketai.net.*;
-import ketai.net.bluetooth.*;
-import ketai.ui.*;
-
-//音関係のライブラリ
 import processing.sound.SoundFile;
-//SoundFileコンストラクタの引数にPApplet変数を入れるため
 import processing.core.PApplet;
 
-//ファイル入出力関係のライブラリ
-import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
-import java.io.IOException;
 import java.io.OutputStreamWriter;
-import java.io.UnsupportedEncodingException;
 import java.io.BufferedWriter;
+import java.io.IOException;
+import java.io.FileNotFoundException;
+import java.io.UnsupportedEncodingException;
 
 import java.util.LinkedList;
 import java.util.Map;
-
-//Java関係のライブラリ
 
 //カラー定数
 final color WHITE = color(255);
@@ -46,7 +31,6 @@ final color LIGHT_GREEN = color(127, 255, 212);
 //150: [Device: samsung]で、大文字のSの縦幅が1cm
 final int STROKE_DEFAULT = 2;
 
-//TODO: 調整する
 //判定フレーム定数
 final int GOOD_MILLIS = framesToMillis(6);
 final int NICE_MILLIS = framesToMillis(12);
@@ -54,8 +38,6 @@ final int NICE_MILLIS = framesToMillis(12);
 //フレーム定数
 final int FRAME_RATE = 60;
 final int JUDGE_DISPLAY_DURATION = 30;
-//TODO: 使ってない
-final int SOUND_LAG_BUFFER = 50;
 final int START_INTERVAL = 1000;
 
 //JSON キー
@@ -242,12 +224,6 @@ void draw() {
       actionPosition[1] = FIELD_RESET_VALUE;
   }
   
-  //if (actionID==MotionEvent.ACTION_DOWN) {
-  //  println("actionID: 0");
-  //}
-  //if (actionID==MotionEvent.ACTION_UP) {
-  //  println("actionID: 1");
-  //}
   switch(screen) {
   case Title:
     titleScreen();

@@ -1,15 +1,23 @@
 abstract class CSVObject implements CommonTable {
+  final protected String SEPARATOR;
+  final protected String EXPORT_FOLDER_PATH;
+  final protected String[] FIELDS;
   protected HashMap<String, String> record;
-  protected String[] FIELDS;
 
   protected File file;
   protected FileOutputStream fos;
-  protected OutputStreamWriter isw;
+  protected OutputStreamWriter osw;
   protected BufferedWriter bw;
 
   CSVObject(String[] fields) {
+    SEPARATOR = File.separator;
+    EXPORT_FOLDER_PATH = getActivity().getExternalFilesDir("").getPath();
     resetRecord();
     this.FIELDS = fields;
+  }
+
+  protected String getExportPath(String fileKindName) {
+    return EXPORT_PATH+SEPARATOR+fileKindName+SEPARATOR+getTime()+"_"+fileKindName+".csv";
   }
 
   protected void resetRecord() {
@@ -22,21 +30,21 @@ abstract class CSVObject implements CommonTable {
     try {
       makeDirectory(path);
       fos = new FileOutputStream(file);
-      isw = new OutputStreamWriter(fos, "UTF-8");
-      bw = new BufferedWriter(isw);
-      for (String line: getHeader()) {
+      osw = new OutputStreamWriter(fos, "UTF-8");
+      bw = new BufferedWriter(osw);
+      for (String line : getHeader()) {
         bw.write(line+"\n");
       }
     }
     catch (Exception e) {
     }
   }
-  
+
   public void reopenFile() {
     try {
       fos = new FileOutputStream(file, true);
-      isw = new OutputStreamWriter(fos, "UTF-8");
-      bw = new BufferedWriter(isw);
+      osw = new OutputStreamWriter(fos, "UTF-8");
+      bw = new BufferedWriter(osw);
     }
     catch (Exception e) {
     }
@@ -54,7 +62,7 @@ abstract class CSVObject implements CommonTable {
     try {
       bw.flush();
       bw.close();
-      isw.close();
+      osw.close();
       fos.close();
     }
     catch (Exception e) {
@@ -109,7 +117,6 @@ abstract class CSVObject implements CommonTable {
     addCorrectTiming(justMillis, record, CORRECT_TIMING);
     writeFile();
   }
-
 }
 
 //------------------------------------------------------------------------------------------------------------------------------------------
@@ -120,7 +127,7 @@ class GeneralCSV extends CSVObject implements GeneralTable {
   }
 
   public void createFile() {
-    super.createFile(getGeneralExportPath());
+    super.createFile(getExportPath("general"));
   }
 
   public void createRecord(int actionID, int justMillis, int diff, Judgment judgment, float touchX, float touchY) {
@@ -143,7 +150,7 @@ class TouchCSV extends CSVObject implements TouchTable {
   }
 
   public void createFile() {
-    super.createFile(getTouchExportPath());
+    super.createFile(getExportPath("touch"));
   }
 
   public void createRecord(int justMillis, int diff, Judgment judgment, float touchX, float touchY) {
@@ -166,7 +173,7 @@ class ActionCSV extends CSVObject implements ActionTable {
   }
 
   public void createFile() {
-    super.createFile(getActionExportPath());
+    super.createFile(getExportPath("action"));
   }
 
   void createRecord(int actionID, int justMillis, float touchX, float touchY) {
