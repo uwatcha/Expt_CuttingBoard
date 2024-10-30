@@ -16,6 +16,10 @@ abstract class CSVObject implements CommonTable {
     this.FIELDS = fields;
   }
 
+  private String getTime() {
+    return nf(year(), 4)+"-"+nf(month(), 2)+"-"+nf(day(), 2)+"--"+nf(hour(), 2)+"-"+nf(minute(), 2);
+  }
+
   protected String getExportPath(String fileKindName) {
     return EXPORT_PATH+SEPARATOR+fileKindName+SEPARATOR+getTime()+"_"+fileKindName+".csv";
   }

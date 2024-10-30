@@ -61,7 +61,7 @@ void displayVerticalLine(float x, float strokeWeight, color lineColor) {
   line(x, 0, x, height);
 }
 
-//Others-----------------------------------------------------------------------------------------------------------------------------------------------
+//OtherShapes-----------------------------------------------------------------------------------------------------------------------------------------------
 void mySetStroke(float strokeWeight, color strokeColor) {
   if (strokeWeight!=0) {
     strokeWeight(strokeWeight);
@@ -71,10 +71,7 @@ void mySetStroke(float strokeWeight, color strokeColor) {
   }
 }
 
-boolean rectTouchJudge(float x, float y, float w, float h, float touchX, float touchY) {
-  return (x <= touchX&&touchX <= x+w) && (y <= touchY&&touchY <= y+h);
-}
-
+//Time------------------------------------------------------------------------------------------------------------------------------------------------------
 float secToFrames(float sec) {
   return FRAME_RATE*sec;
 }
@@ -99,12 +96,22 @@ int loopPlayingMillis() {
   return playingMillis()%touchIntervalMillis;
 }
 
-String getTime() {
-  return nf(year(), 4)+"-"+nf(month(), 2)+"-"+nf(day(), 2)+"--"+nf(hour(), 2)+"-"+nf(minute(), 2);
-}
-
 int framesToMillis(int frame) {
   return 1000*frame/FRAME_RATE;
+}
+
+//TODO: スクリーンをオブジェクト化&スクリーンのInitialize()で呼び出す
+//TODO: 現在はフラグで一度だけ呼び出してるので、修正する。
+void setTouchIntervalMillis() {
+  touchIntervalMillis = 1000*4*FRAME_RATE/faciSettings.myGetInt(bpm);
+  //本来なら以下のように計算するが、簡略化できるので直接計算している。
+  //int touchIntervalFrame = 4*FRAME_RATE/faciSettings.myGetInt(bpm);
+  //touchIntervalMillis = framesToMillis(touchIntervalFrame);
+}
+
+//Others------------------------------------------------------------------------------------------------------------------------------------------------------
+boolean rectTouchJudge(float x, float y, float w, float h, float touchX, float touchY) {
+  return (x <= touchX&&touchX <= x+w) && (y <= touchY&&touchY <= y+h);
 }
 
 void closeFiles() {
@@ -113,6 +120,7 @@ void closeFiles() {
   actionCSV.closeFile();
 }
 
+//developer----------------------------------------------------------------------------------------------------------------------------------------------------
 void appHaltButton() {
   int x = 50;
   int y = 200;
@@ -125,25 +133,16 @@ void appHaltButton() {
   }
 }
 
-//TODO: スクリーンをオブジェクト化&スクリーンのInitialize()で呼び出す
-//TODO: 現在はフラグで一度だけ呼び出してるので、修正する。
-void setTouchIntervalMillis() {
-  touchIntervalMillis = 1000*4*FRAME_RATE/faciSettings.myGetInt(bpm);
-  //本来なら以下のように計算するが、簡略化できるので直接計算している。
-  //int touchIntervalFrame = 4*FRAME_RATE/faciSettings.myGetInt(bpm);
-  //touchIntervalMillis = framesToMillis(touchIntervalFrame);
-}
-
 //actionID==2147483647の出力が連続するときに出力しない関数だが、今後汎用的にする
-//boolean hasPrintedRESETVALUE = false;
-//void myPrintln(int actionID) {
-//  if(actionID==2147483647) {
-//    if (!hasPrintedRESETVALUE) {
-//      hasPrintedRESETVALUE = true;
-//      println("draw("+actionID+")");
-//    }
-//  } else {
-//    hasPrintedRESETVALUE = false;
-//    println("draw("+actionID+")");
-//  }
-//}
+boolean hasPrintedRESETVALUE = false;
+void myPrintln(int actionID) {
+  if(actionID==2147483647) {
+    if (!hasPrintedRESETVALUE) {
+      hasPrintedRESETVALUE = true;
+      println("draw("+actionID+")");
+    }
+  } else {
+    hasPrintedRESETVALUE = false;
+    println("draw("+actionID+")");
+  }
+}
