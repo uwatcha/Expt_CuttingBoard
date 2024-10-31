@@ -5,7 +5,7 @@ enum Judgment {
   None
 }
 
-static enum Screen {
+enum Screen {
   Title,
   Settings,
   Playing

@@ -52,10 +52,10 @@ final int POSITION_X_INDEX = 3;
 final int POSITION_Y_INDEX = 4;
 
 //その他定数
-static final HashMap<String, String> UI_TITLES = new HashMap<String, String>() {{
-  put("isActiveFeedback", "フィードバック");
-  put("isActiveGauge", "ゲージ");
-  put("bpm", "BPM");
+final HashMap<String, String> UI_TITLES = new HashMap<String, String>() {{
+  put(isActiveFeedback, "フィードバック");
+  put(isActiveGauge, "ゲージ");
+  put(bpm, "BPM");
 }};
 
 final int FIELD_RESET_VALUE = Integer.MAX_VALUE;
@@ -123,7 +123,6 @@ MillisMatchChecker justMillisChecker;
 PApplet applet = this;
 
 void setup() {
-
   //設定
   //なぜかframeRateを変更できない。FRAME_RATEを60というデフォルトにしておく。
   //TODO: 120にしてみる
