@@ -27,7 +27,6 @@ interface ActionTable extends AddAction {
 
 interface AddAction {
   default void addAction(Action action, HashMap<String, String> record, String field) {
-    println("action: "+action);
     String output;
     if (action==Action.Down) {
       output = "Touch_DOWN";

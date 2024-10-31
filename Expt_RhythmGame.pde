@@ -15,6 +15,7 @@ import java.io.UnsupportedEncodingException;
 
 import java.util.LinkedList;
 import java.util.Map;
+import java.util.Collections;
 
 //カラー定数
 final color WHITE = color(255);
@@ -22,8 +23,6 @@ final color BLACK = color(0);
 final color LIGHT_GREY  = color(150);
 final color DARK_GREY = color(80);
 final color CLEAR_GREY = color(150, 150, 150, 50);
-final color RING  = color(0, 167, 219);
-final color LINE  = color(0, 167, 219);
 final color LIGHT_BLUE = color(139, 220, 232);
 final color LIGHT_GREEN = color(127, 255, 212);
 
@@ -45,24 +44,6 @@ final String isActiveFeedback = "is_active_feedback";
 final String isActiveGauge = "is_active_gauge";
 final String bpm = "bpm";
 
-//パス
-String EXPORT_PATH;
-
-//CSVフィールド
-final String TOUCH_TIMING = "TouchTiming";
-final String CORRECT_TIMING = "CorrectTiming";
-final String TOUCH_POSITION_X = "TouchPositinoX";
-final String TOUCH_POSITION_Y = "TouchPositinoY";
-
-final String JUDGMENT = "Judgment";
-final String TIMING_DIFF = "TouchDiff";
-
-final String ACTION = "Action";
-
-final String[] TOUCH_TABLE_FIELDS = {TOUCH_TIMING, CORRECT_TIMING, TIMING_DIFF, JUDGMENT, TOUCH_POSITION_X, TOUCH_POSITION_Y};
-final String[] ACTION_TABLE_FIELDS = {ACTION, TOUCH_TIMING, CORRECT_TIMING, TOUCH_POSITION_X, TOUCH_POSITION_Y};
-final String[] GENERAL_TABLE_FIELDS = {ACTION, TOUCH_TIMING, CORRECT_TIMING, TIMING_DIFF, JUDGMENT, TOUCH_POSITION_X, TOUCH_POSITION_Y};
-
 //JudgeField出力ArrayList
 final int JUST_MILLIS_INDEX = 0;
 final int TIMING_DIFF_INDEX = 1;
@@ -71,7 +52,12 @@ final int POSITION_X_INDEX = 3;
 final int POSITION_Y_INDEX = 4;
 
 //その他定数
-HashMap<String, String> UI_TITLES;
+static final HashMap<String, String> UI_TITLES = new HashMap<String, String>() {{
+  put("isActiveFeedback", "フィードバック");
+  put("isActiveGauge", "ゲージ");
+  put("bpm", "BPM");
+}};
+
 final int FIELD_RESET_VALUE = Integer.MAX_VALUE;
 
 
@@ -145,13 +131,6 @@ void setup() {
   imageMode(CENTER);
   textAlign(CENTER, CENTER);
 
-  //定数初期化
-  UI_TITLES = new HashMap<String, String>();
-  UI_TITLES.put(isActiveFeedback, "フィードバック");
-  UI_TITLES.put(isActiveGauge, "ゲージ");
-  UI_TITLES.put(bpm, "BPM");
-  EXPORT_PATH = getActivity().getExternalFilesDir("").getPath();
-
   //変数初期化
   woodImage = loadImage("images/wood.png");
   woodImage.resize(width, height);
@@ -205,24 +184,24 @@ void setup() {
 //TODO: 無印とPOINTERのcase内の処理を関数化し、dryを守る
 void draw() {
   switch(actionFromAndroid) {
-    case Down:
-      if (nextExpected == Action.Down) {
-        action = actionFromAndroid;
-        nextExpected = Action.Up;
-      }
-      break;
-    case Up:
-      if (nextExpected == Action.Up) {
-        action = actionFromAndroid;
-        nextExpected = Action.Down;
-      }
-      break;
-    default:
-      action = Action.Other;
-      actionPosition[0] = FIELD_RESET_VALUE;
-      actionPosition[1] = FIELD_RESET_VALUE;
+  case Down:
+    if (nextExpected == Action.Down) {
+      action = actionFromAndroid;
+      nextExpected = Action.Up;
+    }
+    break;
+  case Up:
+    if (nextExpected == Action.Up) {
+      action = actionFromAndroid;
+      nextExpected = Action.Down;
+    }
+    break;
+  default:
+    action = Action.Other;
+    actionPosition[0] = FIELD_RESET_VALUE;
+    actionPosition[1] = FIELD_RESET_VALUE;
   }
-  
+
   switch(screen) {
   case Title:
     titleScreen();

@@ -2,6 +2,15 @@ abstract class CSVObject implements CommonTable {
   final protected String SEPARATOR;
   final protected String EXPORT_FOLDER_PATH;
   final protected String[] FIELDS;
+  
+  final static protected String TOUCH_TIMING = "TouchTiming";
+  final static protected String CORRECT_TIMING = "CorrectTiming";
+  final static protected String TOUCH_POSITION_X = "TouchPositinoX";
+  final static protected String TOUCH_POSITION_Y = "TouchPositinoY";
+  final static protected String JUDGMENT = "Judgment";
+  final static protected String TIMING_DIFF = "TouchDiff";
+  final static protected String ACTION = "Action";
+
   protected HashMap<String, String> record;
 
   protected File file;
@@ -21,7 +30,7 @@ abstract class CSVObject implements CommonTable {
   }
 
   protected String getExportPath(String fileKindName) {
-    return EXPORT_PATH+SEPARATOR+fileKindName+SEPARATOR+getTime()+"_"+fileKindName+".csv";
+    return EXPORT_FOLDER_PATH+SEPARATOR+fileKindName+SEPARATOR+getTime()+"_"+fileKindName+".csv";
   }
 
   protected void resetRecord() {
@@ -74,15 +83,15 @@ abstract class CSVObject implements CommonTable {
   }
 
   private void makeDirectory(String path) {
-    int startIndex = EXPORT_PATH.length();
-    int endIndex = path.lastIndexOf(File.separator);
+    int startIndex = EXPORT_FOLDER_PATH.length();
+    int endIndex = path.lastIndexOf(SEPARATOR);
     String directoryName = path.substring(startIndex, endIndex);
-    File dir = new File(EXPORT_PATH+File.separator+directoryName);
+    File dir = new File(EXPORT_FOLDER_PATH+SEPARATOR+directoryName);
     if (!(dir.exists() && dir.isDirectory())) {
       dir.mkdirs();
     }
   }
-
+//TODO: -の数を、それぞれのFIELDの文字数を取得して変える方法に変更する
   private String recordToString() {
     String rtn = "";
     for (int i=0; i<FIELDS.length; i++) {
@@ -91,24 +100,24 @@ abstract class CSVObject implements CommonTable {
         rtn += value;
       } else {
         switch(FIELDS[i]) {
-          case ACTION: 
-            rtn += "----------";
-            break;
-          case TOUCH_TIMING:
-            rtn += "-----";
-            break;
-          case TIMING_DIFF:
-            rtn += "-----";
-            break;
-          case JUDGMENT:
-            rtn += "----";
-            break;
-          case TOUCH_POSITION_X:
-            rtn += "----";
-            break;
-          case TOUCH_POSITION_Y:
-            rtn += "----";
-            break;
+        case ACTION:
+          rtn += "----------";
+          break;
+        case TOUCH_TIMING:
+          rtn += "-----";
+          break;
+        case TIMING_DIFF:
+          rtn += "-----";
+          break;
+        case JUDGMENT:
+          rtn += "----";
+          break;
+        case TOUCH_POSITION_X:
+          rtn += "----";
+          break;
+        case TOUCH_POSITION_Y:
+          rtn += "----";
+          break;
         }
       }
       rtn += (i != FIELDS.length-1) ? ", " : "";
@@ -150,7 +159,7 @@ abstract class CSVObject implements CommonTable {
 
 class GeneralCSV extends CSVObject implements GeneralTable {
   GeneralCSV() {
-    super(GENERAL_TABLE_FIELDS);
+    super(new String[] {ACTION, TOUCH_TIMING, CORRECT_TIMING, TIMING_DIFF, JUDGMENT, TOUCH_POSITION_X, TOUCH_POSITION_Y});
   }
 
   public void createFile() {
@@ -173,7 +182,7 @@ class GeneralCSV extends CSVObject implements GeneralTable {
 
 class TouchCSV extends CSVObject implements TouchTable {
   TouchCSV () {
-    super(TOUCH_TABLE_FIELDS);
+    super(new String[] {TOUCH_TIMING, CORRECT_TIMING, TIMING_DIFF, JUDGMENT, TOUCH_POSITION_X, TOUCH_POSITION_Y});
   }
 
   public void createFile() {
@@ -194,9 +203,8 @@ class TouchCSV extends CSVObject implements TouchTable {
 //------------------------------------------------------------------------------------------------------------------------------------------
 
 class ActionCSV extends CSVObject implements ActionTable {
-
   ActionCSV() {
-    super(ACTION_TABLE_FIELDS);
+    super(new String[] {ACTION, TOUCH_TIMING, CORRECT_TIMING, TOUCH_POSITION_X, TOUCH_POSITION_Y});
   }
 
   public void createFile() {
