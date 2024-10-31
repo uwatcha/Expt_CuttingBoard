@@ -1,10 +1,10 @@
 class Gauge {
-  final private int X = width*3/4;
-  final private int Y = height/5;
-  final private int SIZE = 200;
-  final private color FRAME_COLOR = DARK_GREY;
-  final private color FILL_COLOR = LIGHT_GREY;
-  final private int HUMAN_REACTION_OFFSET = 100;
+  private final int X = width*3/4;
+  private final int Y = height/5;
+  private static final int SIZE = 200;
+  private final color FRAME_COLOR = DARK_GREY;
+  private final color FILL_COLOR = LIGHT_GREY;
+  private static final int HUMAN_REACTION_OFFSET = 100;
   private boolean isActive;
   private float fillHeight;
   

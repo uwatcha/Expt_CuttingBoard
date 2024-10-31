@@ -1,5 +1,5 @@
 class MillisMatchChecker {
-  final int TOLERANCE_MILLIS = 1000/FRAME_RATE;
+  private final int TOLERANCE_MILLIS = 1000/FRAME_RATE;
   private boolean isTriggered = false;
 
   MillisMatchChecker() {

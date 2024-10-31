@@ -24,6 +24,8 @@ abstract class Button {
   abstract protected void effect();
 }
 
+//------------------------------------------------------------------------------------------------------------------------------------------
+
 class StartButton extends Button {
 
   StartButton() {
@@ -48,9 +50,11 @@ class StartButton extends Button {
   }
 }
 
+//------------------------------------------------------------------------------------------------------------------------------------------
+//TODO: 押したらエラーが出る
 class SettingsButton extends Button {
   private final Screen TARGET_SCR = Screen.Settings;
-  private final int ROUND = 30;
+  private static final int ROUND = 30;
 
   SettingsButton() {
     super(width-200-50, 50, 200, 200);
@@ -68,6 +72,8 @@ class SettingsButton extends Button {
     screen = TARGET_SCR;
   }
 }
+
+//------------------------------------------------------------------------------------------------------------------------------------------
 
 class ScreenBackButton extends Button {
   private static final int STROKE_WEIGHT = 20;
@@ -96,6 +102,8 @@ class ScreenBackButton extends Button {
   }
 }
 
+//------------------------------------------------------------------------------------------------------------------------------------------
+
 class SettingsToTitleButton extends ScreenBackButton {
 
   SettingsToTitleButton() {
@@ -110,6 +118,8 @@ class SettingsToTitleButton extends ScreenBackButton {
     gauge.setIsActive();
   }
 }
+
+//------------------------------------------------------------------------------------------------------------------------------------------
 
 class PlayingToTitleButton extends ScreenBackButton {
 

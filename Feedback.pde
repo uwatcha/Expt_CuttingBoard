@@ -1,11 +1,11 @@
 //TODO: 使わないならそもそも初期化しないようにした方がいい？
 class Feedback {
-  final private String GOOD_TEXT = "GOOD!!";
-  final private String NICE_TEXT = "NICE!";
-  final private String BAD_TEXT = "BAD...";
-  final int JUDGE_TEXT_SIZE = 70;
-  final private int X = width-250;
-  final private int Y = 400;
+  private static final String GOOD_TEXT = "GOOD!!";
+  private static final String NICE_TEXT = "NICE!";
+  private static final String BAD_TEXT = "BAD...";
+  private static final int JUDGE_TEXT_SIZE = 70;
+  private final int X = width-250;
+  private static final int Y = 400;
   private boolean isActive;
   private PImage image;
   private String text;

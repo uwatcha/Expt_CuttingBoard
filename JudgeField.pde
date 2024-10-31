@@ -1,8 +1,8 @@
 class JudgeField {
-  final int TOP_LEFT_X = 0;
-  final int TOP_LEFT_Y = height/2;
-  final int WIDTH = width;
-  final int HEIGHT = height/2;
+  private static final int TOP_LEFT_X = 0;
+  private final int TOP_LEFT_Y = height/2;
+  private final int WIDTH = width;
+  private final int HEIGHT = height/2;
   private int justMillis;
   private Judgment judgment;
   private int timingDiff;

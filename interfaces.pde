@@ -3,14 +3,14 @@
 
 //注意：以下のTableのinterface内のメソッドは仕様上、実装クラスでprivateにできないが、createRecord以外は実装クラス外で使用されることを想定していない
 interface CommonTable {
-  default void addTouchTiming(int playingMillis, HashMap<String, String> record, String field) {
+  default void addTouchTiming(HashMap<String, String> record, String field, int playingMillis) {
     record.put(field, String.format("%5s", str(playingMillis)));
   }
 
-  default void addCorrectTiming(int justMillis, HashMap<String, String> record, String field) {
+  default void addCorrectTiming(HashMap<String, String> record, String field, int justMillis) {
     record.put(field, String.format("%5s", str(justMillis)));
   }
-  default void addTouchPosition(float touchX, float touchY, HashMap<String, String> record, String fieldX, String fieldY) {
+  default void addTouchPosition(HashMap<String, String> record, String fieldX, String fieldY, float touchX, float touchY) {
     record.put(fieldX, String.format("%4s", str((int)touchX)));
     record.put(fieldY, String.format("%4s", str((int)touchY)));
   }
@@ -26,7 +26,7 @@ interface ActionTable extends AddAction {
 }
 
 interface AddAction {
-  default void addAction(Action action, HashMap<String, String> record, String field) {
+  default void addAction(HashMap<String, String> record, String field, Action action) {
     String output;
     if (action==Action.Down) {
       output = "Touch_DOWN";
@@ -40,7 +40,7 @@ interface AddAction {
   }
 }
 interface AddJudgment {
-  default void addJudgment(Judgment judgment, HashMap<String, String> record, String field) {
+  default void addJudgment(HashMap<String, String> record, String field, Judgment judgment) {
     if (judgment!=Judgment.None) {
       if (judgment==Judgment.Bad) {
         record.put(field, " "+judgment.name());
@@ -51,7 +51,7 @@ interface AddJudgment {
   }
 }
 interface AddTimingDiff {
-  default void addTimingDiff(int diff, HashMap<String, String> record, String field) {
+  default void addTimingDiff(HashMap<String, String> record, String field, int diff) {
     String sign = "";
     if (diff > 0) {
       sign = "+";

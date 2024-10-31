@@ -1,15 +1,15 @@
 abstract class CSVObject implements CommonTable {
-  final protected String SEPARATOR;
-  final protected String EXPORT_FOLDER_PATH;
-  final protected String[] FIELDS;
+  protected final String SEPARATOR;
+  protected final String EXPORT_FOLDER_PATH;
+  protected final String[] FIELDS;
   
-  final static protected String TOUCH_TIMING = "TouchTiming";
-  final static protected String CORRECT_TIMING = "CorrectTiming";
-  final static protected String TOUCH_POSITION_X = "TouchPositinoX";
-  final static protected String TOUCH_POSITION_Y = "TouchPositinoY";
-  final static protected String JUDGMENT = "Judgment";
-  final static protected String TIMING_DIFF = "TouchDiff";
-  final static protected String ACTION = "Action";
+  protected static final String TOUCH_TIMING = "TouchTiming";
+  protected static final String CORRECT_TIMING = "CorrectTiming";
+  protected static final String TOUCH_POSITION_X = "TouchPositinoX";
+  protected static final String TOUCH_POSITION_Y = "TouchPositinoY";
+  protected static final String JUDGMENT = "Judgment";
+  protected static final String TIMING_DIFF = "TouchDiff";
+  protected static final String ACTION = "Action";
 
   protected HashMap<String, String> record;
 
@@ -25,14 +25,18 @@ abstract class CSVObject implements CommonTable {
     this.FIELDS = fields;
   }
 
-  private String getTime() {
+  private String getFileNameDateTime() {
     return nf(year(), 4)+"-"+nf(month(), 2)+"-"+nf(day(), 2)+"--"+nf(hour(), 2)+"-"+nf(minute(), 2);
+  }
+  private String getDateTime() {
+    return nf(year(), 4)+"/"+nf(month(), 2)+"/"+nf(day(), 2)+" "+nf(hour(), 2)+":"+nf(minute(), 2);
   }
 
   protected String getExportPath(String fileKindName) {
-    return EXPORT_FOLDER_PATH+SEPARATOR+fileKindName+SEPARATOR+getTime()+"_"+fileKindName+".csv";
+    return EXPORT_FOLDER_PATH+SEPARATOR+fileKindName+SEPARATOR+getFileNameDateTime()+"_"+fileKindName+".csv";
   }
 
+//TODO: これを、新しいHashMapを返す関数にし、メンバ変数としてrecordを持たないようにする
   protected void resetRecord() {
     record = new HashMap<String, String>();
   }
@@ -45,14 +49,52 @@ abstract class CSVObject implements CommonTable {
       fos = new FileOutputStream(file);
       osw = new OutputStreamWriter(fos, "UTF-8");
       bw = new BufferedWriter(osw);
-      for (String line : getHeader()) {
+      for (String line: getSettingsTable()) {
+        bw.write(line+"\n");
+      }
+      bw.write("\n");
+      for (String line: getHeader()) {
         bw.write(line+"\n");
       }
     }
     catch (Exception e) {
     }
   }
-
+  
+  private ArrayList<String> getSettingsTable() {
+    ArrayList<String> rtn = new ArrayList<String>();
+    rtn.add("Setting");
+    rtn.add("DateTime, Time unit, Good time, Nice time, Feedback, Gauge, BPM");
+    String settingValueLine = "";
+    settingValueLine += getDateTime() +", ";
+    settingValueLine += "milli second, ";
+    settingValueLine += GOOD_MILLIS +", ";
+    settingValueLine += NICE_MILLIS +", ";
+    settingValueLine += (faciSettings.myGetBoolean(isActiveFeedback) ? "Active" : "Inactive") + ", ";
+    settingValueLine += (faciSettings.myGetBoolean(isActiveGauge) ? "Active" : "Inactive") + ", ";
+    settingValueLine += (faciSettings.myGetInt(bpm));
+    rtn.add(settingValueLine);
+    return rtn;
+  }
+  
+  private ArrayList<String> getHeader() {
+    ArrayList<String> rtn = new ArrayList<String>();
+    rtn.add("Log");
+    String attrNameLine = "";
+    for (int i=0; i<FIELDS.length; i++) {
+      attrNameLine += FIELDS[i];
+      attrNameLine += i!=FIELDS.length-1 ? ", " : "";
+    }
+    rtn.add(attrNameLine);
+    return rtn;
+  }
+  
+  public void createJustMillisRecord(int justMillis) {
+    resetRecord();
+    addCorrectTiming(record, CORRECT_TIMING, justMillis);
+    writeRecordToFile();
+  }
+  
   public void reopenFile() {
     try {
       fos = new FileOutputStream(file, true);
@@ -63,7 +105,7 @@ abstract class CSVObject implements CommonTable {
     }
   }
 
-  public void writeFile() {
+  public void writeRecordToFile() {
     try {
       bw.write(recordToString()+"\n");
     }
@@ -91,6 +133,7 @@ abstract class CSVObject implements CommonTable {
       dir.mkdirs();
     }
   }
+  
 //TODO: -の数を、それぞれのFIELDの文字数を取得して変える方法に変更する
   private String recordToString() {
     String rtn = "";
@@ -124,35 +167,6 @@ abstract class CSVObject implements CommonTable {
     }
     return rtn;
   }
-
-  private ArrayList<String> getHeader() {
-    ArrayList<String> rtn = new ArrayList<String>();
-    rtn.add("Setting");
-    rtn.add("DateTime, Time unit, Good time, Nice time, Feedback, Gauge, BPM");
-    String settingValueLine = "";
-    settingValueLine += getTime() +", ";
-    settingValueLine += "milli second, ";
-    settingValueLine += GOOD_MILLIS +", ";
-    settingValueLine += NICE_MILLIS +", ";
-    settingValueLine += (faciSettings.myGetBoolean(isActiveFeedback) ? "Active" : "Inactive") + ", ";
-    settingValueLine += (faciSettings.myGetBoolean(isActiveGauge) ? "Active" : "Inactive") + ", ";
-    settingValueLine += (faciSettings.myGetInt(bpm))+"\n";
-    rtn.add(settingValueLine);
-    rtn.add("Log");
-    String attrNameLine = "";
-    for (int i=0; i<FIELDS.length; i++) {
-      attrNameLine += FIELDS[i];
-      attrNameLine += i!=FIELDS.length-1 ? ", " : "";
-    }
-    rtn.add(attrNameLine);
-    return rtn;
-  }
-
-  public void createJustMillisRecord(int justMillis) {
-    resetRecord();
-    addCorrectTiming(justMillis, record, CORRECT_TIMING);
-    writeFile();
-  }
 }
 
 //------------------------------------------------------------------------------------------------------------------------------------------
@@ -165,16 +179,19 @@ class GeneralCSV extends CSVObject implements GeneralTable {
   public void createFile() {
     super.createFile(getExportPath("general"));
   }
-
+  //TODO: ３種のcreateRecordを、KeyがFIELD文字列変数、Valueがそれに対応する値のHashMapで渡すようにする
+  //TODO: そのために、FIELD配列のgetterを作る
+  //TODO: touchTiming→actualTiming, correctTiming→targetTimingに名前変更する
+  //TODO: potisionフィールドがpotisinoになっている
   public void createRecord(Action action, int justMillis, int diff, Judgment judgment, float touchX, float touchY) {
     resetRecord();
-    addTouchTiming(playingMillis(), record, TOUCH_TIMING);
-    addAction(action, record, ACTION);
-    addCorrectTiming(justMillis, record, CORRECT_TIMING);
-    addTimingDiff(diff, record, TIMING_DIFF);
-    addJudgment(judgment, record, JUDGMENT);
-    addTouchPosition(touchX, touchY, record, TOUCH_POSITION_X, TOUCH_POSITION_Y);
-    writeFile();
+    addTouchTiming(record, TOUCH_TIMING, playingMillis());
+    addAction(record, ACTION, action);
+    addCorrectTiming(record, CORRECT_TIMING, justMillis);
+    addTimingDiff(record, TIMING_DIFF, diff);
+    addJudgment(record, JUDGMENT, judgment);
+    addTouchPosition(record, TOUCH_POSITION_X, TOUCH_POSITION_Y, touchX, touchY);
+    writeRecordToFile();
   }
 }
 
@@ -191,12 +208,12 @@ class TouchCSV extends CSVObject implements TouchTable {
 
   public void createRecord(int justMillis, int diff, Judgment judgment, float touchX, float touchY) {
     resetRecord();
-    addTouchTiming(playingMillis(), record, TOUCH_TIMING);
-    addCorrectTiming(justMillis, record, CORRECT_TIMING);
-    addTimingDiff(diff, record, TIMING_DIFF);
-    addJudgment(judgment, record, JUDGMENT);
-    addTouchPosition(touchX, touchY, record, TOUCH_POSITION_X, TOUCH_POSITION_Y);
-    writeFile();
+    addTouchTiming(record, TOUCH_TIMING, playingMillis());
+    addCorrectTiming(record, CORRECT_TIMING, justMillis);
+    addTimingDiff(record, TIMING_DIFF, diff);
+    addJudgment(record, JUDGMENT, judgment);
+    addTouchPosition(record, TOUCH_POSITION_X, TOUCH_POSITION_Y, touchX, touchY);
+    writeRecordToFile();
   }
 }
 
@@ -213,10 +230,10 @@ class ActionCSV extends CSVObject implements ActionTable {
 
   void createRecord(Action action, int justMillis, float touchX, float touchY) {
     resetRecord();
-    addAction(action, record, ACTION);
-    addTouchTiming(playingMillis(), record, TOUCH_TIMING);
-    addCorrectTiming(justMillis, record, CORRECT_TIMING);
-    addTouchPosition(touchX, touchY, record, TOUCH_POSITION_X, TOUCH_POSITION_Y);
-    writeFile();
+    addAction(record, ACTION, action);
+    addTouchTiming(record, TOUCH_TIMING, playingMillis());
+    addCorrectTiming(record, CORRECT_TIMING, justMillis);
+    addTouchPosition(record, TOUCH_POSITION_X, TOUCH_POSITION_Y, touchX, touchY);
+    writeRecordToFile();
   }
 }

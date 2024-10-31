@@ -1,5 +1,5 @@
 class JsonBuffer {
-  final private String FILE_PATH;
+  private final String FILE_PATH;
   private JSONObject json;
   
    JsonBuffer(String filePath) {
