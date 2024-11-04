@@ -5,7 +5,7 @@ enum Judgment {
   None
 }
 
-enum Screen {
+enum ScreenType {
   Title,
   Settings,
   Playing

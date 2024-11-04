@@ -90,8 +90,13 @@ SoundFile[] hitSEPool;
 SoundFile timingSE;
 
 //フラグ
-Screen screen;
+ScreenType currentScreen;
 boolean isContinueWriting = false;
+
+//スクリーン
+TitleScreen titleScreen = new TitleScreen();
+SettingsScreen settingsScreen = new SettingsScreen();
+PlayingScreen playingScreen = new PlayingScreen();
 
 //入出力オブジェクト
 JsonBuffer faciSettings;
@@ -144,7 +149,10 @@ void setup() {
   actionFromAndroid = Action.Other;
   action = Action.Other;
   actionPosition = new float[2];
-  screen = Screen.Title;
+  currentScreen = ScreenType.Title;
+  titleScreen = new TitleScreen();
+  settingsScreen = new SettingsScreen();
+  playingScreen = new PlayingScreen();
   faciSettings = new JsonBuffer("facilitator_settings.json");
   devConfig = new JsonBuffer("developer_config.json");
   generalCSV = new GeneralCSV();
@@ -201,15 +209,15 @@ void draw() {
     actionPosition[1] = FIELD_RESET_VALUE;
   }
 
-  switch(screen) {
+  switch(currentScreen) {
   case Title:
-    titleScreen();
+    titleScreen.run();
     break;
   case Settings:
-    settingsScreen();
+    settingsScreen.run();
     break;
   case Playing:
-    playingScreen();
+    playingScreen.run();
     break;
   }
   if (action!=Action.Other) {

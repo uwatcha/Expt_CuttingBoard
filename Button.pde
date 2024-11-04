@@ -41,9 +41,8 @@ class StartButton extends Button {
 
   @Override
     protected void effect() {
-    screen = Screen.Playing;
+    currentScreen = ScreenType.Playing;
     intervalStartMillis = millis();
-    playingFirstLoop = true;
     generalCSV.createFile();
     touchCSV.createFile();
     actionCSV.createFile();
@@ -53,7 +52,7 @@ class StartButton extends Button {
 //------------------------------------------------------------------------------------------------------------------------------------------
 //TODO: 押したらエラーが出る
 class SettingsButton extends Button {
-  private final Screen TARGET_SCR = Screen.Settings;
+  private final ScreenType TARGET_SCR = ScreenType.Settings;
   private static final int ROUND = 30;
 
   SettingsButton() {
@@ -69,7 +68,7 @@ class SettingsButton extends Button {
 
   @Override
     protected void effect() {
-    screen = TARGET_SCR;
+    currentScreen = TARGET_SCR;
   }
 }
 
@@ -82,9 +81,9 @@ class ScreenBackButton extends Button {
   private static final int ARROW_TIP_WIDTH = 50;
   private static final int ARROW_TIP_RADIUS = 50;
   private static final int ARROW_LENGTH = 150;
-  private final Screen TARGET_SCR;
+  private final ScreenType TARGET_SCR;
 
-  ScreenBackButton(Screen targetS) {
+  ScreenBackButton(ScreenType targetS) {
     super(50, 50, 150, 200);
     TARGET_SCR = targetS;
   }
@@ -98,7 +97,7 @@ class ScreenBackButton extends Button {
 
   @Override
     protected void effect() {
-    screen = TARGET_SCR;
+    currentScreen = TARGET_SCR;
   }
 }
 
@@ -107,7 +106,7 @@ class ScreenBackButton extends Button {
 class SettingsToTitleButton extends ScreenBackButton {
 
   SettingsToTitleButton() {
-    super(Screen.Title);
+    super(ScreenType.Title);
   }
 
   @Override
@@ -124,7 +123,7 @@ class SettingsToTitleButton extends ScreenBackButton {
 class PlayingToTitleButton extends ScreenBackButton {
 
   PlayingToTitleButton () {
-    super(Screen.Title);
+    super(ScreenType.Title);
   }
 
   @Override

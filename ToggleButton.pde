@@ -1,11 +1,11 @@
-//TODO: 定数は、そのクラスでしか使わないものは、デカすぎないorそのクラスをたくさん実体化しない限り、そのクラス内で定義する。
 class ToggleButton {
   //unit-----------------------------------------------------------------
   private static final int SIZE_UNIT = 100;
   private static final int DIAMETER = SIZE_UNIT*2;
   //x, y-----------------------------------------------------------------
-  //X: TODO: 確かめる
-  //Y: TODO: 確かめる
+  //X:
+  //Y:
+  //TODO: 確かめる
   private final int X, Y;
   //title----------------------------------------------------------------
   private final String TITLE;
