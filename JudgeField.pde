@@ -3,40 +3,75 @@ class JudgeField {
   private final int TOP_LEFT_Y = height/2;
   private final int WIDTH = width;
   private final int HEIGHT = height/2;
+  //TODO: targetMillisに改名する
   private int justMillis;
   private Judgment judgment;
   private int timingDiff;
-  private ArrayList<Object> rtn;
+  private HashMap<Field, Object> CSVFields;
+  //private ArrayList<Object> rtn;
 
   public JudgeField() {
     justMillis = FIELD_RESET_VALUE;
     judgment = Judgment.None;
     timingDiff = FIELD_RESET_VALUE;
-    rtn = new ArrayList<Object>();
+    CSVFields = new HashMap<Field, Object>();
+    //rtn = new ArrayList<Object>();
   }
 
-  public ArrayList<Object> run() {
+  public void run() {
     calcJustMillis();
     judgeActualTiming();
     if (judgment != Judgment.None) {
-      rtn.add(JUST_MILLIS_INDEX, justMillis);
-      rtn.add(TIMING_DIFF_INDEX, timingDiff);
-      rtn.add(JUDGMENT_INDEX, judgment);
-      rtn.add(POSITION_X_INDEX, actionPosition[0]);
-      rtn.add(POSITION_Y_INDEX, actionPosition[1]);
+      CSVFields.put(Field.Action, action);
+      CSVFields.put(Field.ActualTiming, playingMillis());
+      CSVFields.put(Field.TargetTiming, justMillis);
+      CSVFields.put(Field.TimingDiff, timingDiff);
+      CSVFields.put(Field.Judgment, judgment);
+      CSVFields.put(Field.TouchPositionX, actionPosition[0]);
+      CSVFields.put(Field.TouchPositionY, actionPosition[1]);
+      //rtn.add(JUST_MILLIS_INDEX, justMillis);
+      //rtn.add(TIMING_DIFF_INDEX, timingDiff);
+      //rtn.add(JUDGMENT_INDEX, judgment);
+      //rtn.add(POSITION_X_INDEX, actionPosition[0]);
+      //rtn.add(POSITION_Y_INDEX, actionPosition[1]);
     } else {
-      rtn = new ArrayList<Object>();
+      CSVFields = new HashMap<Field, Object>();
     }
     display();
-    return rtn;
   }
 
   public void display() {
     displayRect(TOP_LEFT_X, TOP_LEFT_Y, WIDTH, HEIGHT, 0, colors.CLEAR_GREY);
   }
-  
-  public int getJustMillis() { return justMillis; }
-  
+
+  public int getJustMillis() {
+    return justMillis;
+  }
+
+  public HashMap<Field, Object> getGeneralCSVFields() {
+    return CSVFields;
+  }
+
+  public HashMap<Field, Object> getTouchCSVFields() {
+    HashMap<Field, Object> filteredFields = new HashMap<Field, Object>();
+    for (Map.Entry<Field, Object> entry : CSVFields.entrySet()) {
+      if (Arrays.asList(touchCSV.getFields()).contains(entry.getKey())) {
+        filteredFields.put(entry.getKey(), entry.getValue());
+      }
+    }
+    return filteredFields;
+  }
+
+  public HashMap<Field, Object> getActionCSVFields() {
+    HashMap<Field, Object> filteredFields = new HashMap<Field, Object>();
+    for (Map.Entry<Field, Object> entry : CSVFields.entrySet()) {
+      if (Arrays.asList(actionCSV.getFields()).contains(entry.getKey())) {
+        filteredFields.put(entry.getKey(), entry.getValue());
+      }
+    }
+    return filteredFields;
+  }
+
   private void judgeActualTiming() {
     if (isTouched()) {
       if (isNowWithinRange(0, GOOD_MILLIS)) {
@@ -52,7 +87,7 @@ class JudgeField {
       judgment = Judgment.None;
     }
   }
-  
+
   private void calcJustMillis() {
     int loopCount = playingMillis()/touchIntervalMillis;
     int loopRemainder = playingMillis()%touchIntervalMillis;
@@ -76,7 +111,7 @@ class JudgeField {
     }
     return false;
   }
-  
+
   public boolean isTouchInField() {
     return rectTouchJudge(TOP_LEFT_X, TOP_LEFT_Y, TOP_LEFT_X+WIDTH, TOP_LEFT_Y+HEIGHT, actionPosition[0], actionPosition[1]);
   }

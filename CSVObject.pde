@@ -1,15 +1,7 @@
 abstract class CSVObject implements CommonTable {
   protected final String SEPARATOR;
   protected final String EXPORT_FOLDER_PATH;
-  protected final String[] FIELDS;
-  
-  protected static final String ACTUAL_TIMING = "ActualTiming";
-  protected static final String CORRECT_TIMING = "TargetTiming";
-  protected static final String TOUCH_POSITION_X = "TouchPositionX";
-  protected static final String TOUCH_POSITION_Y = "TouchPositionY";
-  protected static final String JUDGMENT = "Judgment";
-  protected static final String TIMING_DIFF = "TouchDiff";
-  protected static final String ACTION = "Action";
+  protected final Field[] FIELDS;
 
   protected HashMap<String, String> record;
 
@@ -18,12 +10,14 @@ abstract class CSVObject implements CommonTable {
   protected OutputStreamWriter osw;
   protected BufferedWriter bw;
 
-  CSVObject(String[] fields) {
+  CSVObject(Field[] fields) {
     SEPARATOR = File.separator;
     EXPORT_FOLDER_PATH = getActivity().getExternalFilesDir("").getPath();
     resetRecord();
     this.FIELDS = fields;
   }
+  
+  public Field[] getFields() { return FIELDS; }
 
   private String getFileNameDateTime() {
     return nf(year(), 4)+"-"+nf(month(), 2)+"-"+nf(day(), 2)+"--"+nf(hour(), 2)+"-"+nf(minute(), 2);
@@ -91,7 +85,7 @@ abstract class CSVObject implements CommonTable {
   
   public void createJustMillisRecord(int justMillis) {
     resetRecord();
-    addTargetTiming(record, CORRECT_TIMING, justMillis);
+    addTargetTiming(record, Field.TargetTiming.toString(), justMillis);
     writeRecordToFile();
   }
   
@@ -143,22 +137,22 @@ abstract class CSVObject implements CommonTable {
         rtn += value;
       } else {
         switch(FIELDS[i]) {
-        case ACTION:
+        case Action:
           rtn += "----------";
           break;
-        case ACTUAL_TIMING:
+        case ActualTiming:
           rtn += "-----";
           break;
-        case TIMING_DIFF:
+        case TimingDiff:
           rtn += "-----";
           break;
-        case JUDGMENT:
+        case Judgment:
           rtn += "----";
           break;
-        case TOUCH_POSITION_X:
+        case TouchPositionX:
           rtn += "----";
           break;
-        case TOUCH_POSITION_Y:
+        case TouchPositionY:
           rtn += "----";
           break;
         }
@@ -173,7 +167,7 @@ abstract class CSVObject implements CommonTable {
 
 class GeneralCSV extends CSVObject implements GeneralTable {
   GeneralCSV() {
-    super(new String[] {ACTION, ACTUAL_TIMING, CORRECT_TIMING, TIMING_DIFF, JUDGMENT, TOUCH_POSITION_X, TOUCH_POSITION_Y});
+    super(new Field[] {Field.Action, Field.ActualTiming, Field.TargetTiming, Field.TimingDiff, Field.Judgment, Field.TouchPositionX, Field.TouchPositionY});
   }
 
   public void createFile() {
@@ -183,12 +177,12 @@ class GeneralCSV extends CSVObject implements GeneralTable {
   //TODO: そのために、FIELD配列のgetterを作る
   public void createRecord(Action action, int justMillis, int diff, Judgment judgment, float touchX, float touchY) {
     resetRecord();
-    addActualTiming(record, ACTUAL_TIMING, playingMillis());
-    addAction(record, ACTION, action);
-    addTargetTiming(record, CORRECT_TIMING, justMillis);
-    addTimingDiff(record, TIMING_DIFF, diff);
-    addJudgment(record, JUDGMENT, judgment);
-    addTouchPosition(record, TOUCH_POSITION_X, TOUCH_POSITION_Y, touchX, touchY);
+    addAction(record, Field.Action.toString(), action);
+    addActualTiming(record, Field.ActualTiming.toString(), playingMillis());
+    addTargetTiming(record, Field.TargetTiming.toString(), justMillis);
+    addTimingDiff(record, Field.TimingDiff.toString(), diff);
+    addJudgment(record, Field.Judgment.toString(), judgment);
+    addTouchPosition(record, Field.TouchPositionX.toString(), Field.TouchPositionY.toString(), touchX, touchY);
     writeRecordToFile();
   }
 }
@@ -197,7 +191,7 @@ class GeneralCSV extends CSVObject implements GeneralTable {
 
 class TouchCSV extends CSVObject implements TouchTable {
   TouchCSV () {
-    super(new String[] {ACTUAL_TIMING, CORRECT_TIMING, TIMING_DIFF, JUDGMENT, TOUCH_POSITION_X, TOUCH_POSITION_Y});
+    super(new Field[] {Field.ActualTiming, Field.TargetTiming, Field.TimingDiff, Field.Judgment, Field.TouchPositionX, Field.TouchPositionY});
   }
 
   public void createFile() {
@@ -206,11 +200,12 @@ class TouchCSV extends CSVObject implements TouchTable {
 
   public void createRecord(int justMillis, int diff, Judgment judgment, float touchX, float touchY) {
     resetRecord();
-    addActualTiming(record, ACTUAL_TIMING, playingMillis());
-    addTargetTiming(record, CORRECT_TIMING, justMillis);
-    addTimingDiff(record, TIMING_DIFF, diff);
-    addJudgment(record, JUDGMENT, judgment);
-    addTouchPosition(record, TOUCH_POSITION_X, TOUCH_POSITION_Y, touchX, touchY);
+    addActualTiming(record, Field.ActualTiming.toString(), playingMillis());
+    addTargetTiming(record, Field.TargetTiming.toString(), justMillis);
+    addTimingDiff(record, Field.TimingDiff.toString(), diff);
+    addJudgment(record, Field.Judgment.toString(), judgment);
+    addTouchPosition(record, Field.TouchPositionX.toString(), Field.TouchPositionY.toString(), touchX, touchY);
+    writeRecordToFile();
     writeRecordToFile();
   }
 }
@@ -219,7 +214,7 @@ class TouchCSV extends CSVObject implements TouchTable {
 
 class ActionCSV extends CSVObject implements ActionTable {
   ActionCSV() {
-    super(new String[] {ACTION, ACTUAL_TIMING, CORRECT_TIMING, TOUCH_POSITION_X, TOUCH_POSITION_Y});
+    super(new Field[] {Field.Action, Field.ActualTiming, Field.TargetTiming, Field.TouchPositionX, Field.TouchPositionY});
   }
 
   public void createFile() {
@@ -228,10 +223,10 @@ class ActionCSV extends CSVObject implements ActionTable {
 
   void createRecord(Action action, int justMillis, float touchX, float touchY) {
     resetRecord();
-    addAction(record, ACTION, action);
-    addActualTiming(record, ACTUAL_TIMING, playingMillis());
-    addTargetTiming(record, CORRECT_TIMING, justMillis);
-    addTouchPosition(record, TOUCH_POSITION_X, TOUCH_POSITION_Y, touchX, touchY);
-    writeRecordToFile();
+    addAction(record, Field.Action.toString(), action);
+    addActualTiming(record, Field.ActualTiming.toString(), playingMillis());
+    addTargetTiming(record, Field.TargetTiming.toString(), justMillis);
+    addTouchPosition(record, Field.TouchPositionX.toString(), Field.TouchPositionY.toString(), touchX, touchY);
+    writeRecordToFile();    writeRecordToFile();
   }
 }

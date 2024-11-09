@@ -14,6 +14,7 @@ import java.io.FileNotFoundException;
 import java.io.UnsupportedEncodingException;
 
 import java.util.LinkedList;
+import java.util.Arrays;
 import java.util.Map;
 import java.util.Collections;
 
@@ -32,11 +33,6 @@ final int STROKE_DEFAULT = 2;
 
 final int FRAME_RATE = 60;
 
-final int JUST_MILLIS_INDEX = 0;
-final int TIMING_DIFF_INDEX = 1;
-final int JUDGMENT_INDEX = 2;
-final int POSITION_X_INDEX = 3;
-final int POSITION_Y_INDEX = 4;
 final HashMap<String, String> UI_TITLES = new HashMap<String, String>() { {
     put(isActiveFeedback, "フィードバック");
     put(isActiveGauge, "ゲージ");

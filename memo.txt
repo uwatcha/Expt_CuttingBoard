@@ -4,3 +4,5 @@ class PlayingScreen
     //本来なら以下のように計算するが、簡略化できるので直接計算している。
     //int touchIntervalFrame = 4*FRAME_RATE/faciSettings.myGetInt(bpm);
     //touchIntervalMillis = framesToMillis(touchIntervalFrame);
+
+    
