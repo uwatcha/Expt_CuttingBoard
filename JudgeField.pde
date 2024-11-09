@@ -17,7 +17,7 @@ class JudgeField {
 
   public ArrayList<Object> run() {
     calcJustMillis();
-    judgeTouchTiming();
+    judgeActualTiming();
     if (judgment != Judgment.None) {
       rtn.add(JUST_MILLIS_INDEX, justMillis);
       rtn.add(TIMING_DIFF_INDEX, timingDiff);
@@ -37,7 +37,7 @@ class JudgeField {
   
   public int getJustMillis() { return justMillis; }
   
-  private void judgeTouchTiming() {
+  private void judgeActualTiming() {
     if (isTouched()) {
       if (isNowWithinRange(0, GOOD_MILLIS)) {
         judgment = Judgment.Good;

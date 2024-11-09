@@ -70,7 +70,6 @@ class PlayingScreen extends Screen {
     if (playingFirstLoop) {
       playStartMillis = millis();
       setTouchIntervalMillis();
-      playingFirstLoop = false;
     }
 
     if (timingSEChecker.isMatched(loopPlayingMillis(), touchIntervalMillis/2)) {
@@ -81,15 +80,13 @@ class PlayingScreen extends Screen {
     judgeFieldValues = judgeField.run();
     
     logOutput();
+    if (playingFirstLoop) {
+      playingFirstLoop = false;
+    }
   }
 
-  //TODO: スクリーンをオブジェクト化&スクリーンのInitialize()で呼び出す
-  //TODO: 現在はフラグで一度だけ呼び出してるので、修正する。
   private void setTouchIntervalMillis() {
     touchIntervalMillis = 1000*4*FRAME_RATE/faciSettings.myGetInt(bpm);
-    //本来なら以下のように計算するが、簡略化できるので直接計算している。
-    //int touchIntervalFrame = 4*FRAME_RATE/faciSettings.myGetInt(bpm);
-    //touchIntervalMillis = framesToMillis(touchIntervalFrame);
   }
 
   private void logOutput() {

@@ -13,8 +13,8 @@ enum ScreenType {
 }
 
 enum Field {
-  TouchTiming,
-  CorrectTiming,
+  ActualTiming,
+  TargetTiming,
   TimingDiff,
   Judgment,
   TouchAction,

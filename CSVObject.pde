@@ -3,10 +3,10 @@ abstract class CSVObject implements CommonTable {
   protected final String EXPORT_FOLDER_PATH;
   protected final String[] FIELDS;
   
-  protected static final String TOUCH_TIMING = "TouchTiming";
-  protected static final String CORRECT_TIMING = "CorrectTiming";
-  protected static final String TOUCH_POSITION_X = "TouchPositinoX";
-  protected static final String TOUCH_POSITION_Y = "TouchPositinoY";
+  protected static final String ACTUAL_TIMING = "ActualTiming";
+  protected static final String CORRECT_TIMING = "TargetTiming";
+  protected static final String TOUCH_POSITION_X = "TouchPositionX";
+  protected static final String TOUCH_POSITION_Y = "TouchPositionY";
   protected static final String JUDGMENT = "Judgment";
   protected static final String TIMING_DIFF = "TouchDiff";
   protected static final String ACTION = "Action";
@@ -91,7 +91,7 @@ abstract class CSVObject implements CommonTable {
   
   public void createJustMillisRecord(int justMillis) {
     resetRecord();
-    addCorrectTiming(record, CORRECT_TIMING, justMillis);
+    addTargetTiming(record, CORRECT_TIMING, justMillis);
     writeRecordToFile();
   }
   
@@ -146,7 +146,7 @@ abstract class CSVObject implements CommonTable {
         case ACTION:
           rtn += "----------";
           break;
-        case TOUCH_TIMING:
+        case ACTUAL_TIMING:
           rtn += "-----";
           break;
         case TIMING_DIFF:
@@ -173,7 +173,7 @@ abstract class CSVObject implements CommonTable {
 
 class GeneralCSV extends CSVObject implements GeneralTable {
   GeneralCSV() {
-    super(new String[] {ACTION, TOUCH_TIMING, CORRECT_TIMING, TIMING_DIFF, JUDGMENT, TOUCH_POSITION_X, TOUCH_POSITION_Y});
+    super(new String[] {ACTION, ACTUAL_TIMING, CORRECT_TIMING, TIMING_DIFF, JUDGMENT, TOUCH_POSITION_X, TOUCH_POSITION_Y});
   }
 
   public void createFile() {
@@ -181,13 +181,11 @@ class GeneralCSV extends CSVObject implements GeneralTable {
   }
   //TODO: ３種のcreateRecordを、KeyがFIELD文字列変数、Valueがそれに対応する値のHashMapで渡すようにする
   //TODO: そのために、FIELD配列のgetterを作る
-  //TODO: touchTiming→actualTiming, correctTiming→targetTimingに名前変更する
-  //TODO: potisionフィールドがpotisinoになっている
   public void createRecord(Action action, int justMillis, int diff, Judgment judgment, float touchX, float touchY) {
     resetRecord();
-    addTouchTiming(record, TOUCH_TIMING, playingMillis());
+    addActualTiming(record, ACTUAL_TIMING, playingMillis());
     addAction(record, ACTION, action);
-    addCorrectTiming(record, CORRECT_TIMING, justMillis);
+    addTargetTiming(record, CORRECT_TIMING, justMillis);
     addTimingDiff(record, TIMING_DIFF, diff);
     addJudgment(record, JUDGMENT, judgment);
     addTouchPosition(record, TOUCH_POSITION_X, TOUCH_POSITION_Y, touchX, touchY);
@@ -199,7 +197,7 @@ class GeneralCSV extends CSVObject implements GeneralTable {
 
 class TouchCSV extends CSVObject implements TouchTable {
   TouchCSV () {
-    super(new String[] {TOUCH_TIMING, CORRECT_TIMING, TIMING_DIFF, JUDGMENT, TOUCH_POSITION_X, TOUCH_POSITION_Y});
+    super(new String[] {ACTUAL_TIMING, CORRECT_TIMING, TIMING_DIFF, JUDGMENT, TOUCH_POSITION_X, TOUCH_POSITION_Y});
   }
 
   public void createFile() {
@@ -208,8 +206,8 @@ class TouchCSV extends CSVObject implements TouchTable {
 
   public void createRecord(int justMillis, int diff, Judgment judgment, float touchX, float touchY) {
     resetRecord();
-    addTouchTiming(record, TOUCH_TIMING, playingMillis());
-    addCorrectTiming(record, CORRECT_TIMING, justMillis);
+    addActualTiming(record, ACTUAL_TIMING, playingMillis());
+    addTargetTiming(record, CORRECT_TIMING, justMillis);
     addTimingDiff(record, TIMING_DIFF, diff);
     addJudgment(record, JUDGMENT, judgment);
     addTouchPosition(record, TOUCH_POSITION_X, TOUCH_POSITION_Y, touchX, touchY);
@@ -221,7 +219,7 @@ class TouchCSV extends CSVObject implements TouchTable {
 
 class ActionCSV extends CSVObject implements ActionTable {
   ActionCSV() {
-    super(new String[] {ACTION, TOUCH_TIMING, CORRECT_TIMING, TOUCH_POSITION_X, TOUCH_POSITION_Y});
+    super(new String[] {ACTION, ACTUAL_TIMING, CORRECT_TIMING, TOUCH_POSITION_X, TOUCH_POSITION_Y});
   }
 
   public void createFile() {
@@ -231,8 +229,8 @@ class ActionCSV extends CSVObject implements ActionTable {
   void createRecord(Action action, int justMillis, float touchX, float touchY) {
     resetRecord();
     addAction(record, ACTION, action);
-    addTouchTiming(record, TOUCH_TIMING, playingMillis());
-    addCorrectTiming(record, CORRECT_TIMING, justMillis);
+    addActualTiming(record, ACTUAL_TIMING, playingMillis());
+    addTargetTiming(record, CORRECT_TIMING, justMillis);
     addTouchPosition(record, TOUCH_POSITION_X, TOUCH_POSITION_Y, touchX, touchY);
     writeRecordToFile();
   }

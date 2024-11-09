@@ -3,11 +3,11 @@
 
 //注意：以下のTableのinterface内のメソッドは仕様上、実装クラスでprivateにできないが、createRecord以外は実装クラス外で使用されることを想定していない
 interface CommonTable {
-  default void addTouchTiming(HashMap<String, String> record, String field, int playingMillis) {
+  default void addActualTiming(HashMap<String, String> record, String field, int playingMillis) {
     record.put(field, String.format("%5s", str(playingMillis)));
   }
 
-  default void addCorrectTiming(HashMap<String, String> record, String field, int justMillis) {
+  default void addTargetTiming(HashMap<String, String> record, String field, int justMillis) {
     record.put(field, String.format("%5s", str(justMillis)));
   }
   default void addTouchPosition(HashMap<String, String> record, String fieldX, String fieldY, float touchX, float touchY) {
