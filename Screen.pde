@@ -1,5 +1,6 @@
 abstract class Screen {
-  final int SCREEN_TITLE_SIZE = 150;
+  protected final int SCREEN_TITLE_SIZE = 150;
+  protected final int START_INTERVAL = 1000;
   Screen() {
   }
 
@@ -8,6 +9,7 @@ abstract class Screen {
 
 class TitleScreen extends Screen {
   TitleScreen() {
+    super();
   }
 
   @Override
@@ -21,6 +23,7 @@ class TitleScreen extends Screen {
 
 class SettingsScreen extends Screen {
   SettingsScreen() {
+    super();
   }
 
   @Override
@@ -35,7 +38,6 @@ class SettingsScreen extends Screen {
 }
 
 class PlayingScreen extends Screen {
-
   ArrayList<Object> judgeFieldValues;
   int logJustMillis;
   int logTimingDiff;
@@ -44,6 +46,7 @@ class PlayingScreen extends Screen {
   boolean playingFirstLoop;
 
   PlayingScreen() {
+    super();
     judgment = Judgment.None;
     playingFirstLoop = true;
   }
@@ -122,5 +125,22 @@ class PlayingScreen extends Screen {
       actionCSV.createJustMillisRecord(judgeField.getJustMillis());
       touchCSV.createJustMillisRecord(judgeField.getJustMillis());
     }
+  }
+}
+
+class PauseScreen extends Screen {
+  private PauseToPlayingButton pauseToPlayingButton;
+  private PlayingToTitleButton playingToTitleButton;
+  PauseScreen() {
+    super();
+    pauseToPlayingButton = new PauseToPlayingButton();
+    playingToTitleButton = new PlayingToTitleButton();
+  }
+  
+  public void run() {
+    background(woodImage);
+    displayText("停止中", width/2, height/6, SCREEN_TITLE_SIZE, BLACK);
+    pauseToPlayingButton.run();
+    playingToTitleButton.run();
   }
 }

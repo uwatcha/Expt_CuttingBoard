@@ -8,7 +8,8 @@ enum Judgment {
 enum ScreenType {
   Title,
   Settings,
-  Playing
+  Playing,
+  Pause
 }
 
 enum Field {

@@ -74,7 +74,27 @@ class SettingsButton extends Button {
 
 //------------------------------------------------------------------------------------------------------------------------------------------
 
-class ScreenBackButton extends Button {
+class PauseToPlayingButton extends Button {
+  PauseToPlayingButton() {
+    super(width/2-600, height*4/7, 1200, 120);
+  }
+
+  @Override
+    protected void display() {
+    displayLine(X, Y, X+WIDTH, Y);
+    displayText("Game Restart", X+WIDTH/2, Y+HEIGHT/2, HEIGHT);
+    displayLine(X, Y+HEIGHT, X+WIDTH, Y+HEIGHT);
+  }
+  
+  @Override
+    protected void effect() {
+      currentScreen = ScreenType.Playing;
+    }
+}
+
+//------------------------------------------------------------------------------------------------------------------------------------------
+
+abstract class ScreenBackButton extends Button {
   private static final int STROKE_WEIGHT = 20;
   private final int ARROW_TIP_X = X+WIDTH/6;
   private final int ARROW_TIP_Y = Y+HEIGHT/2;

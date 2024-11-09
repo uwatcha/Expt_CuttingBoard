@@ -37,7 +37,6 @@ final int NICE_MILLIS = framesToMillis(12);
 //フレーム定数
 final int FRAME_RATE = 60;
 final int JUDGE_DISPLAY_DURATION = 30;
-final int START_INTERVAL = 1000;
 
 //JSON キー
 final String isActiveFeedback = "is_active_feedback";
@@ -52,11 +51,13 @@ final int POSITION_X_INDEX = 3;
 final int POSITION_Y_INDEX = 4;
 
 //その他定数
-final HashMap<String, String> UI_TITLES = new HashMap<String, String>() {{
-  put(isActiveFeedback, "フィードバック");
-  put(isActiveGauge, "ゲージ");
-  put(bpm, "BPM");
-}};
+final HashMap<String, String> UI_TITLES = new HashMap<String, String>() {
+  {
+    put(isActiveFeedback, "フィードバック");
+    put(isActiveGauge, "ゲージ");
+    put(bpm, "BPM");
+  }
+};
 
 final int FIELD_RESET_VALUE = Integer.MAX_VALUE;
 
@@ -97,6 +98,7 @@ boolean isContinueWriting = false;
 TitleScreen titleScreen = new TitleScreen();
 SettingsScreen settingsScreen = new SettingsScreen();
 PlayingScreen playingScreen = new PlayingScreen();
+PauseScreen pauseScreen = new PauseScreen();
 
 //入出力オブジェクト
 JsonBuffer faciSettings;
@@ -129,8 +131,6 @@ PApplet applet = this;
 
 void setup() {
   //設定
-  //なぜかframeRateを変更できない。FRAME_RATEを60というデフォルトにしておく。
-  //TODO: 120にしてみる
   frameRate(60);
   imageMode(CENTER);
   textAlign(CENTER, CENTER);
@@ -153,6 +153,7 @@ void setup() {
   titleScreen = new TitleScreen();
   settingsScreen = new SettingsScreen();
   playingScreen = new PlayingScreen();
+  pauseScreen = new PauseScreen();
   faciSettings = new JsonBuffer("facilitator_settings.json");
   devConfig = new JsonBuffer("developer_config.json");
   generalCSV = new GeneralCSV();
@@ -218,6 +219,9 @@ void draw() {
     break;
   case Playing:
     playingScreen.run();
+    break;
+  case Pause:
+    pauseScreen.run();
     break;
   }
   if (action!=Action.Other) {

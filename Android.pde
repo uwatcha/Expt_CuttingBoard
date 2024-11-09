@@ -13,9 +13,9 @@
 @Override
   public void onPause() {
     closeFiles();
+    currentScreen = ScreenType.Pause;
     //TODO: アプリを一時停止する処理
     super.onPause();
-    
   }
   
 @Override
