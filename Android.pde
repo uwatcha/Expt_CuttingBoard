@@ -5,8 +5,8 @@
   } else if (event.getActionMasked()==MotionEvent.ACTION_UP || event.getActionMasked()==MotionEvent.ACTION_POINTER_UP) {
     actionFromAndroid = Action.Up;
   }
-  actionPosition[0] = event.getX(event.getPointerCount()-1);
-  actionPosition[1] = event.getY(event.getPointerCount()-1);
+  actionPosition[0] = (int)event.getX(event.getPointerCount()-1);
+  actionPosition[1] = (int)event.getY(event.getPointerCount()-1);
   return super.surfaceTouchEvent(event);
 }
 
@@ -14,7 +14,8 @@
   public void onPause() {
     closeFiles();
     currentScreen = ScreenType.Pause;
-    //TODO: アプリを一時停止する処理
+    //TODO: PlayingMillis()を停止できていない
+    //TODO: 再開時にインターバルを挿入する
     super.onPause();
   }
   

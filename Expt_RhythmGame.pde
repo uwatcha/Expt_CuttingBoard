@@ -46,7 +46,8 @@ int touchIntervalMillis;
 boolean isRunning;
 Action actionFromAndroid;
 Action action;
-float[] actionPosition;
+//TODO: スケールをmmに変換する
+int[] actionPosition;
 final int NOTE_COUNT = 512;
 PImage woodImage;
 PImage gearImage;
@@ -104,7 +105,7 @@ void setup() {
   playStartMillis = FIELD_RESET_VALUE;
   actionFromAndroid = Action.Other;
   action = Action.Other;
-  actionPosition = new float[2];
+  actionPosition = new int[2];
   currentScreen = ScreenType.Title;
   titleScreen = new TitleScreen();
   settingsScreen = new SettingsScreen();

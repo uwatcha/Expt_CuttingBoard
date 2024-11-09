@@ -3,6 +3,7 @@
 
 //注意：以下のTableのinterface内のメソッドは仕様上、実装クラスでprivateにできないが、createRecord以外は実装クラス外で使用されることを想定していない
 interface CommonTable {
+  void createRecord(HashMap<Field, Object> field);
   default void addActualTiming(HashMap<String, String> record, String field, int playingMillis) {
     record.put(field, String.format("%5s", str(playingMillis)));
   }
@@ -10,19 +11,16 @@ interface CommonTable {
   default void addTargetTiming(HashMap<String, String> record, String field, int justMillis) {
     record.put(field, String.format("%5s", str(justMillis)));
   }
-  default void addTouchPosition(HashMap<String, String> record, String fieldX, String fieldY, float touchX, float touchY) {
-    record.put(fieldX, String.format("%4s", str((int)touchX)));
-    record.put(fieldY, String.format("%4s", str((int)touchY)));
+  default void addTouchPosition(HashMap<String, String> record, String fieldX, String fieldY, int touchX, int touchY) {
+    record.put(fieldX, String.format("%4s", str(touchX)));
+    record.put(fieldY, String.format("%4s", str(touchY)));
   }
 }
 interface GeneralTable extends AddJudgment, AddTimingDiff, AddAction {
-  void createRecord(Action action, int justMillis, int diff, Judgment judgment, float touchX, float touchY);
 }
 interface TouchTable extends AddJudgment, AddTimingDiff {
-  void createRecord(int justMillis, int diff, Judgment judgment, float touchX, float touchY);
 }
 interface ActionTable extends AddAction {
-  void createRecord(Action action, int justMillis, float touchX, float touchY);
 }
 
 interface AddAction {

@@ -8,14 +8,12 @@ class JudgeField {
   private Judgment judgment;
   private int timingDiff;
   private HashMap<Field, Object> CSVFields;
-  //private ArrayList<Object> rtn;
 
   public JudgeField() {
     justMillis = FIELD_RESET_VALUE;
     judgment = Judgment.None;
     timingDiff = FIELD_RESET_VALUE;
     CSVFields = new HashMap<Field, Object>();
-    //rtn = new ArrayList<Object>();
   }
 
   public void run() {
@@ -29,11 +27,6 @@ class JudgeField {
       CSVFields.put(Field.Judgment, judgment);
       CSVFields.put(Field.TouchPositionX, actionPosition[0]);
       CSVFields.put(Field.TouchPositionY, actionPosition[1]);
-      //rtn.add(JUST_MILLIS_INDEX, justMillis);
-      //rtn.add(TIMING_DIFF_INDEX, timingDiff);
-      //rtn.add(JUDGMENT_INDEX, judgment);
-      //rtn.add(POSITION_X_INDEX, actionPosition[0]);
-      //rtn.add(POSITION_Y_INDEX, actionPosition[1]);
     } else {
       CSVFields = new HashMap<Field, Object>();
     }
@@ -42,6 +35,10 @@ class JudgeField {
 
   public void display() {
     displayRect(TOP_LEFT_X, TOP_LEFT_Y, WIDTH, HEIGHT, 0, colors.CLEAR_GREY);
+  }
+  
+  public boolean hasFieldValues() {
+    return judgment != Judgment.None;
   }
 
   public int getJustMillis() {
@@ -95,7 +92,6 @@ class JudgeField {
       loopCount++;
     }
     justMillis = loopCount*touchIntervalMillis;
-    //println("justMillis: "+justMillis);
   }
 
   private boolean isNowWithinRange(int lowerBoundMillis, int upperBoundMillis) {
@@ -104,7 +100,7 @@ class JudgeField {
   }
 
   private boolean isTouched() {
-    if (action==Action.Down) {
+    if (action==Action.Down || action==Action.Up) {
       if (isTouchInField()) {
         return true;
       }

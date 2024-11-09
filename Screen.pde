@@ -38,16 +38,10 @@ class SettingsScreen extends Screen {
 }
 
 class PlayingScreen extends Screen {
-  ArrayList<Object> judgeFieldValues;
-  int logJustMillis;
-  int logTimingDiff;
-  float logTouchPositionX, logTouchPositionY;
-  Judgment judgment;
   boolean playingFirstLoop;
 
   PlayingScreen() {
     super();
-    judgment = Judgment.None;
     playingFirstLoop = true;
   }
 
@@ -77,8 +71,8 @@ class PlayingScreen extends Screen {
     }
 
     gauge.run();
-    judgeFieldValues = judgeField.run();
-    
+    judgeField.run();
+
     logOutput();
     if (playingFirstLoop) {
       playingFirstLoop = false;
@@ -90,31 +84,20 @@ class PlayingScreen extends Screen {
   }
 
   private void logOutput() {
-    if (judgeFieldValues.size()!=0) {
-      logJustMillis = (int)judgeFieldValues.get(JUST_MILLIS_INDEX);
-      logTimingDiff = (int)judgeFieldValues.get(TIMING_DIFF_INDEX);
-      judgment = (Judgment)judgeFieldValues.get(JUDGMENT_INDEX);
-      logTouchPositionX = (float)judgeFieldValues.get(POSITION_X_INDEX);
-      logTouchPositionY = (float)judgeFieldValues.get(POSITION_Y_INDEX);
-    }
-
+    HashMap<Field, Object> generalFields = judgeField.getGeneralCSVFields();
     if (action==Action.Down && judgeField.isTouchInField()) {
-      generalCSV.createRecord(action, logJustMillis, logTimingDiff, judgment, actionPosition[0], actionPosition[1]);
-      actionCSV.createRecord(action, logJustMillis, actionPosition[0], actionPosition[1]);
-      touchCSV.createRecord(logJustMillis, logTimingDiff, judgment, logTouchPositionX, logTouchPositionY);
+      generalCSV.createRecord(generalFields);
+      touchCSV.createRecord(judgeField.getTouchCSVFields());
+      actionCSV.createRecord(judgeField.getActionCSVFields());
     }
 
-    feedback.run(judgment);
+    feedback.run(generalFields.containsKey(Field.Judgment) ? (Judgment)generalFields.get(Field.Judgment) : Judgment.None);
 
-    if (action==Action.Up && judgeField.isTouchInField() && judgment!=Judgment.None) {
-      generalCSV.createRecord(action, logJustMillis, logTimingDiff, judgment, actionPosition[0], actionPosition[1]);
-      actionCSV.createRecord(action, logJustMillis, actionPosition[0], actionPosition[1]);
-      judgeFieldValues = new ArrayList<Object>();
-      logJustMillis = FIELD_RESET_VALUE;
-      logTimingDiff = FIELD_RESET_VALUE;
-      judgment = Judgment.None;
-      logTouchPositionX = FIELD_RESET_VALUE;
-      logTouchPositionY = FIELD_RESET_VALUE;
+    if (action==Action.Up) {
+    }
+    if (action==Action.Up && judgeField.isTouchInField()) {
+      generalCSV.createRecord(generalFields);
+      actionCSV.createRecord(judgeField.getActionCSVFields());
     }
     if (justMillisChecker.isMatched(judgeField.getJustMillis(), playingMillis()) && !playingFirstLoop) {
       playHitSE();
@@ -133,7 +116,7 @@ class PauseScreen extends Screen {
     pauseToPlayingButton = new PauseToPlayingButton();
     playingToTitleButton = new PlayingToTitleButton();
   }
-  
+
   public void run() {
     background(woodImage);
     displayText("停止中", width/2, height/6, SCREEN_TITLE_SIZE);
