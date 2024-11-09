@@ -5,7 +5,7 @@ void displayText(String text, float x, float y, int textSize, color textColor) {
   text(text, x, y);
 }
 void displayText(String text, float x, float y, int textSize) {
-  displayText(text, x, y, textSize, BLACK);
+  displayText(text, x, y, textSize, colors.BLACK);
 }
 
 //Circle-----------------------------------------------------------------------------------------------------------------------------------------------
@@ -29,7 +29,7 @@ void displayRect(float x, float y, float w, float h, float strokeWeight, color s
   rect(x, y, w, h);
 }
 void displayRect(float x, float y, float rectWidth, float rectHeight, float strokeWeight, color squareColor) {
-  displayRect(x, y, rectWidth, rectHeight, strokeWeight, squareColor, BLACK);
+  displayRect(x, y, rectWidth, rectHeight, strokeWeight, squareColor, colors.BLACK);
 }
 
 void displaySquare(float x, float y, float size, float strokeWeight, color squareColor, color strokeColor) {
@@ -51,10 +51,10 @@ void displayLine(float x1, float y1, float x2, float y2, float strokeWeight, col
   line(x1, y1, x2, y2);
 }
 void displayLine(float x1, float y1, float x2, float y2, float strokeWeight) {
-  displayLine(x1, y1, x2, y2, strokeWeight, BLACK);
+  displayLine(x1, y1, x2, y2, strokeWeight, colors.BLACK);
 }
 void displayLine(float x1, float y1, float x2, float y2) {
-  displayLine(x1, y1, x2, y2, STROKE_DEFAULT, BLACK);
+  displayLine(x1, y1, x2, y2, STROKE_DEFAULT, colors.BLACK);
 }
 void displayVerticalLine(float x, float strokeWeight, color lineColor) {
   mySetStroke(strokeWeight, lineColor);

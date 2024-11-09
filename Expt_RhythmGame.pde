@@ -17,15 +17,6 @@ import java.util.LinkedList;
 import java.util.Map;
 import java.util.Collections;
 
-//カラー定数
-final color WHITE = color(255);
-final color BLACK = color(0);
-final color LIGHT_GREY  = color(150);
-final color DARK_GREY = color(80);
-final color CLEAR_GREY = color(150, 150, 150, 50);
-final color LIGHT_BLUE = color(139, 220, 232);
-final color LIGHT_GREEN = color(127, 255, 212);
-
 //サイズ定数
 //150: [Device: samsung]で、大文字のSの縦幅が1cm
 final int STROKE_DEFAULT = 2;
@@ -73,7 +64,6 @@ float[] actionPosition;
 
 //ノーツ関係
 final int NOTE_COUNT = 512;
-int noteLoadIndex;
 
 //画像系オブジェクト
 PImage woodImage;
@@ -119,6 +109,7 @@ ToggleButton gaugeToggleButton;
 Slider bpmSlider;
 
 //その他オブジェクト
+Colors colors;
 Gauge gauge;
 JudgeField judgeField;
 Feedback feedback;
@@ -143,7 +134,7 @@ void setup() {
   niceImage = loadImage("images/carrot_nice.png");
   badImage = loadImage("images/carrot_bad.png");
   pauseImage = loadImage("images/pause_button.png");
-  noteLoadIndex = 0;
+  colors = new Colors();
   intervalStartMillis = FIELD_RESET_VALUE;
   playStartMillis = FIELD_RESET_VALUE;
   actionFromAndroid = Action.Other;
@@ -166,6 +157,7 @@ void setup() {
   feedbackToggleButton = new ToggleButton(width*2/5, height/2, isActiveFeedback);
   gaugeToggleButton = new ToggleButton(width*3/5, height/2, isActiveGauge);
   bpmSlider = new Slider(width/2, height*3/4, width*3/5, 0, 360, bpm);
+  
   gauge = new Gauge();
   judgeField = new JudgeField();
   feedback = new Feedback();

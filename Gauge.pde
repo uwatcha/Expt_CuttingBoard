@@ -2,8 +2,8 @@ class Gauge {
   private final int X = width*3/4;
   private final int Y = height/5;
   private static final int SIZE = 200;
-  private final color FRAME_COLOR = DARK_GREY;
-  private final color FILL_COLOR = LIGHT_GREY;
+  private final color FRAME_COLOR = colors.DARK_GREY;
+  private final color FILL_COLOR = colors.LIGHT_GREY;
   private static final int HUMAN_REACTION_OFFSET = 100;
   private boolean isActive;
   private float fillHeight;
@@ -41,7 +41,7 @@ class Gauge {
   
   public void displayFrame() {
     if (isActive) {
-      displaySquare(X, Y, SIZE, STROKE_DEFAULT, FRAME_COLOR, BLACK);
+      displaySquare(X, Y, SIZE, STROKE_DEFAULT, FRAME_COLOR, colors.BLACK);
     }
   }
   

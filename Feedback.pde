@@ -41,7 +41,7 @@ class Feedback {
       if (image!=null) {
         image(image, X, Y);
       }
-      displayText(text, X, Y-250, JUDGE_TEXT_SIZE, BLACK);
+      displayText(text, X, Y-250, JUDGE_TEXT_SIZE);
       if (judgment==Judgment.None) {
         return;
       }

@@ -62,7 +62,7 @@ class SettingsButton extends Button {
 
   @Override
     protected void display() {
-    displayRoundedRect(X, Y, WIDTH, HEIGHT, ROUND, 0, WHITE, BLACK);
+    displayRoundedRect(X, Y, WIDTH, HEIGHT, ROUND, 0, colors.WHITE, colors.BLACK);
     image(gearImage, X+WIDTH/2, Y+HEIGHT/2);
   }
 

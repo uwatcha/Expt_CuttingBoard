@@ -15,7 +15,7 @@ class TitleScreen extends Screen {
   @Override
     public void run() {
     background(woodImage);
-    displayText("タブレットまな板", width/2, height/6, SCREEN_TITLE_SIZE, BLACK);
+    displayText("タブレットまな板", width/2, height/6, SCREEN_TITLE_SIZE);
     settingsButton.run();
     startButton.run();
   }
@@ -29,7 +29,7 @@ class SettingsScreen extends Screen {
   @Override
     public void run() {
     background(woodImage);
-    displayText("Settings", width/2, height/6, SCREEN_TITLE_SIZE, BLACK);
+    displayText("Settings", width/2, height/6, SCREEN_TITLE_SIZE);
     settingsToTitleButton.run();
     feedbackToggleButton.run();
     gaugeToggleButton.run();
@@ -62,7 +62,7 @@ class PlayingScreen extends Screen {
     }
   }
   private void interval() {
-    displayArcRing(width/2, height/4, 125, 0, map(intervalMillis(), 0, START_INTERVAL, 0, TWO_PI), 40, LIGHT_GREEN);
+    displayArcRing(width/2, height/4, 125, 0, map(intervalMillis(), 0, START_INTERVAL, 0, TWO_PI), 40, colors.LIGHT_GREEN);
     gauge.displayFrame();
     judgeField.display();
   }
@@ -139,7 +139,7 @@ class PauseScreen extends Screen {
   
   public void run() {
     background(woodImage);
-    displayText("停止中", width/2, height/6, SCREEN_TITLE_SIZE, BLACK);
+    displayText("停止中", width/2, height/6, SCREEN_TITLE_SIZE);
     pauseToPlayingButton.run();
     playingToTitleButton.run();
   }

@@ -25,8 +25,8 @@ class ToggleButton {
   private final int STATE_TEXT_X_ON;
   private final int STATE_TEXT_X_OFF;
   private final int STATE_TEXT_Y;
-  private final color COLOR_ON = LIGHT_BLUE;
-  private final color COLOR_OFF = LIGHT_GREY;
+  private final color COLOR_ON = colors.LIGHT_BLUE;
+  private final color COLOR_OFF = colors.LIGHT_GREY;
   //JSON-----------------------------------------------------------------
   private final String JSON_KEY;
   
@@ -75,12 +75,12 @@ class ToggleButton {
     rect(X, Y, RECT_WIDTH, DIAMETER);
     circle(X, Y+SIZE_UNIT, DIAMETER);
     circle(X+RECT_WIDTH, Y+SIZE_UNIT, DIAMETER);
-    displayText(stateText, stateTextX, STATE_TEXT_Y, STATE_TEXT_SIZE, BLACK);
+    displayText(stateText, stateTextX, STATE_TEXT_Y, STATE_TEXT_SIZE);
   }
   
   private void displayNob() {
     strokeWeight(3);
-    fill(WHITE);
+    fill(colors.WHITE);
     circle(nobX, Y+SIZE_UNIT, DIAMETER);
   }
   

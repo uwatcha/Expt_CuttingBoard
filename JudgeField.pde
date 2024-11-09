@@ -32,7 +32,7 @@ class JudgeField {
   }
 
   public void display() {
-    displayRect(TOP_LEFT_X, TOP_LEFT_Y, WIDTH, HEIGHT, 0, CLEAR_GREY);
+    displayRect(TOP_LEFT_X, TOP_LEFT_Y, WIDTH, HEIGHT, 0, colors.CLEAR_GREY);
   }
   
   public int getJustMillis() { return justMillis; }

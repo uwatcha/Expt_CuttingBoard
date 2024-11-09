@@ -13,11 +13,11 @@ class Slider {
   //track----------------------------------------------------------------
   private final int TRACK_WIDTH;
   private final static int TRACK_HEIGHT = SIZE_UNIT*2;
-  private final color TRACK_COLOR = WHITE;
+  private final color TRACK_COLOR = colors.WHITE;
   //thumb----------------------------------------------------------------
   private final int THUMB_Y;
   private static final int THUMB_DIAMETER = SIZE_UNIT*4;
-  private final color THUMB_COLOR = WHITE;
+  private final color THUMB_COLOR = colors.WHITE;
   //valueText------------------------------------------------------------
   private static final int VALUE_TEXT_SIZE = SIZE_UNIT*2;
   private final int VALUE_TEXT_Y;
@@ -99,7 +99,7 @@ class Slider {
 
   private void displayTicks() {
     for (int i=0; getTickPositionX(i)<=X+TRACK_WIDTH; i++) {
-      displayLine(getTickPositionX(i), TICK_Y_START, getTickPositionX(i), TICK_Y_END, TICK_STROKE, BLACK);
+      displayLine(getTickPositionX(i), TICK_Y_START, getTickPositionX(i), TICK_Y_END, TICK_STROKE);
     }
   }
   private float getTickPositionX(int i) {
