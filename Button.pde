@@ -43,9 +43,7 @@ class StartButton extends Button {
     protected void effect() {
     currentScreen = ScreenType.Playing;
     intervalStartMillis = millis();
-    generalCSV.createFile();
-    touchCSV.createFile();
-    actionCSV.createFile();
+    playingScreen.createFiles();
   }
 }
 
@@ -149,7 +147,7 @@ class PlayingToTitleButton extends ScreenBackButton {
   @Override
     protected void effect() {
     super.effect();
-    closeFiles();
+    playingScreen.closeFiles();
     isContinueWriting = false;
   }
 }

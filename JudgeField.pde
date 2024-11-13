@@ -7,28 +7,28 @@ class JudgeField {
   private int justMillis;
   private Judgment judgment;
   private int timingDiff;
-  private HashMap<Field, Object> CSVFields;
+  private HashMap<Field, Object> CSVFieldValues;
 
   public JudgeField() {
     justMillis = FIELD_RESET_VALUE;
     judgment = Judgment.None;
     timingDiff = FIELD_RESET_VALUE;
-    CSVFields = new HashMap<Field, Object>();
+    CSVFieldValues = new HashMap<Field, Object>();
   }
 
   public void run() {
     calcJustMillis();
     judgeActualTiming();
     if (judgment != Judgment.None) {
-      CSVFields.put(Field.Action, action);
-      CSVFields.put(Field.ActualTiming, playingMillis());
-      CSVFields.put(Field.TargetTiming, justMillis);
-      CSVFields.put(Field.TimingDiff, timingDiff);
-      CSVFields.put(Field.Judgment, judgment);
-      CSVFields.put(Field.TouchPositionX, actionPosition[0]);
-      CSVFields.put(Field.TouchPositionY, actionPosition[1]);
+      CSVFieldValues.put(Field.Action, action);
+      CSVFieldValues.put(Field.ActualTiming, playingMillis());
+      CSVFieldValues.put(Field.TargetTiming, justMillis);
+      CSVFieldValues.put(Field.TimingDiff, timingDiff);
+      CSVFieldValues.put(Field.Judgment, judgment);
+      CSVFieldValues.put(Field.TouchPositionX, actionPosition[0]);
+      CSVFieldValues.put(Field.TouchPositionY, actionPosition[1]);
     } else {
-      CSVFields = new HashMap<Field, Object>();
+      CSVFieldValues = new HashMap<Field, Object>();
     }
     display();
   }
@@ -45,13 +45,13 @@ class JudgeField {
     return justMillis;
   }
 
-  public HashMap<Field, Object> getGeneralCSVFields() {
-    return CSVFields;
+  public HashMap<Field, Object> getGeneralCSVFieldValues() {
+    return CSVFieldValues;
   }
 
-  public HashMap<Field, Object> getTouchCSVFields() {
+  public HashMap<Field, Object> getTouchCSVFieldValues() {
     HashMap<Field, Object> filteredFields = new HashMap<Field, Object>();
-    for (Map.Entry<Field, Object> entry : CSVFields.entrySet()) {
+    for (Map.Entry<Field, Object> entry : CSVFieldValues.entrySet()) {
       if (Arrays.asList(touchCSV.getFields()).contains(entry.getKey())) {
         filteredFields.put(entry.getKey(), entry.getValue());
       }
@@ -59,9 +59,9 @@ class JudgeField {
     return filteredFields;
   }
 
-  public HashMap<Field, Object> getActionCSVFields() {
+  public HashMap<Field, Object> getActionCSVFieldValues() {
     HashMap<Field, Object> filteredFields = new HashMap<Field, Object>();
-    for (Map.Entry<Field, Object> entry : CSVFields.entrySet()) {
+    for (Map.Entry<Field, Object> entry : CSVFieldValues.entrySet()) {
       if (Arrays.asList(actionCSV.getFields()).contains(entry.getKey())) {
         filteredFields.put(entry.getKey(), entry.getValue());
       }

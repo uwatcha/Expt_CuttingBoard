@@ -173,8 +173,7 @@ class GeneralCSV extends CSVObject implements GeneralTable {
   public void createFile() {
     super.createFile(getExportPath("general"));
   }
-  //TODO: ３種のcreateRecordを、KeyがFIELD文字列変数、Valueがそれに対応する値のHashMapで渡すようにする
-  //TODO: そのために、
+
   public void createRecord(HashMap<Field, Object> field) {
     resetRecord();
     addAction(record, Field.Action.toString(), (Action)field.get(Field.Action));

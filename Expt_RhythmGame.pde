@@ -31,45 +31,55 @@ final int NICE_MILLIS = framesToMillis(12);
 //150: [Device: samsung]で、大文字のSの縦幅が1cm
 final int STROKE_DEFAULT = 2;
 
-final int FRAME_RATE = 60;
-
-final HashMap<String, String> UI_TITLES = new HashMap<String, String>() { {
-    put(isActiveFeedback, "フィードバック");
-    put(isActiveGauge, "ゲージ");
-    put(bpm, "BPM");
-  }
-};
-final int FIELD_RESET_VALUE = Integer.MAX_VALUE;
-int intervalStartMillis;
-int playStartMillis;
-int touchIntervalMillis;
-boolean isRunning;
-Action actionFromAndroid;
-Action action;
-//TODO: スケールをmmに変換する
-int[] actionPosition;
-final int NOTE_COUNT = 512;
+//画像
 PImage woodImage;
 PImage gearImage;
 PImage goodImage;
 PImage niceImage;
 PImage badImage;
 PImage pauseImage;
+
+//音声
 SoundFile[] goodSEPool;
 SoundFile[] niceSEPool;
 SoundFile[] badSEPool;
 SoundFile[] hitSEPool;
 SoundFile timingSE;
+
+//時間
+final int FRAME_RATE = 60;
+int intervalStartMillis;
+int playStartMillis;
+int touchIntervalMillis;
+
+//IO
+
+//スクリーン
 ScreenType currentScreen;
-boolean isContinueWriting = false;
 TitleScreen titleScreen = new TitleScreen();
 SettingsScreen settingsScreen = new SettingsScreen();
 PlayingScreen playingScreen = new PlayingScreen();
 PauseScreen pauseScreen = new PauseScreen();
+
+final HashMap<String, String> UI_TITLES = new HashMap<String, String>() {
+  {
+    put(isActiveFeedback, "フィードバック");
+    put(isActiveGauge, "ゲージ");
+    put(bpm, "BPM");
+  }
+};
+
+final int FIELD_RESET_VALUE = Integer.MAX_VALUE;
+
+Action actionFromAndroid;
+Action action;
+int[] actionPosition;
+
+boolean isContinueWriting = false;
+
+
 JsonBuffer faciSettings;
-GeneralCSV generalCSV;
-TouchCSV touchCSV;
-ActionCSV actionCSV;
+
 StartButton startButton;
 SettingsButton settingsButton;
 SettingsToTitleButton settingsToTitleButton;
@@ -101,8 +111,6 @@ void setup() {
   badImage = loadImage("images/carrot_bad.png");
   pauseImage = loadImage("images/pause_button.png");
   colors = new Colors();
-  intervalStartMillis = FIELD_RESET_VALUE;
-  playStartMillis = FIELD_RESET_VALUE;
   actionFromAndroid = Action.Other;
   action = Action.Other;
   actionPosition = new int[2];
@@ -112,9 +120,7 @@ void setup() {
   playingScreen = new PlayingScreen();
   pauseScreen = new PauseScreen();
   faciSettings = new JsonBuffer("facilitator_settings.json");
-  generalCSV = new GeneralCSV();
-  touchCSV = new TouchCSV();
-  actionCSV = new ActionCSV();
+
   startButton = new StartButton();
   settingsButton = new SettingsButton();
   settingsToTitleButton = new SettingsToTitleButton();

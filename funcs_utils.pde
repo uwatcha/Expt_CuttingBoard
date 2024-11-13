@@ -105,12 +105,6 @@ boolean rectTouchJudge(float x, float y, float w, float h, float touchX, float t
   return (x <= touchX&&touchX <= x+w) && (y <= touchY&&touchY <= y+h);
 }
 
-void closeFiles() {
-  generalCSV.closeFile();
-  touchCSV.closeFile();
-  actionCSV.closeFile();
-}
-
 //developer----------------------------------------------------------------------------------------------------------------------------------------------------
 void appHaltButton() {
   int x = 50;

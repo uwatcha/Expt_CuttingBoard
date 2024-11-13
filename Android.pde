@@ -12,7 +12,7 @@
 
 @Override
   public void onPause() {
-    closeFiles();
+    playingScreen.closeFiles();
     currentScreen = ScreenType.Pause;
     //TODO: PlayingMillis()を停止できていない
     //TODO: 再開時にインターバルを挿入する
@@ -23,8 +23,6 @@
   public void onStart() {
     super.onStart();
     if (isContinueWriting) {
-      generalCSV.reopenFile();
-      touchCSV.reopenFile();
-      actionCSV.reopenFile();
+      playingScreen.reopenFiles();
     }
   }

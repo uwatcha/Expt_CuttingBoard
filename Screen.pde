@@ -38,11 +38,17 @@ class SettingsScreen extends Screen {
 }
 
 class PlayingScreen extends Screen {
-  boolean playingFirstLoop;
+  private boolean playingFirstLoop;
+  private GeneralCSV generalCSV;
+  private TouchCSV touchCSV;
+  private ActionCSV actionCSV;
 
   PlayingScreen() {
     super();
     playingFirstLoop = true;
+    generalCSV = new GeneralCSV();
+    touchCSV = new TouchCSV();
+    actionCSV = new ActionCSV();
   }
 
   @Override
@@ -55,6 +61,25 @@ class PlayingScreen extends Screen {
       playing();
     }
   }
+  
+  public void createFiles() {
+    generalCSV.createFile();
+    touchCSV.createFile();
+    actionCSV.createFile();
+  }
+  
+  public void reopenFiles() {
+    generalCSV.reopenFile();
+    touchCSV.reopenFile();
+    actionCSV.reopenFile();
+  }
+  
+  public void closeFiles() {
+    generalCSV.closeFile();
+    touchCSV.closeFile();
+    actionCSV.closeFile();
+  }
+  
   private void interval() {
     displayArcRing(width/2, height/4, 125, 0, map(intervalMillis(), 0, START_INTERVAL, 0, TWO_PI), 40, colors.LIGHT_GREEN);
     gauge.displayFrame();
@@ -84,20 +109,21 @@ class PlayingScreen extends Screen {
   }
 
   private void logOutput() {
-    HashMap<Field, Object> generalFields = judgeField.getGeneralCSVFields();
+    HashMap<Field, Object> generalFields = judgeField.getGeneralCSVFieldValues();
     if (action==Action.Down && judgeField.isTouchInField()) {
       generalCSV.createRecord(generalFields);
-      touchCSV.createRecord(judgeField.getTouchCSVFields());
-      actionCSV.createRecord(judgeField.getActionCSVFields());
+      touchCSV.createRecord(judgeField.getTouchCSVFieldValues());
+      actionCSV.createRecord(judgeField.getActionCSVFieldValues());
     }
 
     feedback.run(generalFields.containsKey(Field.Judgment) ? (Judgment)generalFields.get(Field.Judgment) : Judgment.None);
 
     if (action==Action.Up) {
     }
+    //TODO: タッチダウンが成功した後、領域外でタッチアップするのを受け付けるようにする
     if (action==Action.Up && judgeField.isTouchInField()) {
       generalCSV.createRecord(generalFields);
-      actionCSV.createRecord(judgeField.getActionCSVFields());
+      actionCSV.createRecord(judgeField.getActionCSVFieldValues());
     }
     if (justMillisChecker.isMatched(judgeField.getJustMillis(), playingMillis()) && !playingFirstLoop) {
       playHitSE();
