@@ -47,8 +47,8 @@ class PlayingScreen extends Screen {
     super();
     playingFirstLoop = true;
     generalCSV = new GeneralCSV();
-    //touchCSV = new TouchCSV();
-    //actionCSV = new ActionCSV();
+    touchCSV = new TouchCSV();
+    actionCSV = new ActionCSV();
   }
 
   @Override

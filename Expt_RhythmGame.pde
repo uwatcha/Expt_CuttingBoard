@@ -56,10 +56,10 @@ int touchIntervalMillis;
 
 //スクリーン
 ScreenType currentScreen;
-TitleScreen titleScreen = new TitleScreen();
-SettingsScreen settingsScreen = new SettingsScreen();
-PlayingScreen playingScreen = new PlayingScreen();
-PauseScreen pauseScreen = new PauseScreen();
+TitleScreen titleScreen;
+SettingsScreen settingsScreen;
+PlayingScreen playingScreen;
+PauseScreen pauseScreen;
 
 final HashMap<String, String> UI_TITLES = new HashMap<String, String>() {
   {
