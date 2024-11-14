@@ -20,7 +20,7 @@ abstract class CSVObject implements CommonTable {
   public Field[] getFields() { return FIELDS; }
 
   private String getFileNameDateTime() {
-    return nf(year(), 4)+"-"+nf(month(), 2)+"-"+nf(day(), 2)+"--"+nf(hour(), 2)+"-"+nf(minute(), 2);
+    return nf(year(), 4)+"-"+nf(month(), 2)+"-"+nf(day(), 2)+"--"+nf(hour(), 2)+"-"+nf(minute(), 2)+"-"+nf(second(), 2);
   }
   private String getDateTime() {
     return nf(year(), 4)+"/"+nf(month(), 2)+"/"+nf(day(), 2)+" "+nf(hour(), 2)+":"+nf(minute(), 2);

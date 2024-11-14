@@ -49,20 +49,20 @@ class JudgeField {
     return CSVFieldValues;
   }
 
-  public HashMap<Field, Object> getTouchCSVFieldValues() {
+  public HashMap<Field, Object> getTouchCSVFieldValues(Field[] touchCSVFields) {
     HashMap<Field, Object> filteredFields = new HashMap<Field, Object>();
     for (Map.Entry<Field, Object> entry : CSVFieldValues.entrySet()) {
-      if (Arrays.asList(touchCSV.getFields()).contains(entry.getKey())) {
+      if (Arrays.asList(touchCSVFields).contains(entry.getKey())) {
         filteredFields.put(entry.getKey(), entry.getValue());
       }
     }
     return filteredFields;
   }
 
-  public HashMap<Field, Object> getActionCSVFieldValues() {
+  public HashMap<Field, Object> getActionCSVFieldValues(Field[] actionCSVFields) {
     HashMap<Field, Object> filteredFields = new HashMap<Field, Object>();
     for (Map.Entry<Field, Object> entry : CSVFieldValues.entrySet()) {
-      if (Arrays.asList(actionCSV.getFields()).contains(entry.getKey())) {
+      if (Arrays.asList(actionCSVFields).contains(entry.getKey())) {
         filteredFields.put(entry.getKey(), entry.getValue());
       }
     }
