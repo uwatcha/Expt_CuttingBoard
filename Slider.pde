@@ -67,7 +67,7 @@ class Slider {
     TICK_Y_START = CENTER_Y+(int)(SIZE_UNIT*2.5);
     TICK_Y_END = CENTER_Y+TICK_HEIGHT;
 
-    setValueToThumbX(faciSettings.myGetInt(JSON_KEY));
+    setValueFromJson(faciSettings.myGetInt(JSON_KEY));
     isGrabing = false;
   }
 
@@ -75,7 +75,7 @@ class Slider {
     displayText(TITLE, CENTER_X, TITLE_Y, TITLE_SIZE);
     setIsGrabing();
     if (isGrabing) {
-      setThumbXToValue();
+      setValueFromPosition();
     }
     displayTrack();
     displayThumb();
@@ -102,8 +102,8 @@ class Slider {
       displayLine(getTickPositionX(i), TICK_Y_START, getTickPositionX(i), TICK_Y_END, TICK_STROKE);
     }
   }
-  private float getTickPositionX(int i) {
-    return X+TICK_SCALE_LENGTH*i;
+  private float getTickPositionX(int index) {
+    return X+TICK_SCALE_LENGTH*index;
   }
 
   private void setIsGrabing() {
@@ -121,21 +121,28 @@ class Slider {
     faciSettings.mySetInt(JSON_KEY, value);
   }
 
-  private void setValueToThumbX(int value) {
-    this.value = value;
-    thumbX = map(value, TRACK_LOWER_LIMIT_VALUE, TRACK_UPPER_LIMIT_VALUE, X, X+TRACK_WIDTH);
+  private void setValueFromJson(int jsonValue) {
+    this.value = jsonValue;
+    thumbX = getMappedThumbX(value);
     valueText = str(value);
   }
 
-  private void setThumbXToValue() {
+  private void setValueFromPosition() {
+    float thumbXCand;
     if (actionPosition[0] <= VALUE_MIN_POSITION) {
-      thumbX = VALUE_MIN_POSITION;
+      thumbXCand = VALUE_MIN_POSITION;
     } else if (VALUE_MAX_POSITION <= actionPosition[0]) {
-      thumbX = VALUE_MAX_POSITION;
+      thumbXCand = VALUE_MAX_POSITION;
     } else {
-      thumbX = actionPosition[0];
+      thumbXCand = actionPosition[0];
     }
-    value = (int)map(thumbX-X, 0, TRACK_WIDTH, TRACK_LOWER_LIMIT_VALUE, TRACK_UPPER_LIMIT_VALUE);
+    float valueCand = (int)map(thumbXCand-X, 0, TRACK_WIDTH, TRACK_LOWER_LIMIT_VALUE, TRACK_UPPER_LIMIT_VALUE);
+    value = round(valueCand / 10) * 10;
+    thumbX = getMappedThumbX(value);
     valueText = str(value);
+  }
+  
+  private float getMappedThumbX(int value) {
+    return map(value, TRACK_LOWER_LIMIT_VALUE, TRACK_UPPER_LIMIT_VALUE, X, X+TRACK_WIDTH);
   }
 }
