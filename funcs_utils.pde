@@ -77,7 +77,7 @@ float secToFrames(float sec) {
 }
 
 int intervalMillis() {
-  if (intervalStartMillis!=FIELD_RESET_VALUE) {
+  if (intervalStartMillis!=INT_RESET_VALUE) {
     return millis()-intervalStartMillis;
   } else {
     return 0;
@@ -85,7 +85,7 @@ int intervalMillis() {
 }
 
 int playingMillis() {
-  if (playStartMillis!=FIELD_RESET_VALUE) {
+  if (playStartMillis!=INT_RESET_VALUE) {
     return millis()-playStartMillis;
   } else {
     return 0;

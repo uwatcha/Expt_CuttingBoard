@@ -179,7 +179,10 @@ class GeneralCSV extends CSVObject implements GeneralTable {
     addAction(record, Field.Action.toString(), (Action)field.get(Field.Action));
     addActualTiming(record, Field.ActualTiming.toString(), (int)field.get(Field.ActualTiming));
     addTargetTiming(record, Field.TargetTiming.toString(), (int)field.get(Field.TargetTiming));
-    addTimingDiff(record, Field.TimingDiff.toString(), (int)field.get(Field.TimingDiff));
+    int timingDiff = (int)field.get(Field.TimingDiff);
+    if (timingDiff != INT_RESET_VALUE) {
+      addTimingDiff(record, Field.TimingDiff.toString(), timingDiff);
+    }
     addJudgment(record, Field.Judgment.toString(), (Judgment)field.get(Field.Judgment));
     addTouchPosition(record, Field.TouchPositionX.toString(), Field.TouchPositionY.toString(), (int)field.get(Field.TouchPositionX), (int)field.get(Field.TouchPositionY));
     writeRecordToFile();

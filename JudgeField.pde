@@ -10,23 +10,28 @@ class JudgeField {
   private HashMap<Field, Object> CSVFieldValues;
 
   public JudgeField() {
-    justMillis = FIELD_RESET_VALUE;
+    justMillis = INT_RESET_VALUE;
     judgment = Judgment.None;
-    timingDiff = FIELD_RESET_VALUE;
+    timingDiff = INT_RESET_VALUE;
     CSVFieldValues = new HashMap<Field, Object>();
   }
 
   public void run() {
     calcJustMillis();
-    judgeActualTiming();
+    judgeTouchedTiming();
     if (judgment != Judgment.None) {
       CSVFieldValues.put(Field.Action, action);
       CSVFieldValues.put(Field.ActualTiming, playingMillis());
       CSVFieldValues.put(Field.TargetTiming, justMillis);
-      CSVFieldValues.put(Field.TimingDiff, timingDiff);
-      CSVFieldValues.put(Field.Judgment, judgment);
       CSVFieldValues.put(Field.TouchPositionX, actionPosition[0]);
       CSVFieldValues.put(Field.TouchPositionY, actionPosition[1]);
+      if (action == Action.Down) {
+        CSVFieldValues.put(Field.TimingDiff, timingDiff);
+        CSVFieldValues.put(Field.Judgment, judgment);
+      } else if (action == Action.Up) {
+        CSVFieldValues.put(Field.TimingDiff, INT_RESET_VALUE);
+        CSVFieldValues.put(Field.Judgment, Judgment.None);
+      }
     } else {
       CSVFieldValues = new HashMap<Field, Object>();
     }
@@ -36,7 +41,7 @@ class JudgeField {
   public void display() {
     displayRect(TOP_LEFT_X, TOP_LEFT_Y, WIDTH, HEIGHT, 0, colors.CLEAR_GREY);
   }
-  
+
   public boolean hasFieldValues() {
     return judgment != Judgment.None;
   }
@@ -69,7 +74,7 @@ class JudgeField {
     return filteredFields;
   }
 
-  private void judgeActualTiming() {
+  private void judgeTouchedTiming() {
     if (isTouched()) {
       if (isNowWithinRange(0, GOOD_MILLIS)) {
         judgment = Judgment.Good;

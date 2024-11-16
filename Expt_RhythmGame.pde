@@ -69,7 +69,7 @@ final HashMap<String, String> UI_TITLES = new HashMap<String, String>() {
   }
 };
 
-final int FIELD_RESET_VALUE = Integer.MAX_VALUE;
+final int INT_RESET_VALUE = Integer.MAX_VALUE;
 
 Action actionFromAndroid;
 Action action;
@@ -184,7 +184,7 @@ void draw() {
   }
   if (action!=Action.Other) {
     action = Action.Other;
-    actionPosition[0] = FIELD_RESET_VALUE;
-    actionPosition[1] = FIELD_RESET_VALUE;
+    actionPosition[0] = INT_RESET_VALUE;
+    actionPosition[1] = INT_RESET_VALUE;
   }
 }
