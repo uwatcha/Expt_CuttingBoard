@@ -23,7 +23,7 @@ abstract class CSVObject implements CommonTable {
     return nf(year(), 4)+"-"+nf(month(), 2)+"-"+nf(day(), 2)+"--"+nf(hour(), 2)+"-"+nf(minute(), 2)+"-"+nf(second(), 2);
   }
   private String getDateTime() {
-    return nf(year(), 4)+"/"+nf(month(), 2)+"/"+nf(day(), 2)+" "+nf(hour(), 2)+":"+nf(minute(), 2)+"-"+nf(second(), 2);
+    return nf(year(), 4)+"/"+nf(month(), 2)+"/"+nf(day(), 2)+" "+nf(hour(), 2)+":"+nf(minute(), 2)+":"+nf(second(), 2);
   }
 
   protected String getExportPath(String fileKindName) {
@@ -181,49 +181,6 @@ class GeneralCSV extends CSVObject implements GeneralTable {
     addTargetTiming(record, Field.TargetTiming.toString(), (int)field.get(Field.TargetTiming));
     addTimingDiff(record, Field.TimingDiff.toString(), (int)field.get(Field.TimingDiff));
     addJudgment(record, Field.Judgment.toString(), (Judgment)field.get(Field.Judgment));
-    addTouchPosition(record, Field.TouchPositionX.toString(), Field.TouchPositionY.toString(), (int)field.get(Field.TouchPositionX), (int)field.get(Field.TouchPositionY));
-    writeRecordToFile();
-  }
-}
-
-//------------------------------------------------------------------------------------------------------------------------------------------
-
-class TouchCSV extends CSVObject implements TouchTable {
-  TouchCSV () {
-    super(new Field[] {Field.ActualTiming, Field.TargetTiming, Field.TimingDiff, Field.Judgment, Field.TouchPositionX, Field.TouchPositionY});
-  }
-
-  public void createFile() {
-    super.createFile(getExportPath("touch"));
-  }
-
-  public void createRecord(HashMap<Field, Object> field) {
-    resetRecord();
-    addActualTiming(record, Field.ActualTiming.toString(), (int)field.get(Field.ActualTiming));
-    addTargetTiming(record, Field.TargetTiming.toString(), (int)field.get(Field.TargetTiming));
-    addTimingDiff(record, Field.TimingDiff.toString(), (int)field.get(Field.TimingDiff));
-    addJudgment(record, Field.Judgment.toString(), (Judgment)field.get(Field.Judgment));
-    addTouchPosition(record, Field.TouchPositionX.toString(), Field.TouchPositionY.toString(), (int)field.get(Field.TouchPositionX), (int)field.get(Field.TouchPositionY));
-    writeRecordToFile();
-  }
-}
-
-//------------------------------------------------------------------------------------------------------------------------------------------
-
-class ActionCSV extends CSVObject implements ActionTable {
-  ActionCSV() {
-    super(new Field[] {Field.Action, Field.ActualTiming, Field.TargetTiming, Field.TouchPositionX, Field.TouchPositionY});
-  }
-
-  public void createFile() {
-    super.createFile(getExportPath("action"));
-  }
-
-  void createRecord(HashMap<Field, Object> field) {
-    resetRecord();
-    addAction(record, Field.Action.toString(), (Action)field.get(Field.Action));
-    addActualTiming(record, Field.ActualTiming.toString(), (int)field.get(Field.ActualTiming));
-    addTargetTiming(record, Field.TargetTiming.toString(), (int)field.get(Field.TargetTiming));
     addTouchPosition(record, Field.TouchPositionX.toString(), Field.TouchPositionY.toString(), (int)field.get(Field.TouchPositionX), (int)field.get(Field.TouchPositionY));
     writeRecordToFile();
   }

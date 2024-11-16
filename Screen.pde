@@ -40,15 +40,11 @@ class SettingsScreen extends Screen {
 class PlayingScreen extends Screen {
   private boolean playingFirstLoop;
   private GeneralCSV generalCSV;
-  private TouchCSV touchCSV;
-  private ActionCSV actionCSV;
 
   PlayingScreen() {
     super();
     playingFirstLoop = true;
     generalCSV = new GeneralCSV();
-    touchCSV = new TouchCSV();
-    actionCSV = new ActionCSV();
   }
 
   @Override
@@ -64,20 +60,14 @@ class PlayingScreen extends Screen {
   
   public void createFiles() {
     generalCSV.createFile();
-    touchCSV.createFile();
-    actionCSV.createFile();
   }
   
   public void reopenFiles() {
     generalCSV.reopenFile();
-    touchCSV.reopenFile();
-    actionCSV.reopenFile();
   }
   
   public void closeFiles() {
     generalCSV.closeFile();
-    touchCSV.closeFile();
-    actionCSV.closeFile();
   }
   
   private void interval() {
@@ -112,8 +102,6 @@ class PlayingScreen extends Screen {
     HashMap<Field, Object> generalFields = judgeField.getGeneralCSVFieldValues();
     if (action==Action.Down && judgeField.isTouchInField()) {
       generalCSV.createRecord(generalFields);
-      touchCSV.createRecord(judgeField.getTouchCSVFieldValues(touchCSV.getFields()));
-      actionCSV.createRecord(judgeField.getActionCSVFieldValues(actionCSV.getFields()));
     }
 
     feedback.run(generalFields.containsKey(Field.Judgment) ? (Judgment)generalFields.get(Field.Judgment) : Judgment.None);
@@ -123,13 +111,10 @@ class PlayingScreen extends Screen {
     //TODO: タッチダウンが成功した後、領域外でタッチアップするのを受け付けるようにする
     if (action==Action.Up && judgeField.isTouchInField()) {
       generalCSV.createRecord(generalFields);
-      actionCSV.createRecord(judgeField.getActionCSVFieldValues(actionCSV.getFields()));
     }
     if (justMillisChecker.isMatched(judgeField.getJustMillis(), playingMillis()) && !playingFirstLoop) {
       playHitSE();
       generalCSV.createJustMillisRecord(judgeField.getJustMillis());
-      actionCSV.createJustMillisRecord(judgeField.getJustMillis());
-      touchCSV.createJustMillisRecord(judgeField.getJustMillis());
     }
   }
 }
