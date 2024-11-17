@@ -19,9 +19,9 @@ class JudgeField {
   public void run() {
     calcJustMillis();
     judgeTouchedTiming();
-    if (judgment != Judgment.None) {
+    if (isTouched()) {
       CSVFieldValues.put(Field.Action, action);
-      CSVFieldValues.put(Field.ActualTiming, playingMillis());
+      CSVFieldValues.put(Field.ActualTiming, timeManager.getPlayingMillis());
       CSVFieldValues.put(Field.TargetTiming, justMillis);
       CSVFieldValues.put(Field.TouchPositionX, actionPosition[0]);
       CSVFieldValues.put(Field.TouchPositionY, actionPosition[1]);
@@ -91,16 +91,16 @@ class JudgeField {
   }
 
   private void calcJustMillis() {
-    int loopCount = playingMillis()/touchIntervalMillis;
-    int loopRemainder = playingMillis()%touchIntervalMillis;
-    if (loopRemainder >= touchIntervalMillis/2) {
+    int loopCount = timeManager.getPlayingMillis()/timeManager.getTouchIntervalMillis();
+    int loopRemainder = timeManager.getPlayingMillis()%timeManager.getTouchIntervalMillis();
+    if (loopRemainder >= timeManager.getTouchIntervalMillis()/2) {
       loopCount++;
     }
-    justMillis = loopCount*touchIntervalMillis;
+    justMillis = loopCount*timeManager.getTouchIntervalMillis();
   }
 
   private boolean isNowWithinRange(int lowerBoundMillis, int upperBoundMillis) {
-    timingDiff = playingMillis()-justMillis;
+    timingDiff = timeManager.getPlayingMillis()-justMillis;
     return (lowerBoundMillis <= abs(timingDiff)&&abs(timingDiff) <= upperBoundMillis);
   }
 

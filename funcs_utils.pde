@@ -76,26 +76,6 @@ float secToFrames(float sec) {
   return FRAME_RATE*sec;
 }
 
-int intervalMillis() {
-  if (intervalStartMillis!=INT_RESET_VALUE) {
-    return millis()-intervalStartMillis;
-  } else {
-    return 0;
-  }
-}
-
-int playingMillis() {
-  if (playStartMillis!=INT_RESET_VALUE) {
-    return millis()-playStartMillis;
-  } else {
-    return 0;
-  }
-}
-
-int loopPlayingMillis() {
-  return playingMillis()%touchIntervalMillis;
-}
-
 int framesToMillis(int frame) {
   return 1000*frame/FRAME_RATE;
 }
@@ -121,7 +101,7 @@ void appHaltButton() {
 //actionID==2147483647の出力が連続するときに出力しない関数だが、今後汎用的にする
 boolean hasPrintedRESETVALUE = false;
 void myPrintln(Action action) {
-  if(action==Action.Other) {
+  if (action==Action.Other) {
     if (!hasPrintedRESETVALUE) {
       hasPrintedRESETVALUE = true;
       println("draw("+action+")");

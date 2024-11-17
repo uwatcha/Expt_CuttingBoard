@@ -48,9 +48,7 @@ SoundFile timingSE;
 
 //時間
 final int FRAME_RATE = 60;
-int intervalStartMillis;
-int playStartMillis;
-int touchIntervalMillis;
+TimeManager timeManager;
 
 //IO
 
@@ -84,6 +82,7 @@ StartButton startButton;
 SettingsButton settingsButton;
 SettingsToTitleButton settingsToTitleButton;
 PlayingToTitleButton playingToTitleButton;
+PlayingToPauseButton playingToPauseButton;
 ToggleButton feedbackToggleButton;
 ToggleButton gaugeToggleButton;
 Slider bpmSlider;
@@ -125,6 +124,7 @@ void setup() {
   settingsButton = new SettingsButton();
   settingsToTitleButton = new SettingsToTitleButton();
   playingToTitleButton = new PlayingToTitleButton();
+  playingToPauseButton = new PlayingToPauseButton();
   feedbackToggleButton = new ToggleButton(width*2/5, height/2, isActiveFeedback);
   gaugeToggleButton = new ToggleButton(width*3/5, height/2, isActiveGauge);
   bpmSlider = new Slider(width/2, height*3/4, width*3/5, 0, 360, bpm);
@@ -150,6 +150,8 @@ void setup() {
     badSEPool[i]  = new SoundFile(applet, "SEs/slash_bad.wav");
   }
   timingSE = new SoundFile(applet, "SEs/timing.wav");
+  
+  timeManager = new TimeManager();
 }
 
 void draw() {
@@ -182,6 +184,7 @@ void draw() {
     pauseScreen.run();
     break;
   }
+  timeManager.run();
   if (action!=Action.Other) {
     action = Action.Other;
     actionPosition[0] = INT_RESET_VALUE;

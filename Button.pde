@@ -42,7 +42,6 @@ class StartButton extends Button {
   @Override
     protected void effect() {
     currentScreen = ScreenType.Playing;
-    intervalStartMillis = millis();
     playingScreen.createFiles();
   }
 }
@@ -68,6 +67,25 @@ class SettingsButton extends Button {
     protected void effect() {
     currentScreen = TARGET_SCR;
   }
+}
+
+//------------------------------------------------------------------------------------------------------------------------------------------
+
+class PlayingToPauseButton extends Button {
+  PlayingToPauseButton() {
+    super(50, 200, 200, 200);
+    pauseImage.resize((int)WIDTH, (int)HEIGHT);
+  }
+  
+  @Override
+    protected void display() {
+      image(pauseImage, X+WIDTH/2, Y+HEIGHT/2);
+    }
+    
+  @Override
+    protected void effect() {
+      currentScreen = ScreenType.Pause;
+    }
 }
 
 //------------------------------------------------------------------------------------------------------------------------------------------

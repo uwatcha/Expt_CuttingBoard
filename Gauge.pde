@@ -26,17 +26,17 @@ class Gauge {
   }
   
   private void calcFillHeight() {
-    int subtractedLoopMillis = loopPlayingMillis()-HUMAN_REACTION_OFFSET;
+    int subtractedLoopMillis = timeManager.getLoopPlayingMillis()-HUMAN_REACTION_OFFSET;
     if (subtractedLoopMillis >= 0) {
       fillHeight = subtractedLoopMillis;
     } else {
-      if (playingMillis() < touchIntervalMillis) {
+      if (timeManager.getPlayingMillis() < timeManager.getTouchIntervalMillis()) {
         fillHeight = 0;
       } else {
-        fillHeight = touchIntervalMillis+subtractedLoopMillis;
+        fillHeight = timeManager.getTouchIntervalMillis()+subtractedLoopMillis;
       }
     }
-    fillHeight = (int)map(fillHeight, 0, touchIntervalMillis, 0, SIZE);
+    fillHeight = (int)map(fillHeight, 0, timeManager.getTouchIntervalMillis(), 0, SIZE);
   }
   
   public void displayFrame() {

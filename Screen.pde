@@ -1,6 +1,7 @@
+//TODO: IntervalScreenを作る
+//TODO: PlayingScreenに入るたびに様々な項目をリセットする（bpmなど）
 abstract class Screen {
   protected final int SCREEN_TITLE_SIZE = 150;
-  protected final int START_INTERVAL = 1000;
   Screen() {
   }
 
@@ -37,51 +38,54 @@ class SettingsScreen extends Screen {
   }
 }
 
+//---------------------------------------------------------------------------------------------------------------
+
 class PlayingScreen extends Screen {
-  private boolean playingFirstLoop;
   private GeneralCSV generalCSV;
+  private boolean playingFirstLoop;
 
   PlayingScreen() {
     super();
-    playingFirstLoop = true;
     generalCSV = new GeneralCSV();
+    playingFirstLoop = true;
   }
 
   @Override
     public void run() {
     background(woodImage);
     playingToTitleButton.run();
-    if (intervalMillis() < START_INTERVAL) {
+    playingToPauseButton.run();
+    if (timeManager.getIntervalMillis() < timeManager.START_INTERVAL) {
       interval();
     } else {
       playing();
     }
   }
-  
+
   public void createFiles() {
     generalCSV.createFile();
   }
-  
+
   public void reopenFiles() {
     generalCSV.reopenFile();
   }
-  
+
   public void closeFiles() {
     generalCSV.closeFile();
   }
-  
+
+  public void reset() {
+    playingFirstLoop = true;
+    generalCSV.closeFile();
+  }
+
   private void interval() {
-    displayArcRing(width/2, height/4, 125, 0, map(intervalMillis(), 0, START_INTERVAL, 0, TWO_PI), 40, colors.LIGHT_GREEN);
+    displayArcRing(width/2, height/4, 125, 0, map(timeManager.getIntervalMillis(), 0, timeManager.START_INTERVAL, 0, TWO_PI), 40, colors.LIGHT_GREEN);
     gauge.displayFrame();
     judgeField.display();
   }
   private void playing() {
-    if (playingFirstLoop) {
-      playStartMillis = millis();
-      setTouchIntervalMillis();
-    }
-
-    if (timingSEChecker.isMatched(loopPlayingMillis(), touchIntervalMillis/2)) {
+    if (timingSEChecker.isMatched(timeManager.getLoopPlayingMillis(), timeManager.getTouchIntervalMillis()/2)) {
       timingSE.play();
     }
 
@@ -92,10 +96,6 @@ class PlayingScreen extends Screen {
     if (playingFirstLoop) {
       playingFirstLoop = false;
     }
-  }
-
-  private void setTouchIntervalMillis() {
-    touchIntervalMillis = 1000*4*FRAME_RATE/faciSettings.myGetInt(bpm);
   }
 
   private void logOutput() {
@@ -112,7 +112,7 @@ class PlayingScreen extends Screen {
     if (action==Action.Up && judgeField.isTouchInField()) {
       generalCSV.createRecord(generalFields);
     }
-    if (justMillisChecker.isMatched(judgeField.getJustMillis(), playingMillis()) && !playingFirstLoop) {
+    if (justMillisChecker.isMatched(timeManager.getPlayingMillis(), judgeField.getJustMillis()) && !playingFirstLoop) {
       playHitSE();
       generalCSV.createJustMillisRecord(judgeField.getJustMillis());
     }
