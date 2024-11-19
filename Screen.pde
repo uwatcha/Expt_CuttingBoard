@@ -1,4 +1,3 @@
-//TODO: PlayingScreenに入るたびに様々な項目をリセットする（bpmなど）
 abstract class Screen {
   protected final int SCREEN_TITLE_SIZE = 150;
   Screen() {
@@ -73,18 +72,20 @@ class PlayingScreen extends Screen {
     background(woodImage);
     playingToTitleButton.run();
     playingToPauseButton.run();
-    
-    if (timingSEChecker.isMatched(timeManager.getLoopPlayingMillis(), timeManager.getTouchIntervalMillis()/2)) {
-      timingSE.play();
-    }
 
-    gauge.run();
-    judgeField.run();
+    if (currentScreen == ScreenType.Playing) {
+      if (timingSEChecker.isMatched(timeManager.getLoopPlayingMillis(), timeManager.getTouchIntervalMillis()/2)) {
+        timingSE.play();
+      }
 
-    logOutput();
+      gauge.run();
+      judgeField.run();
 
-    if (playingFirstLoop) {
-      playingFirstLoop = false;
+      logOutput();
+
+      if (playingFirstLoop) {
+        playingFirstLoop = false;
+      }
     }
   }
 
@@ -128,6 +129,8 @@ class PlayingScreen extends Screen {
       generalCSV.createRecord(generalFields);
     }
     if (justMillisChecker.isMatched(timeManager.getPlayingMillis(), judgeField.getJustMillis()) && !playingFirstLoop) {
+      println("playingMillis: "+timeManager.getPlayingMillis());
+      println("justMillis: "+judgeField.getJustMillis());
       playHitSE();
       generalCSV.createJustMillisRecord(judgeField.getJustMillis());
     }

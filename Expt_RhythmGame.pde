@@ -1,5 +1,5 @@
 //TODO: 開発者メニューで、デバッグモードをオンにすると、ログファイルの出力先を変える。本来のログファイルを保存するフォルダを散らかさないため
-
+//TODO: オブジェクトのちょっとした実行順でエラーが起きるので、原因と適切な実行順を明らかにする
 import android.view.MotionEvent;
 import android.app.Activity;
 

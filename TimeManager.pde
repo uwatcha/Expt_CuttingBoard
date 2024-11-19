@@ -10,7 +10,7 @@ class TimeManager {
   TimeManager () {
     setTouchIntervalMillis();
     lastPlayingMillisSum = 0;
-    playStartMillis = 0;
+    playStartMillis = INT_RESET_VALUE;
     thisTurnPlayingMillis = 0;
     intervalStartMillis = INT_RESET_VALUE;
   }
@@ -31,7 +31,7 @@ class TimeManager {
   }
   
   private void resetMillis() {
-    playStartMillis = 0;
+    playStartMillis = INT_RESET_VALUE;
     intervalStartMillis = INT_RESET_VALUE;
     thisTurnPlayingMillis = 0;
   }
