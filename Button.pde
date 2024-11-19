@@ -41,13 +41,11 @@ class StartButton extends Button {
 
   @Override
     protected void effect() {
-    currentScreen = ScreenType.Playing;
-    playingScreen.createFiles();
+    playingScreen.start();
   }
 }
 
 //------------------------------------------------------------------------------------------------------------------------------------------
-//TODO: 押したらエラーが出る
 class SettingsButton extends Button {
   private final ScreenType TARGET_SCR = ScreenType.Settings;
   private static final int ROUND = 30;
@@ -84,7 +82,7 @@ class PlayingToPauseButton extends Button {
     
   @Override
     protected void effect() {
-      currentScreen = ScreenType.Pause;
+      playingScreen.pause();
     }
 }
 
@@ -104,7 +102,7 @@ class PauseToPlayingButton extends Button {
   
   @Override
     protected void effect() {
-      currentScreen = ScreenType.Playing;
+      playingScreen.resume();
     }
 }
 
@@ -165,7 +163,7 @@ class PlayingToTitleButton extends ScreenBackButton {
   @Override
     protected void effect() {
     super.effect();
-    playingScreen.closeFiles();
-    isContinueWriting = false;
+    playingScreen.quit();
+    //isContinueWriting = false;
   }
 }

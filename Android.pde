@@ -12,9 +12,8 @@
 
 @Override
   public void onPause() {
-    playingScreen.closeFiles();
     if (currentScreen == ScreenType.Playing) {
-      currentScreen = ScreenType.Pause;
+      playingScreen.pause();
     }
     //TODO: PlayingMillis()を停止できていない
     //TODO: 再開時にインターバルを挿入する
@@ -24,7 +23,4 @@
 @Override
   public void onStart() {
     super.onStart();
-    if (isContinueWriting) {
-      playingScreen.reopenFiles();
-    }
   }

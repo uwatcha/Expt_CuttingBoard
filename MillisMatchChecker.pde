@@ -11,11 +11,9 @@ class MillisMatchChecker {
     if (!isTriggered && abs(checkedMillis-referenceMillis) < TOLERANCE_MILLIS) {
       isTriggered = true;
       matchedMillis = millis();
-      println("if(){}");
       return true;
     } else if (isTriggered && millis()-matchedMillis >= TOLERANCE_MILLIS) {
       isTriggered = false;
-      println("else if(){}");
       return false;
     } else {
       return false;

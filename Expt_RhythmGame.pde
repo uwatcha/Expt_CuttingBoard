@@ -73,7 +73,7 @@ Action actionFromAndroid;
 Action action;
 int[] actionPosition;
 
-boolean isContinueWriting = false;
+//boolean isContinueWriting = false;
 
 
 JsonBuffer faciSettings;

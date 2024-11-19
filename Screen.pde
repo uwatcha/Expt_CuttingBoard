@@ -62,21 +62,31 @@ class PlayingScreen extends Screen {
     }
   }
 
-  public void createFiles() {
+  public void start() {
+    currentScreen = ScreenType.Playing;
     generalCSV.createFile();
-  }
-
-  public void reopenFiles() {
-    generalCSV.reopenFile();
-  }
-
-  public void closeFiles() {
-    generalCSV.closeFile();
-  }
-
-  public void reset() {
+    timeManager.setIntervalStartMillis();
     playingFirstLoop = true;
+  }
+  
+  public void resume() {
+    currentScreen = ScreenType.Playing;
+    generalCSV.reopenFile();
+    timeManager.setIntervalStartMillis();
+    playingFirstLoop = true;
+  }
+  
+  public void pause() {
+    currentScreen = ScreenType.Pause;
     generalCSV.closeFile();
+    timeManager.pauseTimeManager();
+  }
+
+  public void quit() {
+    println("quit() called.");
+    currentScreen = ScreenType.Title;
+    generalCSV.closeFile();
+    timeManager.resetTimeManager();
   }
 
   private void interval() {
@@ -85,6 +95,9 @@ class PlayingScreen extends Screen {
     judgeField.display();
   }
   private void playing() {
+    if (playingFirstLoop) {
+      timeManager.setPlayStartMillis();
+    }
     if (timingSEChecker.isMatched(timeManager.getLoopPlayingMillis(), timeManager.getTouchIntervalMillis()/2)) {
       timingSE.play();
     }
@@ -93,6 +106,7 @@ class PlayingScreen extends Screen {
     judgeField.run();
 
     logOutput();
+    
     if (playingFirstLoop) {
       playingFirstLoop = false;
     }

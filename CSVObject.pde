@@ -37,7 +37,7 @@ abstract class CSVObject implements CommonTable {
 
   public void createFile(String path) {
     file = new File(path);
-    isContinueWriting = true;
+    //isContinueWriting = true;
     try {
       makeDirectory(path);
       fos = new FileOutputStream(file);
@@ -171,7 +171,14 @@ class GeneralCSV extends CSVObject implements GeneralTable {
   }
 
   public void createFile() {
-    super.createFile(getExportPath("general"));
+    //TODO: 戻す!!!!!!!!!!!!!!!!!!!
+    //TODO: 戻す!!!!!!!!!!!!!!!!!!!
+    //TODO: 戻す!!!!!!!!!!!!!!!!!!!
+    //TODO: 戻す!!!!!!!!!!!!!!!!!!!
+    //TODO: 戻す!!!!!!!!!!!!!!!!!!!
+    //TODO: 戻す!!!!!!!!!!!!!!!!!!!
+    //TODO: 戻す!!!!!!!!!!!!!!!!!!!
+    super.createFile(getExportPath("general_develop"));
   }
 
   public void createRecord(HashMap<Field, Object> field) {

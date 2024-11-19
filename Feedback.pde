@@ -22,11 +22,21 @@ class Feedback {
   public void run(Judgment judgment) {
     setJudgment(judgment);
     display();
-    reset();
+    if (action == Action.Up) {
+      soundEffectHasPlayed = false;
+      judgment = Judgment.None;
+    }
   }
 
   public void setIsActive() {
     isActive = faciSettings.myGetBoolean(isActiveFeedback);
+  }
+
+  public void reset() {
+    setIsActive();
+    text = "";
+    judgment = Judgment.None;
+    soundEffectHasPlayed = false;
   }
 
   private void setJudgment(Judgment judgment) {
@@ -79,13 +89,6 @@ class Feedback {
           soundEffectHasPlayed = true;
         }
       }
-    }
-  }
-
-  private void reset() {
-    if (action == Action.Up) {
-      soundEffectHasPlayed = false;
-      judgment = Judgment.None;
     }
   }
 }
