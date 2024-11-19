@@ -123,6 +123,7 @@ class PlayingScreen extends Screen {
     feedback.run(generalFields.containsKey(Field.Judgment) ? (Judgment)generalFields.get(Field.Judgment) : Judgment.None);
 
     //TODO: タッチダウンが成功した後、領域外でタッチアップするのを受け付けるようにする
+    //ここのjudgeField.isTouchInField()を消すと、createRecordに初期状態のHashMapが渡ってエラーが起こる
     if (action==Action.Up && judgeField.isTouchInField()) {
       generalCSV.createRecord(generalFields);
     }

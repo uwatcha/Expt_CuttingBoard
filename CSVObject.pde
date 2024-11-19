@@ -181,9 +181,9 @@ class GeneralCSV extends CSVObject implements GeneralTable {
   }
 
   public void createRecord(HashMap<Field, Object> field) {
-    println(field);
-    println("x: "+field.get(Field.TouchPositionX));
-    println("y: "+field.get(Field.TouchPositionY));
+    //println(field);
+    //println("x: "+field.get(Field.TouchPositionX));
+    //println("y: "+field.get(Field.TouchPositionY));
     resetRecord();
     addAction(record, Field.Action.toString(), (Action)field.get(Field.Action));
     addActualTiming(record, Field.ActualTiming.toString(), (int)field.get(Field.ActualTiming));

@@ -20,7 +20,10 @@ class Feedback {
   }
 
   public void run(Judgment judgment) {
-    setJudgment(judgment);
+    if (action == Action.Down) {
+      setJudgment(judgment);
+      playSE();
+    }
     display();
     if (action == Action.Up) {
       soundEffectHasPlayed = false;
@@ -56,7 +59,11 @@ class Feedback {
       if (judgment==Judgment.None) {
         return;
       }
+    }
+  }
 
+  private void playSE() {
+    if (isActive) {
       switch (judgment) {
       case Good:
         image = goodImage;
