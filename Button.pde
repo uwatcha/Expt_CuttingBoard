@@ -142,6 +142,7 @@ class SettingsToTitleButton extends ScreenBackButton {
     faciSettings.saveJSON();
     feedback.setIsActive();
     gauge.setIsActive();
+    timeManager.setTouchIntervalMillis();
   }
 }
 
@@ -156,6 +157,5 @@ class PlayingToTitleButton extends ScreenBackButton {
   @Override
     protected void effect() {
     playingScreen.quit();
-    //isContinueWriting = false;
   }
 }

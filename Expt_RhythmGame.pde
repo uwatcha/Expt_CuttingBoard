@@ -74,9 +74,6 @@ Action actionFromAndroid;
 Action action;
 int[] actionPosition;
 
-//boolean isContinueWriting = false;
-
-
 JsonBuffer faciSettings;
 
 StartButton startButton;
@@ -115,7 +112,7 @@ void setup() {
   action = Action.Other;
   actionPosition = new int[2];
   faciSettings = new JsonBuffer("facilitator_settings.json");
-  timeManager = new TimeManager(faciSettings.myGetInt(bpm));
+  timeManager = new TimeManager();
   currentScreen = ScreenType.Title;
   titleScreen = new TitleScreen();
   settingsScreen = new SettingsScreen();

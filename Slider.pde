@@ -67,7 +67,7 @@ class Slider {
     TICK_Y_START = CENTER_Y+(int)(SIZE_UNIT*2.5);
     TICK_Y_END = CENTER_Y+TICK_HEIGHT;
 
-    setValueFromJson(faciSettings.myGetInt(JSON_KEY));
+    setValueFromJson();
     isGrabing = false;
   }
 
@@ -121,8 +121,8 @@ class Slider {
     faciSettings.mySetInt(JSON_KEY, value);
   }
 
-  private void setValueFromJson(int jsonValue) {
-    this.value = jsonValue;
+  private void setValueFromJson() {
+    this.value = faciSettings.myGetInt(JSON_KEY);
     thumbX = getMappedThumbX(value);
     valueText = str(value);
   }

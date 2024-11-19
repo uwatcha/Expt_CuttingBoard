@@ -1,14 +1,14 @@
 //TODO: ゲーム開始前のメーターが１周する時間と、ゲージの１ループにかかる時間にどちらもintervalという言葉を使っているので修正する
 class TimeManager {
-  private final int TOUCH_INTERVAL_MILLIS;
   public final int START_INTERVAL = 1000;
+  private int touchIntervalMillis;
   private int lastPlayingMillisSum;
   private int playStartMillis;
   private int thisTurnPlayingMillis;
   private int intervalStartMillis;
 
-  TimeManager (int bpm) {
-    TOUCH_INTERVAL_MILLIS = 1000*4*FRAME_RATE/bpm;
+  TimeManager () {
+    setTouchIntervalMillis();
     lastPlayingMillisSum = 0;
     playStartMillis = 0;
     thisTurnPlayingMillis = 0;
@@ -26,6 +26,10 @@ class TimeManager {
     //println("playStartMillis: "+playStartMillis);
   }
   
+  public void setTouchIntervalMillis() {
+    touchIntervalMillis = 1000*4*FRAME_RATE/faciSettings.myGetInt(bpm);
+  }
+  
   private void resetMillis() {
     playStartMillis = 0;
     intervalStartMillis = INT_RESET_VALUE;
@@ -33,7 +37,7 @@ class TimeManager {
   }
 
   public int getTouchIntervalMillis() {
-    return TOUCH_INTERVAL_MILLIS;
+    return touchIntervalMillis;
   }
 
   public int getPlayingMillis() {
@@ -45,7 +49,7 @@ class TimeManager {
   }
 
   public int getLoopPlayingMillis() {
-    return getPlayingMillis()%TOUCH_INTERVAL_MILLIS;
+    return getPlayingMillis()%touchIntervalMillis;
   }
 
   public int getIntervalMillis() {

@@ -15,8 +15,6 @@
     if (currentScreen == ScreenType.Playing) {
       playingScreen.pause();
     }
-    //TODO: PlayingMillis()を停止できていない
-    //TODO: 再開時にインターバルを挿入する
     super.onPause();
   }
   

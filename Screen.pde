@@ -1,4 +1,3 @@
-//TODO: IntervalScreenを作る
 //TODO: PlayingScreenに入るたびに様々な項目をリセットする（bpmなど）
 abstract class Screen {
   protected final int SCREEN_TITLE_SIZE = 150;
@@ -124,7 +123,7 @@ class PlayingScreen extends Screen {
     feedback.run(generalFields.containsKey(Field.Judgment) ? (Judgment)generalFields.get(Field.Judgment) : Judgment.None);
 
     //TODO: タッチダウンが成功した後、領域外でタッチアップするのを受け付けるようにする
-    if (action==Action.Up) {
+    if (action==Action.Up && judgeField.isTouchInField()) {
       generalCSV.createRecord(generalFields);
     }
     if (justMillisChecker.isMatched(timeManager.getPlayingMillis(), judgeField.getJustMillis()) && !playingFirstLoop) {
