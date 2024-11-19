@@ -34,6 +34,7 @@ class Feedback {
 
   public void reset() {
     setIsActive();
+    image = null;
     text = "";
     judgment = Judgment.None;
     soundEffectHasPlayed = false;

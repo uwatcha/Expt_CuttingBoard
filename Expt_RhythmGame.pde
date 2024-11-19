@@ -56,6 +56,7 @@ TimeManager timeManager;
 ScreenType currentScreen;
 TitleScreen titleScreen;
 SettingsScreen settingsScreen;
+IntervalScreen intervalScreen;
 PlayingScreen playingScreen;
 PauseScreen pauseScreen;
 
@@ -113,12 +114,15 @@ void setup() {
   actionFromAndroid = Action.Other;
   action = Action.Other;
   actionPosition = new int[2];
+  faciSettings = new JsonBuffer("facilitator_settings.json");
+  timeManager = new TimeManager(faciSettings.myGetInt(bpm));
   currentScreen = ScreenType.Title;
   titleScreen = new TitleScreen();
   settingsScreen = new SettingsScreen();
+  intervalScreen = new IntervalScreen();
   playingScreen = new PlayingScreen();
   pauseScreen = new PauseScreen();
-  faciSettings = new JsonBuffer("facilitator_settings.json");
+  
 
   startButton = new StartButton();
   settingsButton = new SettingsButton();
@@ -150,8 +154,6 @@ void setup() {
     badSEPool[i]  = new SoundFile(applet, "SEs/slash_bad.wav");
   }
   timingSE = new SoundFile(applet, "SEs/timing.wav");
-  
-  timeManager = new TimeManager();
 }
 
 void draw() {
@@ -176,6 +178,9 @@ void draw() {
     break;
   case Settings:
     settingsScreen.run();
+    break;
+  case Interval:
+    intervalScreen.run();
     break;
   case Playing:
     playingScreen.run();

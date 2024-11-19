@@ -38,16 +38,35 @@ class SettingsScreen extends Screen {
   }
 }
 
+class IntervalScreen extends Screen {
+  IntervalScreen() {
+    super();
+  }
+
+  @Override
+    public void run() {
+    background(woodImage);
+    displayArcRing(width/2, height/4, 125, 0, map(timeManager.getIntervalMillis(), 0, timeManager.START_INTERVAL, 0, TWO_PI), 40, colors.LIGHT_GREEN);
+    gauge.run();
+    judgeField.display();
+
+    if (justMillisChecker.isMatched(timeManager.getIntervalMillis(), timeManager.START_INTERVAL)) {
+      currentScreen = ScreenType.Playing;
+      timeManager.setPlayStartMillis();
+    }
+  }
+}
+
 //---------------------------------------------------------------------------------------------------------------
 
 class PlayingScreen extends Screen {
-  private GeneralCSV generalCSV;
   private boolean playingFirstLoop;
+  private GeneralCSV generalCSV;
 
   PlayingScreen() {
     super();
-    generalCSV = new GeneralCSV();
     playingFirstLoop = true;
+    generalCSV = new GeneralCSV();
   }
 
   @Override
@@ -55,49 +74,7 @@ class PlayingScreen extends Screen {
     background(woodImage);
     playingToTitleButton.run();
     playingToPauseButton.run();
-    if (timeManager.getIntervalMillis() < timeManager.START_INTERVAL) {
-      interval();
-    } else {
-      playing();
-    }
-  }
-
-  public void start() {
-    currentScreen = ScreenType.Playing;
-    generalCSV.createFile();
-    timeManager.setIntervalStartMillis();
-    playingFirstLoop = true;
-  }
-  
-  public void resume() {
-    currentScreen = ScreenType.Playing;
-    generalCSV.reopenFile();
-    timeManager.setIntervalStartMillis();
-    playingFirstLoop = true;
-  }
-  
-  public void pause() {
-    currentScreen = ScreenType.Pause;
-    generalCSV.closeFile();
-    timeManager.pauseTimeManager();
-  }
-
-  public void quit() {
-    println("quit() called.");
-    currentScreen = ScreenType.Title;
-    generalCSV.closeFile();
-    timeManager.resetTimeManager();
-  }
-
-  private void interval() {
-    displayArcRing(width/2, height/4, 125, 0, map(timeManager.getIntervalMillis(), 0, timeManager.START_INTERVAL, 0, TWO_PI), 40, colors.LIGHT_GREEN);
-    gauge.displayFrame();
-    judgeField.display();
-  }
-  private void playing() {
-    if (playingFirstLoop) {
-      timeManager.setPlayStartMillis();
-    }
+    
     if (timingSEChecker.isMatched(timeManager.getLoopPlayingMillis(), timeManager.getTouchIntervalMillis()/2)) {
       timingSE.play();
     }
@@ -106,10 +83,36 @@ class PlayingScreen extends Screen {
     judgeField.run();
 
     logOutput();
-    
+
     if (playingFirstLoop) {
       playingFirstLoop = false;
     }
+  }
+
+  public void start() {
+    currentScreen = ScreenType.Interval;
+    generalCSV.createFile();
+    timeManager.setIntervalStartMillis();
+    playingFirstLoop = true;
+  }
+
+  public void resume() {
+    currentScreen = ScreenType.Interval;
+    generalCSV.reopenFile();
+    timeManager.setIntervalStartMillis();
+  }
+
+  public void pause() {
+    currentScreen = ScreenType.Pause;
+    generalCSV.closeFile();
+    timeManager.pauseTimeManager();
+  }
+
+  public void quit() {
+    currentScreen = ScreenType.Title;
+    generalCSV.closeFile();
+    timeManager.resetTimeManager();
+    feedback.reset();
   }
 
   private void logOutput() {
@@ -120,10 +123,8 @@ class PlayingScreen extends Screen {
 
     feedback.run(generalFields.containsKey(Field.Judgment) ? (Judgment)generalFields.get(Field.Judgment) : Judgment.None);
 
-    if (action==Action.Up) {
-    }
     //TODO: タッチダウンが成功した後、領域外でタッチアップするのを受け付けるようにする
-    if (action==Action.Up && judgeField.isTouchInField()) {
+    if (action==Action.Up) {
       generalCSV.createRecord(generalFields);
     }
     if (justMillisChecker.isMatched(timeManager.getPlayingMillis(), judgeField.getJustMillis()) && !playingFirstLoop) {

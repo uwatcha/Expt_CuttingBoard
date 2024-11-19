@@ -115,11 +115,9 @@ abstract class ScreenBackButton extends Button {
   private static final int ARROW_TIP_WIDTH = 50;
   private static final int ARROW_TIP_RADIUS = 50;
   private static final int ARROW_LENGTH = 150;
-  private final ScreenType TARGET_SCR;
 
-  ScreenBackButton(ScreenType targetS) {
+  ScreenBackButton() {
     super(50, 50, 150, 200);
-    TARGET_SCR = targetS;
   }
 
   @Override
@@ -128,11 +126,6 @@ abstract class ScreenBackButton extends Button {
     displayLine(ARROW_TIP_X, ARROW_TIP_Y, ARROW_TIP_X+ARROW_LENGTH, ARROW_TIP_Y, STROKE_WEIGHT);
     displayLine(ARROW_TIP_X, ARROW_TIP_Y, ARROW_TIP_X+ARROW_TIP_WIDTH, ARROW_TIP_Y+ARROW_TIP_RADIUS, STROKE_WEIGHT);
   }
-
-  @Override
-    protected void effect() {
-    currentScreen = TARGET_SCR;
-  }
 }
 
 //------------------------------------------------------------------------------------------------------------------------------------------
@@ -140,12 +133,12 @@ abstract class ScreenBackButton extends Button {
 class SettingsToTitleButton extends ScreenBackButton {
 
   SettingsToTitleButton() {
-    super(ScreenType.Title);
+    super();
   }
 
   @Override
     protected void effect() {
-    super.effect();
+    currentScreen = ScreenType.Title;
     faciSettings.saveJSON();
     feedback.setIsActive();
     gauge.setIsActive();
@@ -157,12 +150,11 @@ class SettingsToTitleButton extends ScreenBackButton {
 class PlayingToTitleButton extends ScreenBackButton {
 
   PlayingToTitleButton () {
-    super(ScreenType.Title);
+    super();
   }
 
   @Override
     protected void effect() {
-    super.effect();
     playingScreen.quit();
     //isContinueWriting = false;
   }

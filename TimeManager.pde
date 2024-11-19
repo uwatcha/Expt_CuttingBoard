@@ -4,32 +4,32 @@ class TimeManager {
   public final int START_INTERVAL = 1000;
   private int lastPlayingMillisSum;
   private int playStartMillis;
+  private int thisTurnPlayingMillis;
   private int intervalStartMillis;
 
-  TimeManager () {
-    TOUCH_INTERVAL_MILLIS = 1000*4*FRAME_RATE/faciSettings.myGetInt(bpm);
+  TimeManager (int bpm) {
+    TOUCH_INTERVAL_MILLIS = 1000*4*FRAME_RATE/bpm;
     lastPlayingMillisSum = 0;
     playStartMillis = 0;
+    thisTurnPlayingMillis = 0;
     intervalStartMillis = INT_RESET_VALUE;
   }
-
+  
   public void run() {
-    println("==================================================");
-    println("lastPlayingMillisSum: "+lastPlayingMillisSum);
-    println("playStartMillis: "+playStartMillis);
-    //println("intervalStartMillis: "+intervalStartMillis);
-    //println("thisTurnPlayingMillis: "+getThisTurnPlayingMillis());
-    //println("touchIntervalMillis"+getTouchIntervalMillis());
-    println("playingMillis: "+getPlayingMillis());
-    println("loopPlayingMillis: "+getLoopPlayingMillis());
-    //println("intervalMillis: "+getIntervalMillis());
-    
-    //lastFrameScreen = currentScreen;
+    if (currentScreen==ScreenType.Playing) {
+      setThisTurnPlayingMillis();
+    }
+    //println("================================");
+    //println("getPlayingMillis(): "+getPlayingMillis());
+    //println("getLoopPlayingMillis(): "+getLoopPlayingMillis());
+    //println("thisTurnPlayingMillis(): "+thisTurnPlayingMillis);
+    //println("playStartMillis: "+playStartMillis);
   }
-
-  private void resetStartMillis() {
+  
+  private void resetMillis() {
     playStartMillis = 0;
     intervalStartMillis = INT_RESET_VALUE;
+    thisTurnPlayingMillis = 0;
   }
 
   public int getTouchIntervalMillis() {
@@ -37,19 +37,11 @@ class TimeManager {
   }
 
   public int getPlayingMillis() {
-    if (currentScreen==ScreenType.Playing) {
-      return lastPlayingMillisSum + getThisTurnPlayingMillis();
-    } else {
-      return INT_RESET_VALUE;
-    }
+    return lastPlayingMillisSum + thisTurnPlayingMillis;
   }
 
-  private int getThisTurnPlayingMillis() {
-    if (currentScreen==ScreenType.Playing) {
-      return millis() - playStartMillis;
-    } else {
-      return 0;
-    }
+  private void setThisTurnPlayingMillis() {
+    thisTurnPlayingMillis = millis() - playStartMillis;
   }
 
   public int getLoopPlayingMillis() {
@@ -65,24 +57,20 @@ class TimeManager {
   }
 
   public void setIntervalStartMillis() {
-    println("setIntervalStartMillis() called");
     intervalStartMillis = millis();
   }
 
   public void setPlayStartMillis() {
-    println("setPlayStartMillis() called");
     playStartMillis = millis();
   }
 
   public void pauseTimeManager() {
-    println("pauseTimeManager() called");
-    lastPlayingMillisSum += getThisTurnPlayingMillis();
-    resetStartMillis();
+    lastPlayingMillisSum += thisTurnPlayingMillis;
+    resetMillis();
   }
 
   public void resetTimeManager() {
-    println("resetTimeManager() called");
     lastPlayingMillisSum = 0;
-    resetStartMillis();
+    resetMillis();
   }
 }
