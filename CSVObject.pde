@@ -16,8 +16,10 @@ abstract class CSVObject implements CommonTable {
     resetRecord();
     this.FIELDS = fields;
   }
-  
-  public Field[] getFields() { return FIELDS; }
+
+  public Field[] getFields() {
+    return FIELDS;
+  }
 
   private String getFileNameDateTime() {
     return nf(year(), 4)+"-"+nf(month(), 2)+"-"+nf(day(), 2)+"--"+nf(hour(), 2)+"-"+nf(minute(), 2)+"-"+nf(second(), 2);
@@ -30,7 +32,7 @@ abstract class CSVObject implements CommonTable {
     return EXPORT_FOLDER_PATH+SEPARATOR+fileKindName+SEPARATOR+getFileNameDateTime()+"_"+fileKindName+".csv";
   }
 
-//TODO: これを、新しいHashMapを返す関数にし、メンバ変数としてrecordを持たないようにする
+  //TODO: これを、新しいHashMapを返す関数にし、メンバ変数としてrecordを持たないようにする
   protected void resetRecord() {
     record = new HashMap<String, String>();
   }
@@ -42,18 +44,18 @@ abstract class CSVObject implements CommonTable {
       fos = new FileOutputStream(file);
       osw = new OutputStreamWriter(fos, "UTF-8");
       bw = new BufferedWriter(osw);
-      for (String line: getSettingsTable()) {
+      for (String line : getSettingsTable()) {
         bw.write(line+"\n");
       }
       bw.write("\n");
-      for (String line: getHeader()) {
+      for (String line : getHeader()) {
         bw.write(line+"\n");
       }
     }
     catch (Exception e) {
     }
   }
-  
+
   private ArrayList<String> getSettingsTable() {
     ArrayList<String> rtn = new ArrayList<String>();
     rtn.add("Setting");
@@ -69,7 +71,7 @@ abstract class CSVObject implements CommonTable {
     rtn.add(settingValueLine);
     return rtn;
   }
-  
+
   private ArrayList<String> getHeader() {
     ArrayList<String> rtn = new ArrayList<String>();
     rtn.add("Log");
@@ -81,13 +83,13 @@ abstract class CSVObject implements CommonTable {
     rtn.add(attrNameLine);
     return rtn;
   }
-  
+
   public void createJustMillisRecord(int justMillis) {
     resetRecord();
     addTargetTiming(record, Field.TargetTiming.toString(), justMillis);
     writeRecordToFile();
   }
-  
+
   public void reopenFile() {
     try {
       fos = new FileOutputStream(file, true);
@@ -126,8 +128,8 @@ abstract class CSVObject implements CommonTable {
       dir.mkdirs();
     }
   }
-  
-//TODO: -の数を、それぞれのFIELDの文字数を取得して変える方法に変更する
+
+  //TODO: -の数を、それぞれのFIELDの文字数を取得して変える方法に変更する
   private String recordToString() {
     String rtn = "";
     for (int i=0; i<FIELDS.length; i++) {
@@ -170,14 +172,8 @@ class GeneralCSV extends CSVObject implements GeneralTable {
   }
 
   public void createFile() {
-    //TODO: 戻す!!!!!!!!!!!!!!!!!!!
-    //TODO: 戻す!!!!!!!!!!!!!!!!!!!
-    //TODO: 戻す!!!!!!!!!!!!!!!!!!!
-    //TODO: 戻す!!!!!!!!!!!!!!!!!!!
-    //TODO: 戻す!!!!!!!!!!!!!!!!!!!
-    //TODO: 戻す!!!!!!!!!!!!!!!!!!!
-    //TODO: 戻す!!!!!!!!!!!!!!!!!!!
-    super.createFile(getExportPath("general_develop"));
+    String directoryName = "general" + (faciSettings.myGetBoolean(isDevelopMode) ? "_develop" : "");
+    super.createFile(getExportPath(directoryName));
   }
 
   public void createRecord(HashMap<Field, Object> field) {

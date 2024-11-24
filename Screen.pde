@@ -7,16 +7,27 @@ abstract class Screen {
 }
 
 class TitleScreen extends Screen {
+  private boolean isNowDevelopMode;
   TitleScreen() {
     super();
+    isNowDevelopMode = faciSettings.myGetBoolean(isDevelopMode);
   }
 
   @Override
     public void run() {
     background(woodImage);
-    displayText("タブレットまな板", width/2, height/6, SCREEN_TITLE_SIZE);
+    if (isNowDevelopMode) {
+      displayText("開発モード\nログの出力先が通常時と異なります。", width/2, height/6, SCREEN_TITLE_SIZE, colors.RED);
+    } else {
+      displayText("タブレットまな板", width/2, height/6, SCREEN_TITLE_SIZE);
+    }
+    
     settingsButton.run();
     startButton.run();
+  }
+  
+  public void setIsDevelopMode() {
+    isNowDevelopMode = faciSettings.myGetBoolean(isDevelopMode);
   }
 }
 
@@ -32,6 +43,7 @@ class SettingsScreen extends Screen {
     settingsToTitleButton.run();
     feedbackToggleButton.run();
     gaugeToggleButton.run();
+    developModeToggleButton.run();
     bpmSlider.run();
   }
 }

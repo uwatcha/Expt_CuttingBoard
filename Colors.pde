@@ -1,6 +1,7 @@
 class Colors {
   final color WHITE = color(255);
   final color BLACK = color(0);
+  final color RED = color(255, 0, 0);
   final color LIGHT_GREY  = color(150);
   final color DARK_GREY = color(80);
   final color CLEAR_GREY = color(150, 150, 150, 50);

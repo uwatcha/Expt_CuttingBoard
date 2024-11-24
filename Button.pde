@@ -71,7 +71,7 @@ class SettingsButton extends Button {
 
 class PlayingToPauseButton extends Button {
   PlayingToPauseButton() {
-    super(50, 200, 200, 200);
+    super(300, 50, 200, 200);
     pauseImage.resize((int)WIDTH, (int)HEIGHT);
   }
   
@@ -143,6 +143,7 @@ class SettingsToTitleButton extends ScreenBackButton {
     feedback.setIsActive();
     gauge.setIsActive();
     timeManager.setTouchIntervalMillis();
+    titleScreen.setIsDevelopMode();
   }
 }
 

@@ -22,6 +22,7 @@ import java.util.Collections;
 //JSON キー
 final String isActiveFeedback = "is_active_feedback";
 final String isActiveGauge = "is_active_gauge";
+final String isDevelopMode = "is_develop_mode";
 final String bpm = "bpm";
 
 //判定時間
@@ -64,6 +65,7 @@ final HashMap<String, String> UI_TITLES = new HashMap<String, String>() {
   {
     put(isActiveFeedback, "フィードバック");
     put(isActiveGauge, "ゲージ");
+    put(isDevelopMode, "開発モード");
     put(bpm, "BPM");
   }
 };
@@ -83,6 +85,7 @@ PlayingToTitleButton playingToTitleButton;
 PlayingToPauseButton playingToPauseButton;
 ToggleButton feedbackToggleButton;
 ToggleButton gaugeToggleButton;
+ToggleButton developModeToggleButton;
 Slider bpmSlider;
 Colors colors;
 Gauge gauge;
@@ -126,8 +129,9 @@ void setup() {
   settingsToTitleButton = new SettingsToTitleButton();
   playingToTitleButton = new PlayingToTitleButton();
   playingToPauseButton = new PlayingToPauseButton();
-  feedbackToggleButton = new ToggleButton(width*2/5, height/2, isActiveFeedback);
-  gaugeToggleButton = new ToggleButton(width*3/5, height/2, isActiveGauge);
+  feedbackToggleButton = new ToggleButton(width/4, height/2, isActiveFeedback);
+  gaugeToggleButton = new ToggleButton(width/2, height/2, isActiveGauge);
+  developModeToggleButton = new ToggleButton(width*3/4, height/2, isDevelopMode);
   bpmSlider = new Slider(width/2, height*3/4, width*3/5, 0, 360, bpm);
 
   gauge = new Gauge();
