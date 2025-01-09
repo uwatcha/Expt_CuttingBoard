@@ -98,6 +98,7 @@ PApplet applet = this;
 
 void setup() {
   //設定
+  fullScreen();
   frameRate(60);
   imageMode(CENTER);
   textAlign(CENTER, CENTER);

@@ -29,7 +29,7 @@ abstract class Button {
 class StartButton extends Button {
 
   StartButton() {
-    super(width/2-600, height*4/7, 1200, 120);
+    super(width/2-600, height/2, 1200, 120);
   }
 
   @Override
